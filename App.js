@@ -2,8 +2,13 @@ import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
 import Keyboard from "./src/components/Keyboard";
-
+import { ENTER } from "./src/constants";
 const NUMBER_OF_TRIES = 6;
+
+const copyArray = (arr) => {
+  return [...arr.map((rows) => [...rows])];
+};
+
 const words = ["world"];
 
 export default function App() {
@@ -13,6 +18,26 @@ export default function App() {
   const [rows, setRows] = useState(
     new Array(NUMBER_OF_TRIES).fill(new Array(letters.length).fill(""))
   );
+  const [curRow, setCurRow] = useState(0);
+  const [curCol, setCurCol] = useState(0);
+
+  const onKeyPressed = (key) => {
+    const updatedRows = copyArray(rows);
+    console.log(rows);
+    if (key === ENTER) {
+      if (curCol === rows[0].length) {
+        setCurRow(curRow + 1);
+        setCurCol(0);
+      }
+
+      return;
+    }
+    if (curCol < rows[0].length) {
+      updatedRows[curRow][curCol] = key;
+      setRows(updatedRows);
+      setCurCol(curCol + 1);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,7 +57,7 @@ export default function App() {
         ))}
       </ScrollView>
 
-      <Keyboard />
+      <Keyboard onKeyPressed={onKeyPressed} />
     </SafeAreaView>
   );
 }
