@@ -1,5 +1,5 @@
-import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
-import { keys } from '../constants';
+import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
+import { keys } from "../constants";
 
 const Keyboard = ({ onKeyPressed = () => {} }) => {
   return (
@@ -22,31 +22,34 @@ const Keyboard = ({ onKeyPressed = () => {} }) => {
     </View>
   );
 };
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 const keyWidth = (screenWidth - 10) / keys[0].length;
 const keyHeight = keyWidth * 1.3;
 const styles = StyleSheet.create({
   keyboard: {
-    alignSelf: 'stretch',
-    marginTop: 'auto'
+    backgroundColor: "lightgrey",
+    alignSelf: "stretch",
+    marginTop: "auto",
   },
   row: {
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    justifyContent: 'center'
+    alignSelf: "stretch",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   key: {
+    color: "grey",
     width: keyWidth - 4,
     height: keyHeight - 4,
     margin: 2,
     borderRadius: 5,
     borderWidth: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   keyText: {
-    fontWeight: 'bold'
-  }
+    color: "grey",
+    fontWeight: "bold",
+  },
 });
 
 export default Keyboard;

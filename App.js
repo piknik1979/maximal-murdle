@@ -1,22 +1,77 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Keyboard from './src/components/Keyboard';
+import { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
+import Keyboard from "./src/components/Keyboard";
+
+const NUMBER_OF_TRIES = 6;
+const words = ["world"];
 
 export default function App() {
+  const word = words[0];
+  // console.log(word);
+  const letters = word.split("");
+  const [rows, setRows] = useState(
+    new Array(NUMBER_OF_TRIES).fill(new Array(letters.length).fill(""))
+  );
+
   return (
-    <View style={styles.container}>
-      <Text>Maximal - Murdle</Text>
-      <Keyboard></Keyboard>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
+
+      <Text style={styles.title}>MURDLE WORLD!</Text>
+
+      <ScrollView style={styles.map}>
+        {rows.map((row, i) => (
+          <View key={`row-${i}`} style={styles.row}>
+            {row.map((letter, j) => (
+              <View key={`cell-${i}-${j}`} style={[styles.cell]}>
+                <Text style={styles.cellText}>{letter.toUpperCase()}</Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </ScrollView>
+
+      <Keyboard />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
+    backgroundColor: "black",
+    alignItems: "center",
+  },
+  title: {
+    color: "grey",
+    fontSize: 32,
+    fontWeight: "bold",
+    letterSpacing: 7,
+  },
+
+  map: {
+    alignSelf: "stretch",
+    marginVertical: 20,
+  },
+  row: {
+    alignSelf: "stretch",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  cell: {
+    borderWidth: 3,
+    borderColor: "grey",
+    flex: 1,
+    maxWidth: 70,
+    aspectRatio: 1,
+    margin: 3,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cellText: {
+    color: "grey",
+    fontWeight: "bold",
+    fontSize: 28,
+  },
 });
