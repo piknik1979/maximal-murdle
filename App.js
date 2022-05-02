@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
 import Keyboard from "./src/components/Keyboard";
-import { ENTER } from "./src/constants";
+import { ENTER, DELETE } from "./src/constants";
 const NUMBER_OF_TRIES = 6;
 
 const copyArray = (arr) => {
@@ -30,6 +30,15 @@ export default function App() {
         setCurCol(0);
       }
 
+      return;
+    }
+    if (key === DELETE) {
+      const prevCol = curCol - 1;
+      if (prevCol >= 0) {
+        updatedRows[curRow][prevCol] = "";
+        setRows(updatedRows);
+        setCurCol(prevCol);
+      }
       return;
     }
     if (curCol < rows[0].length) {

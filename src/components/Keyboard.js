@@ -1,7 +1,7 @@
 import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 import { keys } from "../constants";
 
-const Keyboard = ({ onKeyPressed = () => {} }) => {
+const Keyboard = ({ onKeyPressed }) => {
   return (
     <View style={styles.keyboard}>
       {keys.map((keyRow, i) => (
