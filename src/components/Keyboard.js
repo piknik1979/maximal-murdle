@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { keys } from '../constants';
 
 const Keyboard = () => {
@@ -16,7 +16,9 @@ const Keyboard = () => {
     </View>
   );
 };
-
+const screenWidth = Dimensions.get('window').width;
+const keyWidth = (screenWidth - 10) / keys[0].length;
+const keyHeight = keyWidth * 1.3;
 const styles = StyleSheet.create({
   keyboard: {
     alignSelf: 'stretch',
@@ -28,9 +30,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   key: {
+    width: keyWidth - 4,
+    height: keyHeight - 4,
     margin: 2,
     borderRadius: 5,
-
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center'
   },
