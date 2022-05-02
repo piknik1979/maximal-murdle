@@ -1,13 +1,19 @@
 import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { keys } from '../constants';
 
-const Keyboard = () => {
+const Keyboard = ({ onKeyPressed = () => {} }) => {
   return (
     <View style={styles.keyboard}>
       {keys.map((keyRow, i) => (
         <View style={styles.row} key={`row-${i}`}>
           {keyRow.map((key) => (
-            <Pressable key={key} style={[styles.key]}>
+            <Pressable
+              key={key}
+              style={[styles.key]}
+              onPress={() => {
+                return onKeyPressed(key);
+              }}
+            >
               <Text style={styles.keyText}>{key.toUpperCase()}</Text>
             </Pressable>
           ))}
