@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Keyboard from './src/components/Keyboard';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start!</Text>
+      <Text>Maximal - Murdle</Text>
+      <Keyboard></Keyboard>
       <StatusBar style="auto" />
     </View>
   );
