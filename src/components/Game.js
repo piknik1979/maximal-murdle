@@ -14,12 +14,12 @@ import { ENTER, DELETE } from "../constants";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { words } from "./Words";
 
-const Game = () => {
-  const MAX_GUESSES = 6;
+const MAX_GUESSES = 6;
+const copyArray = (arr) => {
+  return [...arr.map((rows) => [...rows])];
+};
 
-  const copyArray = (arr) => {
-    return [...arr.map((rows) => [...rows])];
-  };
+const Game = () => {
   const word = words[0];
   const letters = word.split("");
   const [rows, setRows] = useState(
@@ -63,7 +63,12 @@ const Game = () => {
   };
 
   const handleKeyPress = (key) => {
+    if (gameState !== "playing") {
+      return;
+    }
+
     const updatedRows = copyArray(rows);
+
     if (key === ENTER) {
       if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
@@ -73,11 +78,11 @@ const Game = () => {
       return;
     }
     if (key === DELETE) {
-      const prevCol = currentColumn - 1;
-      if (prevCol >= 0) {
-        updatedRows[currentRow][prevCol] = "";
+      const prevColumn = currentColumn - 1;
+      if (prevColumn >= 0) {
+        updatedRows[currentRow][prevColumn] = "";
         setRows(updatedRows);
-        setCurrentColumn(prevCol);
+        setCurrentColumn(prevColumn);
       }
       return;
     }
