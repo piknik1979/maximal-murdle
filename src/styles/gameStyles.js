@@ -1,15 +1,16 @@
 import { StyleSheet } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import { colors } from "../constants";
 
 const gameStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: colors.black,
     alignItems: "center",
   },
   title: {
     paddingTop: getStatusBarHeight(),
-    color: "grey",
+    color: colors.grey,
     fontSize: 32,
     fontWeight: "bold",
     letterSpacing: 7,
@@ -17,13 +18,13 @@ const gameStyles = StyleSheet.create({
   resetButton: {
     height: 40,
     width: 80,
-    backgroundColor: "#3A3A3D",
+    backgroundColor: colors.darkgrey,
     justifyContent: "center",
     borderRadius: 5,
     marginBottom: 5,
   },
 
-  resetText: { color: "#D7DADC", textAlign: "center" },
+  resetText: { color: colors.lightgrey, textAlign: "center" },
 
   map: {
     alignSelf: "stretch",
@@ -36,7 +37,7 @@ const gameStyles = StyleSheet.create({
   },
   cell: {
     borderWidth: 3,
-    borderColor: "grey",
+    borderColor: colors.grey,
     flex: 1,
     maxWidth: 70,
     aspectRatio: 1,
@@ -45,7 +46,7 @@ const gameStyles = StyleSheet.create({
     alignItems: "center",
   },
   cellText: {
-    color: "grey",
+    color: colors.grey,
     fontWeight: "bold",
     fontSize: 28,
   },

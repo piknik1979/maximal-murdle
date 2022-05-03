@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Dimensions } from "react-native";
-import { keys, ENTER, DELETE } from "../constants";
-import { keyboardStyles,keyWidth } from "../styles/keyboardStyles";
+import { keys, ENTER, DELETE, colors } from "../constants";
+import { keyboardStyles, keyWidth } from "../styles/keyboardStyles";
 
 const Keyboard = ({
   handleKeyPress,
@@ -14,15 +14,15 @@ const Keyboard = ({
 
   const getKeyBGColor = (key) => {
     if (greenKeys.includes(key)) {
-      return "#538D4E";
+      return colors.primary;
     }
     if (yellowKeys.includes(key)) {
-      return "#B59F3B";
+      return colors.secondary;
     }
     if (greyKeys.includes(key)) {
-      return "#3A3A3D";
+      return colors.darkgrey;
     }
-    return "#818384";
+    return colors.grey;
   };
 
   return (

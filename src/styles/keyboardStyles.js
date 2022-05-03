@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { keys } from "../constants";
+import { keys, colors } from "../constants";
 
 const screenWidth = Dimensions.get("window").width;
 const keyWidth = (screenWidth - 10) / keys[0].length;
@@ -20,12 +20,12 @@ const keyboardStyles = StyleSheet.create({
     height: keyHeight - 4,
     margin: 2,
     borderRadius: 5,
-    backgroundColor: "#818384",
+    backgroundColor: colors.grey,
     justifyContent: "center",
     alignItems: "center",
   },
   keyText: {
-    color: "#D7DADC",
+    color: colors.lightgrey,
     fontWeight: "bold",
   },
 });

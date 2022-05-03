@@ -9,7 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import Keyboard from "./Keyboard";
-import { ENTER, DELETE } from "../constants";
+import { ENTER, DELETE, colors } from "../constants";
 import { words } from "./Words";
 import gameStyles from "../styles/gameStyles";
 
@@ -100,15 +100,15 @@ const Game = () => {
     const letter = rows[row][col];
 
     if (row >= currentRow) {
-      return "#121214";
+      return colors.black;
     }
     if (letter === letters[col]) {
-      return "#538D4E";
+      return colors.primary;
     }
     if (letters.includes(letter)) {
-      return "#B59F3B";
+      return colors.secondary;
     }
-    return "#3A3A3D";
+    return colors.darkgrey;
   };
 
   const getAllLettersWithColor = (color) => {
@@ -117,9 +117,9 @@ const Game = () => {
     );
   };
 
-  const greenKeys = getAllLettersWithColor("#538D4E");
-  const yellowKeys = getAllLettersWithColor("#B59F3B");
-  const greyKeys = getAllLettersWithColor("#3A3A3D");
+  const greenKeys = getAllLettersWithColor(colors.primary);
+  const yellowKeys = getAllLettersWithColor(colors.secondary);
+  const greyKeys = getAllLettersWithColor(colors.darkgrey);
 
   return (
     <SafeAreaView style={gameStyles.container}>
@@ -136,7 +136,9 @@ const Game = () => {
                 style={[
                   gameStyles.cell,
                   {
-                    borderColor: isCellActive(i, j) ? "#818384" : "#3A3A3D",
+                    borderColor: isCellActive(i, j)
+                      ? colors.grey
+                      : colors.darkgrey,
                     backgroundColor: getCellBGColor(i, j),
                   },
                 ]}
