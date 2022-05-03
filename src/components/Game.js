@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
-  StyleSheet,
   Text,
   View,
   SafeAreaView,
@@ -11,8 +10,8 @@ import {
 } from "react-native";
 import Keyboard from "./Keyboard";
 import { ENTER, DELETE } from "../constants";
-import { getStatusBarHeight } from "react-native-status-bar-height";
 import { words } from "./Words";
+import gameStyles from "../styles/gameStyles";
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -123,44 +122,34 @@ const Game = () => {
   const greyKeys = getAllLettersWithColor("#3A3A3D");
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={gameStyles.container}>
       <StatusBar style="light" />
 
-      <Text style={styles.title}>Maximal(Murdle)</Text>
+      <Text style={gameStyles.title}>Maximal(Murdle)</Text>
 
-      <ScrollView style={styles.map}>
+      <ScrollView style={gameStyles.map}>
         {rows.map((row, i) => (
-          <View key={`row-${i}`} style={styles.row}>
+          <View key={`row-${i}`} style={gameStyles.row}>
             {row.map((letter, j) => (
               <View
                 key={`cell-${i}-${j}`}
                 style={[
-                  styles.cell,
+                  gameStyles.cell,
                   {
                     borderColor: isCellActive(i, j) ? "#818384" : "#3A3A3D",
                     backgroundColor: getCellBGColor(i, j),
                   },
                 ]}
               >
-                <Text style={styles.cellText}>{letter.toUpperCase()}</Text>
+                <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
               </View>
             ))}
           </View>
         ))}
       </ScrollView>
 
-      <Pressable
-        onPress={resetGame}
-        style={{
-          height: 40,
-          width: 80,
-          backgroundColor: "#3A3A3D",
-          justifyContent: "center",
-          borderRadius: 5,
-          marginBottom: 5,
-        }}
-      >
-        <Text style={{ color: "#D7DADC", textAlign: "center" }}>RESTART</Text>
+      <Pressable onPress={resetGame} style={gameStyles.resetButton}>
+        <Text style={gameStyles.resetText}>RESTART</Text>
       </Pressable>
 
       <Keyboard
@@ -172,45 +161,5 @@ const Game = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-    alignItems: "center",
-  },
-  title: {
-    paddingTop: getStatusBarHeight(),
-    color: "grey",
-    fontSize: 32,
-    fontWeight: "bold",
-    letterSpacing: 7,
-  },
-
-  map: {
-    alignSelf: "stretch",
-    marginVertical: 20,
-  },
-  row: {
-    alignSelf: "stretch",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  cell: {
-    borderWidth: 3,
-    borderColor: "grey",
-    flex: 1,
-    maxWidth: 70,
-    aspectRatio: 1,
-    margin: 3,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cellText: {
-    color: "grey",
-    fontWeight: "bold",
-    fontSize: 28,
-  },
-});
 
 export default Game;
