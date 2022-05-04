@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+import {useState, useEffect} from 'react';
+import {StatusBar} from 'expo-status-bar';
 import {
   Text,
   View,
@@ -7,11 +7,11 @@ import {
   ScrollView,
   Alert,
   Pressable,
-} from "react-native";
-import Keyboard from "./Keyboard";
-import { ENTER, DELETE, colors } from "../constants";
-import { words } from "./Words";
-import gameStyles from "../styles/gameStyles";
+} from 'react-native';
+import Keyboard from './Keyboard';
+import {ENTER, DELETE, colors} from '../constants';
+import {words} from './Words';
+import gameStyles from '../styles/gameStyles';
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -19,35 +19,36 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-  const word = words[0];
-  const letters = word.split("");
+  const word = 'taboo';
+  const letters = word.split('');
+  const remainingLetters = {};
   const [rows, setRows] = useState(
-    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(""))
+    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
-  const [gameState, setGameState] = useState("playing");
+  const [gameState, setGameState] = useState('playing');
 
   const resetGame = () => {
-    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill("")));
+    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
     setCurrentColumn(0);
     setCurrentRow(0);
-    setGameState("playing");
+    setGameState('playing');
   };
 
   useEffect(() => {
     if (currentRow > 0) {
       checkGameState();
     }
-  }, [currentRow]);
+  });
 
   const checkGameState = () => {
-    if (checkIfWon() && gameState !== "won") {
-      Alert.alert("You live!!! For now...");
-      setGameState("won");
-    } else if (checkIfLost() && gameState !== "lost") {
-      Alert.alert("Hah hah! You died!");
-      setGameState("lost");
+    if (checkIfWon() && gameState !== 'won') {
+      Alert.alert('You live!!! For now...');
+      setGameState('won');
+    } else if (checkIfLost() && gameState !== 'lost') {
+      Alert.alert('Hah hah! You died!');
+      setGameState('lost');
     }
   };
 
@@ -62,7 +63,7 @@ const Game = () => {
   };
 
   const handleKeyPress = (key) => {
-    if (gameState !== "playing") {
+    if (gameState !== 'playing') {
       return;
     }
 
@@ -79,7 +80,7 @@ const Game = () => {
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
-        updatedRows[currentRow][prevColumn] = "";
+        updatedRows[currentRow][prevColumn] = '';
         setRows(updatedRows);
         setCurrentColumn(prevColumn);
       }
@@ -96,20 +97,74 @@ const Game = () => {
     return row === currentRow && col === currentColumn;
   };
 
+  const checkRestOfRow = (row, col, letter) => {
+    function duplicate(arr) {
+      return new Set(arr).size !== arr.length;
+    }
+
+    for (let i = col; i < 4; i++) {
+      console.log('i:', i);
+      console.log(
+        i + (duplicate(letters) ? 2 : 1),
+        '<<<>>>',
+        letter,
+        rows[row][i + duplicate(letters) ? 2 : 1] === letter
+      );
+      if (rows[row][i + (duplicate(letters) ? 2 : 1)] === letter) return true;
+    }
+  };
+
   const getCellBGColor = (row, col) => {
+    const letter = rows[row][col];
+
+    if (col === 0 && row <= currentRow) {
+      remainingLetters[row] = [...letters];
+    }
+    console.log('remainingLetters:', remainingLetters);
+
+    if (row >= currentRow) {
+      return colors.black;
+    }
+
+    if (letter === letters[col]) {
+      const letterPosition = remainingLetters[row].indexOf(letter);
+      remainingLetters[row].splice(letterPosition, 1);
+      return colors.primary;
+    }
+
+    if (
+      letters.includes(letter) &&
+      remainingLetters[row].includes(letter) &&
+      !checkRestOfRow(row, col, letter)
+    ) {
+      return colors.secondary;
+    }
+
+    return colors.darkgrey;
+  };
+
+  /* const getCellBGColor = (row, col) => {
     const letter = rows[row][col];
 
     if (row >= currentRow) {
       return colors.black;
     }
+
     if (letter === letters[col]) {
+      if (remainingLetters.includes(letters[col])) {
+        const letterPosition = remainingLetters.indexOf(letter);
+        remainingLetters.splice(letterPosition, 1);
+        console.log('remainingLetters:', remainingLetters);
+      }
       return colors.primary;
     }
-    if (letters.includes(letter)) {
+
+    if (letters.includes(letter) && remainingLetters.includes(letter)) {
       return colors.secondary;
     }
+
     return colors.darkgrey;
-  };
+  }; */
 
   const getAllLettersWithColor = (color) => {
     return rows.flatMap((row, i) =>
@@ -123,7 +178,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
 
       <Text style={gameStyles.title}>Maximal(Murdle)</Text>
 
