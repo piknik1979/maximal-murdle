@@ -134,7 +134,6 @@ const Game = () => {
 
     if (col === 0 && row <= currentRow) {
       remainingLetters[row] = [...letters];
-      console.log('remainingLetters:', remainingLetters);
     }
 
     if (row >= currentRow) {
