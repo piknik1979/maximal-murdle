@@ -12,6 +12,7 @@ import Keyboard from "./Keyboard";
 import { ENTER, DELETE, colors } from "../constants";
 import { words } from "./Words";
 import gameStyles from "../styles/gameStyles";
+import Timer from "./Timer";
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -149,6 +150,9 @@ const Game = () => {
           </View>
         ))}
       </ScrollView>
+
+        <Timer />
+ 
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
         <Text style={gameStyles.resetText}>RESTART</Text>
