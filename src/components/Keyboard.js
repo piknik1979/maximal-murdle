@@ -1,32 +1,22 @@
-import { View, Text, Pressable, Dimensions } from "react-native";
-import { keys, ENTER, DELETE, colors } from "../constants";
-import { keyboardStyles, keyWidth } from "../styles/keyboardStyles";
-import {useEffect} from 'react'
+import { View, Text, Pressable, Dimensions } from 'react-native';
+import { keys, ENTER, DELETE, colors } from '../constants';
+import { keyboardStyles, keyWidth } from '../styles/keyboardStyles';
+import { useEffect } from 'react';
 
 const Keyboard = ({
   handleKeyPress,
   setLives,
-  lives,
-  // setGameState,
   setCurrentRow,
   currentRow,
-  
-
+  setGameState,
+  letters,
   greenKeys = [],
   yellowKeys = [],
-  greyKeys = [],
+  greyKeys = []
 }) => {
-  console.log(greyKeys)
   const isLongButton = (key) => {
     return key === ENTER || key === DELETE;
   };
-
-
-
-  // const removeLives=()=>{
-  //   setLives(lives-greyKeys.length)
-    
-  // }
 
   const getKeyBGColor = (key) => {
     if (greenKeys.includes(key)) {
@@ -36,32 +26,22 @@ const Keyboard = ({
       return colors.secondary;
     }
     if (greyKeys.includes(key)) {
-      // removeLives()
-   
-    
       return colors.darkgrey;
     }
     return colors.grey;
   };
 
-  const lostLives=greyKeys.length;
-  console.log(lostLives,'hkjhj')
+  const lostLives = greyKeys.length;
 
   useEffect(() => {
-    if(10-lostLives>0){
-      console.log('abc')
-      setLives(10-lostLives)
-    }else{
-      setLives(0)
-      setCurrentRow(currentRow-1)
-   
+    if (letters.length * 2 - lostLives > 0) {
+      setLives(letters.length * 2 - lostLives);
+    } else {
+      setLives(0);
+      setGameState('allLivesLost');
+      setCurrentRow(currentRow - 1);
     }
-    
-    
   }, [lostLives]);
-
-
-  
 
   return (
     <View style={keyboardStyles.keyboard}>
@@ -70,12 +50,11 @@ const Keyboard = ({
           {keyRow.map((key) => (
             <Pressable
               onPress={() => handleKeyPress(key)}
-              // disabled={greyKeys.includes(key)}    disable letters if there are not there
               key={key}
               style={[
                 keyboardStyles.key,
                 isLongButton(key) ? { width: keyWidth * 1.4 } : {},
-                { backgroundColor: getKeyBGColor(key) },
+                { backgroundColor: getKeyBGColor(key) }
               ]}
             >
               <Text style={keyboardStyles.keyText}>{key.toUpperCase()}</Text>
