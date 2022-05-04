@@ -19,7 +19,7 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-  const word = 'taboo';
+  const word = 'tatty';
   const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(
@@ -34,6 +34,24 @@ const Game = () => {
     setCurrentColumn(0);
     setCurrentRow(0);
     setGameState('playing');
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () =>
+          Alert.alert(
+            'This alert was dismissed by tapping outside of the alert dialog.'
+          ),
+      }
+    );
   };
 
   useEffect(() => {
@@ -103,14 +121,11 @@ const Game = () => {
     }
 
     for (let i = col; i < 4; i++) {
-      console.log('i:', i);
-      console.log(
-        i + (duplicate(letters) ? 2 : 1),
-        '<<<>>>',
-        letter,
-        rows[row][i + duplicate(letters) ? 2 : 1] === letter
-      );
-      if (rows[row][i + (duplicate(letters) ? 2 : 1)] === letter) return true;
+      if (rows[row][i + (duplicate(letters) ? 2 : 1)] === letter) {
+        return true;
+      } else {
+        return false;
+      }
     }
   };
 
@@ -119,8 +134,8 @@ const Game = () => {
 
     if (col === 0 && row <= currentRow) {
       remainingLetters[row] = [...letters];
+      console.log('remainingLetters:', remainingLetters);
     }
-    console.log('remainingLetters:', remainingLetters);
 
     if (row >= currentRow) {
       return colors.black;
@@ -142,29 +157,6 @@ const Game = () => {
 
     return colors.darkgrey;
   };
-
-  /* const getCellBGColor = (row, col) => {
-    const letter = rows[row][col];
-
-    if (row >= currentRow) {
-      return colors.black;
-    }
-
-    if (letter === letters[col]) {
-      if (remainingLetters.includes(letters[col])) {
-        const letterPosition = remainingLetters.indexOf(letter);
-        remainingLetters.splice(letterPosition, 1);
-        console.log('remainingLetters:', remainingLetters);
-      }
-      return colors.primary;
-    }
-
-    if (letters.includes(letter) && remainingLetters.includes(letter)) {
-      return colors.secondary;
-    }
-
-    return colors.darkgrey;
-  }; */
 
   const getAllLettersWithColor = (color) => {
     return rows.flatMap((row, i) =>
