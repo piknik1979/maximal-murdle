@@ -7,11 +7,12 @@ import {
   ScrollView,
   Alert,
   Pressable,
-} from 'react-native';
-import Keyboard from './Keyboard';
-import {ENTER, DELETE, colors} from '../constants';
-import {words} from './Words';
-import gameStyles from '../styles/gameStyles';
+} from "react-native";
+import Keyboard from "./Keyboard";
+import { ENTER, DELETE, colors } from "../constants";
+import { words } from "./Words";
+import gameStyles from "../styles/gameStyles";
+import Timer from "./Timer";
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -55,18 +56,25 @@ const Game = () => {
   };
 
   useEffect(() => {
+    if (gameState === "timeout") {
+      checkGameState();
+    }
     if (currentRow > 0) {
       checkGameState();
     }
-  });
-
+  }, [currentRow, gameState]);
+  
   const checkGameState = () => {
-    if (checkIfWon() && gameState !== 'won') {
-      Alert.alert('You live!!! For now...');
-      setGameState('won');
-    } else if (checkIfLost() && gameState !== 'lost') {
-      Alert.alert('Hah hah! You died!');
-      setGameState('lost');
+    if (gameState === "timeout") {
+      Alert.alert("You died! Shoulda thunk faster!")
+      setGameState("lost")
+    }
+    else if (checkIfWon() && gameState !== "won") {
+      Alert.alert("You live!!! For now...");
+      setGameState("won");
+    } else if (checkIfLost() && gameState !== "lost") {
+      Alert.alert("Hah hah! You died!");
+      setGameState("lost");
     }
   };
 
@@ -195,6 +203,9 @@ const Game = () => {
           </View>
         ))}
       </ScrollView>
+
+        <Timer setGameState={setGameState} />
+ 
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
         <Text style={gameStyles.resetText}>RESTART</Text>
