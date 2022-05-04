@@ -1,18 +1,19 @@
-import {useState, useEffect} from 'react';
-import {StatusBar} from 'expo-status-bar';
+import { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   Text,
   View,
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable,
-} from "react-native";
-import Keyboard from "./Keyboard";
-import { ENTER, DELETE, colors } from "../constants";
-import { words } from "./Words";
-import gameStyles from "../styles/gameStyles";
-import Timer from "./Timer";
+  Pressable
+} from 'react-native';
+import Keyboard from './Keyboard';
+import { ENTER, DELETE, colors } from '../constants';
+import { words } from './Words';
+import gameStyles from '../styles/gameStyles';
+import Lives from './Lives';
+import Timer from './Timer';
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -20,7 +21,7 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-  const word = 'tatty';
+  const word = words[0];
   const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(
@@ -29,13 +30,14 @@ const Game = () => {
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
   const [gameState, setGameState] = useState('playing');
+  const [lives, setLives] = useState(letters.length * 2);
 
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
     setCurrentColumn(0);
     setCurrentRow(0);
     setGameState('playing');
-    Alert.alert(
+    /*  Alert.alert(
       'Alert Title',
       'My Alert Msg',
       [
@@ -52,29 +54,33 @@ const Game = () => {
             'This alert was dismissed by tapping outside of the alert dialog.'
           ),
       }
-    );
+    ); */
   };
 
   useEffect(() => {
-    if (gameState === "timeout") {
+    if (gameState === 'timeout') {
       checkGameState();
     }
     if (currentRow > 0) {
       checkGameState();
     }
-  }, [currentRow, gameState]);
-  
-  const checkGameState = () => {
-    if (gameState === "timeout") {
-      Alert.alert("You died! Shoulda thunk faster!")
-      setGameState("lost")
+    if (gameState === 'allLivesLost') {
+      checkGameState();
     }
-    else if (checkIfWon() && gameState !== "won") {
-      Alert.alert("You live!!! For now...");
-      setGameState("won");
-    } else if (checkIfLost() && gameState !== "lost") {
-      Alert.alert("Hah hah! You died!");
-      setGameState("lost");
+  }, [currentRow, gameState]);
+
+  const checkGameState = () => {
+    if (gameState === 'timeout') {
+      Alert.alert('You died! Shoulda thunk faster!');
+      setGameState('lost');
+    } else if (gameState === 'allLivesLost') {
+      Alert.alert('Your life force is all gone! Ha-ha !');
+    } else if (checkIfWon() && gameState !== 'won') {
+      Alert.alert('You live!!! For now...');
+      setGameState('won');
+    } else if (checkIfLost() && gameState !== 'lost') {
+      Alert.alert('Hah hah! You died!');
+      setGameState('lost');
     }
   };
 
@@ -85,7 +91,7 @@ const Game = () => {
   };
 
   const checkIfLost = () => {
-    return !checkIfWon() && currentRow === rows.length;
+    return (!checkIfWon() && currentRow === rows.length) || lives === 0;
   };
 
   const handleKeyPress = (key) => {
@@ -100,7 +106,6 @@ const Game = () => {
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
       }
-
       return;
     }
     if (key === DELETE) {
@@ -177,9 +182,10 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style='light' />
+      <StatusBar style="light" />
 
       <Text style={gameStyles.title}>Maximal(Murdle)</Text>
+      <Lives lives={lives} letters={letters} />
 
       <ScrollView style={gameStyles.map}>
         {rows.map((row, i) => (
@@ -193,8 +199,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j),
-                  },
+                    backgroundColor: getCellBGColor(i, j)
+                  }
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
@@ -204,8 +210,7 @@ const Game = () => {
         ))}
       </ScrollView>
 
-        <Timer setGameState={setGameState} />
- 
+      <Timer setGameState={setGameState} />
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
         <Text style={gameStyles.resetText}>RESTART</Text>
@@ -216,6 +221,11 @@ const Game = () => {
         greenKeys={greenKeys}
         yellowKeys={yellowKeys}
         greyKeys={greyKeys}
+        setLives={setLives}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+        letters={letters}
+        setGameState={setGameState}
       />
     </SafeAreaView>
   );
