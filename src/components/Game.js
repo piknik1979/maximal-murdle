@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+import {useState, useEffect} from 'react';
+import {StatusBar} from 'expo-status-bar';
 import {
   Text,
   View,
@@ -20,20 +20,39 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-  const word = words[0];
-  const letters = word.split("");
+  const word = 'tatty';
+  const letters = word.split('');
+  const remainingLetters = {};
   const [rows, setRows] = useState(
-    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(""))
+    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
-  const [gameState, setGameState] = useState("playing");
+  const [gameState, setGameState] = useState('playing');
 
   const resetGame = () => {
-    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill("")));
+    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
     setCurrentColumn(0);
     setCurrentRow(0);
-    setGameState("playing");
+    setGameState('playing');
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () =>
+          Alert.alert(
+            'This alert was dismissed by tapping outside of the alert dialog.'
+          ),
+      }
+    );
   };
 
   useEffect(() => {
@@ -70,7 +89,7 @@ const Game = () => {
   };
 
   const handleKeyPress = (key) => {
-    if (gameState !== "playing") {
+    if (gameState !== 'playing') {
       return;
     }
 
@@ -87,7 +106,7 @@ const Game = () => {
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
-        updatedRows[currentRow][prevColumn] = "";
+        updatedRows[currentRow][prevColumn] = '';
         setRows(updatedRows);
         setCurrentColumn(prevColumn);
       }
@@ -104,18 +123,45 @@ const Game = () => {
     return row === currentRow && col === currentColumn;
   };
 
+  const checkRestOfRow = (row, col, letter) => {
+    function duplicate(arr) {
+      return new Set(arr).size !== arr.length;
+    }
+
+    for (let i = col; i < 4; i++) {
+      if (rows[row][i + (duplicate(letters) ? 2 : 1)] === letter) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   const getCellBGColor = (row, col) => {
     const letter = rows[row][col];
+
+    if (col === 0 && row <= currentRow) {
+      remainingLetters[row] = [...letters];
+    }
 
     if (row >= currentRow) {
       return colors.black;
     }
+
     if (letter === letters[col]) {
+      const letterPosition = remainingLetters[row].indexOf(letter);
+      remainingLetters[row].splice(letterPosition, 1);
       return colors.primary;
     }
-    if (letters.includes(letter)) {
+
+    if (
+      letters.includes(letter) &&
+      remainingLetters[row].includes(letter) &&
+      !checkRestOfRow(row, col, letter)
+    ) {
       return colors.secondary;
     }
+
     return colors.darkgrey;
   };
 
@@ -131,7 +177,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
 
       <Text style={gameStyles.title}>Maximal(Murdle)</Text>
 
