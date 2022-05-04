@@ -12,6 +12,7 @@ import Keyboard from "./Keyboard";
 import { ENTER, DELETE, colors } from "../constants";
 import { words } from "./Words";
 import gameStyles from "../styles/gameStyles";
+import Lives from "./Lives";
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -27,6 +28,8 @@ const Game = () => {
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
   const [gameState, setGameState] = useState("playing");
+  const [lives,setLives] = useState(10);
+
 
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill("")));
@@ -51,6 +54,7 @@ const Game = () => {
     }
   };
 
+
   const checkIfWon = () => {
     const row = rows[currentRow - 1];
 
@@ -58,20 +62,24 @@ const Game = () => {
   };
 
   const checkIfLost = () => {
-    return !checkIfWon() && currentRow === rows.length;
+  
+    return (!checkIfWon() && currentRow === rows.length)||(lives===0);
   };
 
   const handleKeyPress = (key) => {
     if (gameState !== "playing") {
+      
       return;
     }
 
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
+     
       if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
+      
       }
 
       return;
@@ -121,11 +129,16 @@ const Game = () => {
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
 
+
+
+ 
+
   return (
     <SafeAreaView style={gameStyles.container}>
       <StatusBar style="light" />
 
       <Text style={gameStyles.title}>Maximal(Murdle)</Text>
+      <Lives lives={lives} setLives={setLives}/>
 
       <ScrollView style={gameStyles.map}>
         {rows.map((row, i) => (
@@ -159,6 +172,12 @@ const Game = () => {
         greenKeys={greenKeys}
         yellowKeys={yellowKeys}
         greyKeys={greyKeys}
+        lives={lives}
+        setLives={setLives}
+       
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+       
       />
     </SafeAreaView>
   );
