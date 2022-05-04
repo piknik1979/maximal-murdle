@@ -38,7 +38,6 @@ const Game = () => {
 
   useEffect(() => {
     if (gameState === "timeout") {
-      console.log("inside the Game useEffect if statement")
       checkGameState();
     }
     if (currentRow > 0) {
@@ -48,7 +47,6 @@ const Game = () => {
   
   const checkGameState = () => {
     if (gameState === "timeout") {
-      console.log("inside the Game checkGameState if statement")
       Alert.alert("You died! Shoulda thunk faster!")
       setGameState("lost")
     }
