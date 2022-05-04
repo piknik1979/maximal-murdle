@@ -13,6 +13,7 @@ import { ENTER, DELETE, colors } from '../constants';
 import { words } from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
+import Timer from './Timer';
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -22,6 +23,7 @@ const copyArray = (arr) => {
 const Game = () => {
   const word = words[0];
   const letters = word.split('');
+  const remainingLetters = {};
   const [rows, setRows] = useState(
     new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
@@ -35,19 +37,43 @@ const Game = () => {
     setCurrentColumn(0);
     setCurrentRow(0);
     setGameState('playing');
+    /*  Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () =>
+          Alert.alert(
+            'This alert was dismissed by tapping outside of the alert dialog.'
+          ),
+      }
+    ); */
   };
 
   useEffect(() => {
+    if (gameState === 'timeout') {
+      checkGameState();
+    }
     if (currentRow > 0) {
       checkGameState();
     }
     if (gameState === 'allLivesLost') {
       checkGameState();
     }
-  }, [currentRow]);
+  }, [currentRow, gameState]);
 
   const checkGameState = () => {
-    if (gameState === 'allLivesLost') {
+    if (gameState === 'timeout') {
+      Alert.alert('You died! Shoulda thunk faster!');
+      setGameState('lost');
+    } else if (gameState === 'allLivesLost') {
       Alert.alert('Your life force is all gone! Ha-ha !');
     } else if (checkIfWon() && gameState !== 'won') {
       Alert.alert('You live!!! For now...');
@@ -102,18 +128,45 @@ const Game = () => {
     return row === currentRow && col === currentColumn;
   };
 
+  const checkRestOfRow = (row, col, letter) => {
+    function duplicate(arr) {
+      return new Set(arr).size !== arr.length;
+    }
+
+    for (let i = col; i < 4; i++) {
+      if (rows[row][i + (duplicate(letters) ? 2 : 1)] === letter) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   const getCellBGColor = (row, col) => {
     const letter = rows[row][col];
+
+    if (col === 0 && row <= currentRow) {
+      remainingLetters[row] = [...letters];
+    }
 
     if (row >= currentRow) {
       return colors.black;
     }
+
     if (letter === letters[col]) {
+      const letterPosition = remainingLetters[row].indexOf(letter);
+      remainingLetters[row].splice(letterPosition, 1);
       return colors.primary;
     }
-    if (letters.includes(letter)) {
+
+    if (
+      letters.includes(letter) &&
+      remainingLetters[row].includes(letter) &&
+      !checkRestOfRow(row, col, letter)
+    ) {
       return colors.secondary;
     }
+
     return colors.darkgrey;
   };
 
@@ -156,6 +209,8 @@ const Game = () => {
           </View>
         ))}
       </ScrollView>
+
+      <Timer setGameState={setGameState} />
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
         <Text style={gameStyles.resetText}>RESTART</Text>
