@@ -37,13 +37,22 @@ const Game = () => {
   };
 
   useEffect(() => {
+    if (gameState === "timeout") {
+      console.log("inside the Game useEffect if statement")
+      checkGameState();
+    }
     if (currentRow > 0) {
       checkGameState();
     }
-  }, [currentRow]);
-
+  }, [currentRow, gameState]);
+  
   const checkGameState = () => {
-    if (checkIfWon() && gameState !== "won") {
+    if (gameState === "timeout") {
+      console.log("inside the Game checkGameState if statement")
+      Alert.alert("You died! Shoulda thunk faster!")
+      setGameState("lost")
+    }
+    else if (checkIfWon() && gameState !== "won") {
       Alert.alert("You live!!! For now...");
       setGameState("won");
     } else if (checkIfLost() && gameState !== "lost") {
@@ -151,7 +160,7 @@ const Game = () => {
         ))}
       </ScrollView>
 
-        <Timer />
+        <Timer setGameState={setGameState} />
  
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
