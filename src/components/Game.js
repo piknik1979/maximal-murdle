@@ -60,14 +60,14 @@ const Game = () => {
     } else if (gameState === 'allLivesLost') {
       Alert.alert('Your life force is all gone! Ha-ha !');
     } else if (checkIfWon() && gameState !== 'won') {
-      const totalTime = getGameTime();
+      setTotalTime(getGameTime());
 
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
         Guesses Remaining: ${MAX_GUESSES - currentRow}
         Lives Remaining: ${lives}
-        Time Remaining: ${totalTime}`,
+        Time Remaining: ${getGameTime()}`,
         [
           // {
           //   text: "Go Back",

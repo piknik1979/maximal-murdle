@@ -10,7 +10,7 @@ export default function Timer({setGameState, gameState, setStartTime}) {
     }
   }, [gameState]);
 
-  const duration = 13;
+  const duration = 60;
 
   return (
     <View style={timerStyles.container}>
