@@ -37,24 +37,7 @@ const Game = () => {
     setCurrentColumn(0);
     setCurrentRow(0);
     setGameState('playing');
-    /*  Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => Alert.alert('Cancel Pressed'),
-          style: 'cancel',
-        },
-      ],
-      {
-        cancelable: true,
-        onDismiss: () =>
-          Alert.alert(
-            'This alert was dismissed by tapping outside of the alert dialog.'
-          ),
-      }
-    ); */
+    setLives(letters.length * 2);
   };
 
   useEffect(() => {
