@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { useState, useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
 import {
   Text,
   View,
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable, 
-} from 'react-native';
-import Keyboard from './Keyboard';
-import { ENTER, DELETE, colors } from '../constants';
-import { words } from './Words';
-import gameStyles from '../styles/gameStyles';
-import Lives from './Lives';
-import Timer from './Timer';
+  Pressable,
+} from "react-native";
+import Keyboard from "./Keyboard";
+import { ENTER, DELETE, colors } from "../constants";
+import { words } from "./Words";
+import gameStyles from "../styles/gameStyles";
+import Lives from "./Lives";
+import Timer from "./Timer";
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -22,38 +22,43 @@ const copyArray = (arr) => {
 
 const Game = () => {
   const word = words[0];
-  const letters = word.split('');
+  const letters = word.split("");
   const remainingLetters = {};
   const [rows, setRows] = useState(
-    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
+    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(""))
   );
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
-  const [gameState, setGameState] = useState('playing');
+  const [gameState, setGameState] = useState("playing");
   const [lives, setLives] = useState(letters.length * 2);
 
   const resetGame = () => {
-    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
+    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill("")));
     setCurrentColumn(0);
     setCurrentRow(0);
-    setGameState('playing');
+    setGameState("playing");
     setLives(letters.length * 2);
   };
 
   useEffect(() => {
-    if (gameState === 'timeout') {
+    if (gameState === "timeout") {
       checkGameState();
     }
     if (currentRow > 0) {
       checkGameState();
     }
-    if (gameState === 'allLivesLost') {
+    if (gameState === "allLivesLost") {
       checkGameState();
     }
   }, [currentRow, gameState]);
-
+  console.log(gameState);
   const checkGameState = () => {
-    if (checkIfWon() && gameState !== 'won') {
+    if (gameState === "timeout") {
+      Alert.alert("You died! Shoulda thunk faster!");
+      setGameState("lost");
+    } else if (gameState === "allLivesLost") {
+      Alert.alert("Your life force is all gone! Ha-ha !");
+    } else if (checkIfWon() && gameState !== "won") {
       Alert.alert(
         "WINNAR!!",
         `You live!!! For now...
@@ -64,20 +69,18 @@ const Game = () => {
           {
             text: "Go Back",
             onPress: () => console.log("Go Back Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "View Results", onPress: () => console.log("View Results Pressed") }
+          {
+            text: "View Results",
+            onPress: () => console.log("View Results Pressed"),
+          },
         ]
-      )
-      setGameState('won');
-    } else if (gameState === 'timeout') {
-      Alert.alert('You died! Shoulda thunk faster!');
-      setGameState('lost');
-    } else if (gameState === 'allLivesLost') {
-      Alert.alert('Your life force is all gone! Ha-ha !');
-    } else if (checkIfLost() && gameState !== 'lost') {
-      Alert.alert('Hah hah! You died!');
-      setGameState('lost');
+      );
+      setGameState("won");
+    } else if (checkIfLost() && gameState !== "lost") {
+      Alert.alert("Hah hah! You died!");
+      setGameState("lost");
     }
   };
 
@@ -92,7 +95,7 @@ const Game = () => {
   };
 
   const handleKeyPress = (key) => {
-    if (gameState !== 'playing') {
+    if (gameState !== "playing") {
       return;
     }
 
@@ -108,7 +111,7 @@ const Game = () => {
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
-        updatedRows[currentRow][prevColumn] = '';
+        updatedRows[currentRow][prevColumn] = "";
         setRows(updatedRows);
         setCurrentColumn(prevColumn);
       }
@@ -196,8 +199,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j)
-                  }
+                    backgroundColor: getCellBGColor(i, j),
+                  },
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
