@@ -3,16 +3,36 @@ import { Text, View } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import timerStyles from "../styles/timerStyles";
 
-export default function Timer({ setGameState }) {
+export default function Timer({
+  setGameState,
+  gameState,
+  setTotalTime,
+  totalTime,
+}) {
   const [isPlaying, setIsPlaying] = React.useState(true);
+  // const [runningTime, setRunningTime] = React.useState();
+  const [startTime, setStartTime] = React.useState();
 
+  const getGameTime = () => {
+    const endTime = Date.now();
+    console.log(startTime, endTime, " !!!!!!!!!!!!!!!! start and end Time!!!!");
+    setTotalTime(Math.round((endTime - startTime) / 1000));
+    // console.log(totalTime);
+  };
   React.useEffect(() => {
     if (!isPlaying) {
       setGameState("timeout");
     }
-  }, [isPlaying]);
+    if (gameState === "playing") {
+      setStartTime(Date.now());
+    }
+    if (gameState === "won") {
+      getGameTime();
+    }
+  }, [gameState]);
 
-  const duration = 5;
+  const duration = 20;
+  // console.log(gameState);
 
   return (
     <View style={timerStyles.container}>

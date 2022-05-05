@@ -31,7 +31,8 @@ const Game = () => {
   const [currentColumn, setCurrentColumn] = useState(0);
   const [gameState, setGameState] = useState("playing");
   const [lives, setLives] = useState(letters.length * 2);
-
+  const [totalTime, setTotalTime] = useState();
+  const time = totalTime;
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill("")));
     setCurrentColumn(0);
@@ -51,8 +52,9 @@ const Game = () => {
       checkGameState();
     }
   }, [currentRow, gameState]);
-  console.log(gameState);
-  const checkGameState = () => {
+  console.log(totalTime, "totalTime");
+
+  const checkGameState = (time) => {
     if (gameState === "timeout") {
       Alert.alert("You died! Shoulda thunk faster!");
       setGameState("lost");
@@ -64,13 +66,13 @@ const Game = () => {
         `You live!!! For now...
         Guesses Remaining: ${MAX_GUESSES - currentRow}
         Lives Remaining: ${lives}
-        Time Remaining: 0`,
+        Time Remaining: ${time}`,
         [
-          {
-            text: "Go Back",
-            onPress: () => console.log("Go Back Pressed"),
-            style: "cancel",
-          },
+          // {
+          //   text: "Go Back",
+          //   onPress: () => console.log("Go Back Pressed"),
+          //   style: "cancel",
+          // },
           {
             text: "View Results",
             onPress: () => console.log("View Results Pressed"),
@@ -210,7 +212,12 @@ const Game = () => {
         ))}
       </ScrollView>
 
-      <Timer setGameState={setGameState} />
+      <Timer
+        setGameState={setGameState}
+        gameState={gameState}
+        setTotalTime={setTotalTime}
+        totalTime={totalTime}
+      />
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
         <Text style={gameStyles.resetText}>RESTART</Text>
