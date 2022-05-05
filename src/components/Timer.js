@@ -14,7 +14,7 @@ export default function Timer({setGameState}) {
     }, [isPlaying])
     
 
-  const duration = 10;
+  const duration = 300;
 
   return (
     <View style={timerStyles.container}>
@@ -27,8 +27,8 @@ export default function Timer({setGameState}) {
         strokeWidth={6}
         trailColor={"#121214"}
         onComplete={() => {
-            ({ shouldRepeat: false, delay: 2 })
-            setIsPlaying(prev => !prev)
+            ({ shouldRepeat: true, delay: 2 })
+            // setIsPlaying(prev => !prev) (reset true to false after testing)
             }} 
       >
         {({ remainingTime, color }) => (
