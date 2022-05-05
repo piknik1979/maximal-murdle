@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable
+  Pressable, 
 } from 'react-native';
 import Keyboard from './Keyboard';
 import { ENTER, DELETE, colors } from '../constants';
@@ -53,14 +53,28 @@ const Game = () => {
   }, [currentRow, gameState]);
 
   const checkGameState = () => {
-    if (gameState === 'timeout') {
+    if (checkIfWon() && gameState !== 'won') {
+      Alert.alert(
+        "WINNAR!!",
+        `You live!!! For now...
+        Guesses Remaining: ${MAX_GUESSES - currentRow}
+        Lives Remaining: ${lives}
+        Time Remaining: 0`,
+        [
+          {
+            text: "Go Back",
+            onPress: () => console.log("Go Back Pressed"),
+            style: "cancel"
+          },
+          { text: "View Results", onPress: () => console.log("View Results Pressed") }
+        ]
+      )
+      setGameState('won');
+    } else if (gameState === 'timeout') {
       Alert.alert('You died! Shoulda thunk faster!');
       setGameState('lost');
     } else if (gameState === 'allLivesLost') {
       Alert.alert('Your life force is all gone! Ha-ha !');
-    } else if (checkIfWon() && gameState !== 'won') {
-      Alert.alert('You live!!! For now...');
-      setGameState('won');
     } else if (checkIfLost() && gameState !== 'lost') {
       Alert.alert('Hah hah! You died!');
       setGameState('lost');
