@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import {useState, useEffect} from 'react';
+import {StatusBar} from 'expo-status-bar';
 import {
   Text,
   View,
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable
+  Pressable,
 } from 'react-native';
 import Keyboard from './Keyboard';
-import { ENTER, DELETE, colors } from '../constants';
-import { words } from './Words';
+import {ENTER, DELETE, colors} from '../constants';
+import {words} from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
+import {Stage} from './Stage';
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -27,6 +28,7 @@ const Game = () => {
   const [rows, setRows] = useState(
     new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
+  const [wrongLetters, setWrongLetters] = useState('');
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
   const [gameState, setGameState] = useState('playing');
@@ -37,36 +39,30 @@ const Game = () => {
     setCurrentColumn(0);
     setCurrentRow(0);
     setGameState('playing');
-    /*  Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => Alert.alert('Cancel Pressed'),
-          style: 'cancel',
-        },
-      ],
-      {
-        cancelable: true,
-        onDismiss: () =>
-          Alert.alert(
-            'This alert was dismissed by tapping outside of the alert dialog.'
-          ),
-      }
-    ); */
   };
 
   useEffect(() => {
     if (gameState === 'timeout') {
       checkGameState();
     }
+
     if (currentRow > 0) {
       checkGameState();
     }
+
     if (gameState === 'allLivesLost') {
       checkGameState();
     }
+
+    const wrongLetters = rows.flat().filter((letter) => {
+      return !letters.includes(letter);
+    });
+
+    const removeDuplicates = (arr) => {
+      return [...new Set(arr)];
+    };
+
+    setWrongLetters(removeDuplicates(wrongLetters).join(''));
   }, [currentRow, gameState]);
 
   const checkGameState = () => {
@@ -182,9 +178,10 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
 
       <Text style={gameStyles.title}>Maximal(Murdle)</Text>
+      <Stage wrongLetters={wrongLetters} />
       <Lives lives={lives} letters={letters} />
 
       <ScrollView style={gameStyles.map}>
@@ -199,8 +196,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j)
-                  }
+                    backgroundColor: getCellBGColor(i, j),
+                  },
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
