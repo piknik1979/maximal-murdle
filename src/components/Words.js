@@ -1,1 +1,1 @@
-export const words = ["world"];
+export const words = ['world'];
