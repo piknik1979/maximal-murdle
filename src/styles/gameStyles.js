@@ -6,14 +6,14 @@ const gameStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   title: {
-    paddingTop: getStatusBarHeight(),
+    /* paddingTop: getStatusBarHeight(), */
     color: colors.grey,
     fontSize: 32,
     fontWeight: 'bold',
-    letterSpacing: 7,
+    letterSpacing: 7
   },
   resetButton: {
     height: 40,
@@ -21,19 +21,19 @@ const gameStyles = StyleSheet.create({
     backgroundColor: colors.darkgrey,
     justifyContent: 'center',
     borderRadius: 5,
-    marginBottom: 5,
+    marginBottom: 5
   },
 
   resetText: { color: colors.lightgrey, textAlign: 'center' },
 
   map: {
     alignSelf: 'stretch',
-    marginVertical: 20,
+    marginVertical: 20
   },
   row: {
     alignSelf: 'stretch',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   cell: {
     borderWidth: 3,
@@ -43,13 +43,13 @@ const gameStyles = StyleSheet.create({
     aspectRatio: 1,
     margin: 3,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   cellText: {
     color: colors.grey,
     fontWeight: 'bold',
-    fontSize: 28,
-  },
+    fontSize: 28
+  }
 });
 
 export default gameStyles;

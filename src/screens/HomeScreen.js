@@ -6,14 +6,9 @@ import { DefaultTheme } from 'react-native-paper';
 function HomeScreen({ navigation }) {
   return (
     <ScrollView>
-      <Card>
-        <Card.Title title="Home Screen" />
-        <Card.Content>
-          <Button mode="contained" onPress={() => navigation.navigate('Game')}>
-            Start Game
-          </Button>
-        </Card.Content>
-      </Card>
+      <Button mode="contained" onPress={() => navigation.navigate('Main Menu')}>
+        Start Game
+      </Button>
     </ScrollView>
   );
 }
