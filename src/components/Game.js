@@ -23,6 +23,7 @@ const copyArray = (arr) => {
 
 const Game = () => {
   const word = words[0];
+
   const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(

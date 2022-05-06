@@ -81,13 +81,14 @@ export const Stage = ({wrongLetters = ''}) => {
       >
         <G
           id='base'
-          style={tw`${transition} ${
+          style={[
+            {transition: ''},
             displayedWrongLetters > order.dead
-              ? 'opacity-100'
+              ? {opacity: '100'}
               : displayedWrongLetters > order.base
-              ? 'opacity-100'
-              : 'opacity-0 translate-y-full'
-          }`}
+              ? {opacity: '100'}
+              : {opacity: '0', translate: 'full'},
+          ]}
         >
           <Rect
             x='15'
@@ -109,13 +110,21 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='post'
-          style={tw`origin-bottom ${transition} ${
+          /* style={tw`origin-bottom ${transition} ${
             displayedWrongLetters > order.dead
               ? 'opacity-100'
               : displayedWrongLetters > order.post
               ? 'opacity-100'
               : 'opacity-0 -rotate-45'
-          }`}
+          }`} */
+          style={[
+            {origin: 'bottom'},
+            displayedWrongLetters > order.dead
+              ? {opacity: '100'}
+              : displayedWrongLetters > order.post
+              ? {opactiy: '100'}
+              : {opacity: '0'},
+          ]}
         >
           <Rect
             x='51.1959'
@@ -146,7 +155,7 @@ export const Stage = ({wrongLetters = ''}) => {
               ? 'opacity-100'
               : displayedWrongLetters > order['top-beam']
               ? 'opacity-100'
-              : 'opacity-0 rotate-45'
+              : 'opacity-0 transform rotate-45'
           }`}
         >
           <Rect
@@ -220,7 +229,7 @@ export const Stage = ({wrongLetters = ''}) => {
               ? 'opacity-100 rotate-[4deg]'
               : displayedWrongLetters > order.head
               ? 'opacity-100'
-              : 'opacity-100 -translate-y-[10%]'
+              : 'opacity-0 -translate-y-[10%]'
           }`}
         >
           <Path
@@ -287,7 +296,7 @@ export const Stage = ({wrongLetters = ''}) => {
                 ? 'opacity-100 translate-y-[1%]'
                 : displayedWrongLetters > order.torso
                 ? 'opacity-100'
-                : 'opacity-100 -translate-y-[10%]'
+                : 'opacity-0 -translate-y-[10%]'
             }`}
             d='M109.655 70.6333 C 109.849 67.4679 112.473 65 115.644 65  H130.356 C133.527 65 136.151 66.4679 136.345 70.6333L138.61 117.633C138.822 111.085 136.079 114 132.621 114H113.379C109.921 114 107.178 111.085 107.39 107.633L109.655 70.6333Z'
             fill='#3F3F45'
@@ -379,5 +388,12 @@ export const randomFromArray = (array) => {
 };
 
 /* const gameStyles = StyleSheet.create({
-    container: 
+    base: { 
+      opacity: {displayedWrongLetters > order.dead
+        ? '100'
+        : displayedWrongLetters > order.base
+        ? '100'
+        : '0 translate-y-full'}
+
+    }
 }) */

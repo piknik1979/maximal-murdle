@@ -12,7 +12,7 @@ export default function Timer({setGameState}) {
     }
   }, [isPlaying]);
 
-  const duration = 100;
+  const duration = 900;
 
   return (
     <View style={timerStyles.container}>
