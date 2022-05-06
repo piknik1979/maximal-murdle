@@ -12,7 +12,7 @@ const Keyboard = ({
   letters,
   greenKeys = [],
   yellowKeys = [],
-  greyKeys = []
+  greyKeys = [],
 }) => {
   const isLongButton = (key) => {
     return key === ENTER || key === DELETE;
@@ -54,7 +54,7 @@ const Keyboard = ({
               style={[
                 keyboardStyles.key,
                 isLongButton(key) ? { width: keyWidth * 1.4 } : {},
-                { backgroundColor: getKeyBGColor(key) }
+                { backgroundColor: getKeyBGColor(key) },
               ]}
             >
               <Text style={keyboardStyles.keyText}>{key.toUpperCase()}</Text>

@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react';
-import {StatusBar} from 'expo-status-bar';
+import { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   Text,
   View,
@@ -9,8 +9,8 @@ import {
   Pressable,
 } from 'react-native';
 import Keyboard from './Keyboard';
-import {ENTER, DELETE, colors} from '../constants';
-import {words} from './Words';
+import { ENTER, DELETE, colors } from '../constants';
+import { words } from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
@@ -190,7 +190,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style='light' />
+      <StatusBar style="light" />
 
       <Text style={gameStyles.title}>Maximal(Murdle)</Text>
       <Lives lives={lives} letters={letters} />
