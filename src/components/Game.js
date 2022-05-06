@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+import {useState, useEffect} from 'react';
+import {StatusBar} from 'expo-status-bar';
 import {
   Text,
   View,
@@ -7,13 +7,13 @@ import {
   ScrollView,
   Alert,
   Pressable,
-} from "react-native";
-import Keyboard from "./Keyboard";
-import { ENTER, DELETE, colors } from "../constants";
-import { words } from "./Words";
-import gameStyles from "../styles/gameStyles";
-import Lives from "./Lives";
-import Timer from "./Timer";
+} from 'react-native';
+import Keyboard from './Keyboard';
+import {ENTER, DELETE, colors} from '../constants';
+import {words} from './Words';
+import gameStyles from '../styles/gameStyles';
+import Lives from './Lives';
+import Timer from './Timer';
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -22,66 +22,74 @@ const copyArray = (arr) => {
 
 const Game = () => {
   const word = words[0];
-  const letters = word.split("");
+  const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(
-    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(""))
+    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
-  const [gameState, setGameState] = useState("playing");
+  const [gameState, setGameState] = useState('playing');
   const [lives, setLives] = useState(letters.length * 2);
-
+  const [totalTime, setTotalTime] = useState();
+  const [startTime, setStartTime] = useState();
   const resetGame = () => {
-    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill("")));
+    setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
     setCurrentColumn(0);
     setCurrentRow(0);
-    setGameState("playing");
+    setGameState('playing');
     setLives(letters.length * 2);
   };
 
   useEffect(() => {
-    if (gameState === "timeout") {
+    if (gameState === 'timeout') {
       checkGameState();
     }
     if (currentRow > 0) {
       checkGameState();
     }
-    if (gameState === "allLivesLost") {
+    if (gameState === 'allLivesLost') {
       checkGameState();
     }
   }, [currentRow, gameState]);
-  console.log(gameState);
+
   const checkGameState = () => {
-    if (gameState === "timeout") {
-      Alert.alert("You died! Shoulda thunk faster!");
-      setGameState("lost");
-    } else if (gameState === "allLivesLost") {
-      Alert.alert("Your life force is all gone! Ha-ha !");
-    } else if (checkIfWon() && gameState !== "won") {
+    if (gameState === 'timeout') {
+      Alert.alert('You died! Shoulda thunk faster!');
+      setGameState('lost');
+    } else if (gameState === 'allLivesLost') {
+      Alert.alert('Your life force is all gone! Ha-ha !');
+    } else if (checkIfWon() && gameState !== 'won') {
+      setTotalTime(getGameTime());
+
       Alert.alert(
-        "WINNAR!!",
+        'WINNAR!!',
         `You live!!! For now...
         Guesses Remaining: ${MAX_GUESSES - currentRow}
         Lives Remaining: ${lives}
-        Time Remaining: 0`,
+        Time Remaining: ${getGameTime()}`,
         [
+          // {
+          //   text: "Go Back",
+          //   onPress: () => console.log("Go Back Pressed"),
+          //   style: "cancel",
+          // },
           {
-            text: "Go Back",
-            onPress: () => console.log("Go Back Pressed"),
-            style: "cancel",
-          },
-          {
-            text: "View Results",
-            onPress: () => console.log("View Results Pressed"),
+            text: 'View Results',
+            onPress: () => console.log('View Results Pressed'),
           },
         ]
       );
-      setGameState("won");
-    } else if (checkIfLost() && gameState !== "lost") {
-      Alert.alert("Hah hah! You died!");
-      setGameState("lost");
+      setGameState('won');
+    } else if (checkIfLost() && gameState !== 'lost') {
+      Alert.alert('Hah hah! You died!');
+      setGameState('lost');
     }
+  };
+
+  const getGameTime = () => {
+    const endTime = Date.now();
+    return Math.round((endTime - startTime) / 1000);
   };
 
   const checkIfWon = () => {
@@ -95,7 +103,7 @@ const Game = () => {
   };
 
   const handleKeyPress = (key) => {
-    if (gameState !== "playing") {
+    if (gameState !== 'playing') {
       return;
     }
 
@@ -111,7 +119,7 @@ const Game = () => {
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
-        updatedRows[currentRow][prevColumn] = "";
+        updatedRows[currentRow][prevColumn] = '';
         setRows(updatedRows);
         setCurrentColumn(prevColumn);
       }
@@ -182,7 +190,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
 
       <Text style={gameStyles.title}>Maximal(Murdle)</Text>
       <Lives lives={lives} letters={letters} />
@@ -210,7 +218,12 @@ const Game = () => {
         ))}
       </ScrollView>
 
-      <Timer setGameState={setGameState} />
+      <Timer
+        setGameState={setGameState}
+        gameState={gameState}
+        setTotalTime={setTotalTime}
+        setStartTime={setStartTime}
+      />
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
         <Text style={gameStyles.resetText}>RESTART</Text>
