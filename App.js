@@ -14,13 +14,13 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Maximal Murdle"
           component={HomeScreen}
           options={{
             title: 'Maximal(Murdle)',
           }}
-        /> */}
+        />
         <Stack.Screen
           name="Main Menu"
           component={GameScreen}

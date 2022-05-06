@@ -1,7 +1,14 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from 'react-native';
 import auth from '../../firebase';
+import { Button } from 'react-native-paper';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -16,12 +23,20 @@ const HomeScreen = () => {
   };
 
   return (
+    // <ScrollView>
     <View style={styles.container}>
-      <Text>Email: {auth.currentUser?.email}</Text>
+      {/* <Text>Email: {auth.currentUser?.email}</Text> */}
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Main Menu')}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Start Game</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
     </View>
+    // </ScrollView>
   );
 };
 
