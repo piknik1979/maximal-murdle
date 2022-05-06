@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable,
+  Pressable
 } from 'react-native';
 import Keyboard from './Keyboard';
 import { ENTER, DELETE, colors } from '../constants';
@@ -76,8 +76,8 @@ const Game = () => {
           // },
           {
             text: 'View Results',
-            onPress: () => console.log('View Results Pressed'),
-          },
+            onPress: () => console.log('View Results Pressed')
+          }
         ]
       );
       setGameState('won');
@@ -192,7 +192,7 @@ const Game = () => {
     <SafeAreaView style={gameStyles.container}>
       <StatusBar style="light" />
 
-      <Text style={gameStyles.title}>Maximal(Murdle)</Text>
+      {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
       <Lives lives={lives} letters={letters} />
 
       <ScrollView style={gameStyles.map}>
@@ -207,8 +207,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j),
-                  },
+                    backgroundColor: getCellBGColor(i, j)
+                  }
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>

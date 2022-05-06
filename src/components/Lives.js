@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
   icon: {
     color: 'red',
     marginLeft: 10,
-    fontSize: 20,
+    fontSize: 20
   },
   lives: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingTop: 50,
-  },
+    paddingTop: 0
+  }
 });
 export default Lives;
