@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Card } from 'react-native-paper';
-import { DefaultTheme } from 'react-native-paper';
-import Game from '../components/Game';
-
+import {StyleSheet, View} from 'react-native';
+import {Card} from 'react-native-paper';
+import {DefaultTheme} from 'react-native-paper';
+import Game from './GameComponents/Game';
 
 function GameScreen() {
   return <Game />;

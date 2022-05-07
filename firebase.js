@@ -1,26 +1,30 @@
-// Import the functions you need from the SDKs you need
-import firebase from 'firebase';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {initializeApp} from 'firebase/app';
+import {getAuth} from 'firebase/auth';
+import {getFirestore} from 'firebase/firestore';
+import {apiKey} from './API';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyDNF3wZkA9d3RQz9RiT3K_xpvwRIZvTTrM',
-  authDomain: 'maximal-murdle-38518.firebaseapp.com',
-  projectId: 'maximal-murdle-38518',
-  storageBucket: 'maximal-murdle-38518.appspot.com',
-  messagingSenderId: '1042068547395',
-  appId: '1:1042068547395:web:e99ec8ac32dae431b831f6',
+  apiKey: apiKey,
+  authDomain: 'making-a-murdle.firebaseapp.com',
+  databaseURL: 'https://making-a-murdle-default-rtdb.firebaseio.com',
+  projectId: 'making-a-murdle',
+  storageBucket: 'making-a-murdle.appspot.com',
+  messagingSenderId: '1000912625283',
+  appId: '1:1000912625283:web:d7b71d58fb7adb7d3d85b6',
+  measurementId: 'G-5X4JRH6F78',
 };
 
 // Initialize Firebase
-let app;
-if (firebase.apps.length === 0) {
-  app = firebase.initializeApp(firebaseConfig);
-} else {
-  app = firebase.app();
-}
+const app = initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
+// console.log('app:', app);
 
-export default auth;
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// console.log('auth:', auth);
+// console.log('db:', db);
+
+export {auth, db};
