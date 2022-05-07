@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import tw from 'twrnc';
 import Svg, {Circle, Ellipse, G, Path, Rect} from 'react-native-svg';
 import {View} from 'react-native';
 const transition = 'transition-all ease-out duration-[500ms]';
@@ -49,10 +48,20 @@ export const Stage = ({wrongLetters = ''}) => {
 
   return (
     <View
-      style={tw`sticky top-12 grow-0 shrink-0 w-[35%] sm:w-[40%] max-w-[12rem] mx-auto p-1 mb-2 pointer-events-none`}
+      style={{
+        paddingTop: '12',
+        innerWidth: '35%',
+        maxWidth: '12rem',
+        padding: '1',
+      }}
     >
       <Svg
-        style={tw`w-full h-40 overflow-visible`}
+        style={{
+          width: '100%',
+          height: '180',
+          overflow: 'visible',
+          marginTop: '10',
+        }}
         viewBox='0 0 160 200'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

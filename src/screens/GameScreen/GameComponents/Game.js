@@ -206,6 +206,7 @@ const Game = () => {
       <StatusBar style='light' />
 
       {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
+      <Stage wrongLetters={wrongLetters} />
       <Lives lives={lives} letters={letters} />
 
       <ScrollView style={gameStyles.map}>
