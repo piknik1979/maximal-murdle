@@ -1,5 +1,5 @@
 import {View, Text, Pressable, Dimensions} from 'react-native';
-import {keys, ENTER, DELETE, colors} from '../constants';
+import {keys, ENTER, DELETE, colors} from '../../../constants';
 import {keyboardStyles, keyWidth} from '../styles/keyboardStyles';
 import {useEffect} from 'react';
 

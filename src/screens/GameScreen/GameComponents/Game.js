@@ -9,7 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import Keyboard from './Keyboard';
-import {ENTER, DELETE, colors} from '../constants';
+import {ENTER, DELETE, colors} from '../../../constants';
 import {words} from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
@@ -23,7 +23,6 @@ const copyArray = (arr) => {
 
 const Game = () => {
   const word = words[0];
-
   const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(
@@ -35,7 +34,7 @@ const Game = () => {
   const [gameState, setGameState] = useState('playing');
   const [lives, setLives] = useState(letters.length * 2);
   const [totalTime, setTotalTime] = useState();
-  const time = totalTime;
+  const [startTime, setStartTime] = useState();
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
     setCurrentColumn(0);
@@ -66,21 +65,22 @@ const Game = () => {
 
     setWrongLetters(removeDuplicates(wrongLetters).join(''));
   }, [currentRow, gameState]);
-  console.log(totalTime, 'totalTime');
 
-  const checkGameState = (time) => {
+  const checkGameState = () => {
     if (gameState === 'timeout') {
       Alert.alert('You died! Shoulda thunk faster!');
       setGameState('lost');
     } else if (gameState === 'allLivesLost') {
       Alert.alert('Your life force is all gone! Ha-ha !');
     } else if (checkIfWon() && gameState !== 'won') {
+      setTotalTime(getGameTime());
+
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
         Guesses Remaining: ${MAX_GUESSES - currentRow}
         Lives Remaining: ${lives}
-        Time Remaining: ${time}`,
+        Time Remaining: ${getGameTime()}`,
         [
           // {
           //   text: "Go Back",
@@ -98,6 +98,11 @@ const Game = () => {
       Alert.alert('Hah hah! You died!');
       setGameState('lost');
     }
+  };
+
+  const getGameTime = () => {
+    const endTime = Date.now();
+    return Math.round((endTime - startTime) / 1000);
   };
 
   const checkIfWon = () => {
@@ -200,8 +205,7 @@ const Game = () => {
     <SafeAreaView style={gameStyles.container}>
       <StatusBar style='light' />
 
-      <Text style={gameStyles.title}>Maximal(Murdle)</Text>
-      <Stage wrongLetters={wrongLetters} />
+      {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
       <Lives lives={lives} letters={letters} />
 
       <ScrollView style={gameStyles.map}>
@@ -231,7 +235,7 @@ const Game = () => {
         setGameState={setGameState}
         gameState={gameState}
         setTotalTime={setTotalTime}
-        totalTime={totalTime}
+        setStartTime={setStartTime}
       />
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>

@@ -1,39 +1,39 @@
-import { StyleSheet } from "react-native";
-import { getStatusBarHeight } from "react-native-status-bar-height";
-import { colors } from "../constants";
+import {StyleSheet} from 'react-native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {colors} from '../../../constants';
 
 const gameStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-    alignItems: "center",
+    alignItems: 'center',
   },
   title: {
-    paddingTop: getStatusBarHeight(),
+    /* paddingTop: getStatusBarHeight(), */
     color: colors.grey,
     fontSize: 32,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     letterSpacing: 7,
   },
   resetButton: {
     height: 40,
     width: 80,
     backgroundColor: colors.darkgrey,
-    justifyContent: "center",
+    justifyContent: 'center',
     borderRadius: 5,
     marginBottom: 5,
   },
 
-  resetText: { color: colors.lightgrey, textAlign: "center" },
+  resetText: {color: colors.lightgrey, textAlign: 'center'},
 
   map: {
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     marginVertical: 20,
   },
   row: {
-    alignSelf: "stretch",
-    flexDirection: "row",
-    justifyContent: "center",
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   cell: {
     borderWidth: 3,
@@ -42,12 +42,12 @@ const gameStyles = StyleSheet.create({
     maxWidth: 70,
     aspectRatio: 1,
     margin: 3,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cellText: {
     color: colors.grey,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 28,
   },
 });

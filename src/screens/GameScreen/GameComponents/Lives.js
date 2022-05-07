@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   lives: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingTop: 50,
-  },
+    paddingTop: 0
+  }
 });
 export default Lives;
