@@ -11,7 +11,7 @@ const Lives = ({lives, letters}) => {
     <View style={styles.lives}>
       <Text style={styles.icon}>
         {hearts}
-        {brokenHearts}\
+        {brokenHearts}
       </Text>
     </View>
   );

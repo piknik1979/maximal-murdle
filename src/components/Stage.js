@@ -1,29 +1,7 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import tw from 'twrnc';
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  Text,
-  TSpan,
-  TextPath,
-  Path,
-  Polygon,
-  Polyline,
-  Line,
-  Rect,
-  Use,
-  Image,
-  Symbol,
-  Defs,
-  LinearGradient,
-  RadialGradient,
-  Stop,
-  ClipPath,
-  Pattern,
-  Mask,
-} from 'react-native-svg';
+import Svg, {Circle, Ellipse, G, Path, Rect} from 'react-native-svg';
 import {View} from 'react-native';
 const transition = 'transition-all ease-out duration-[500ms]';
 const order = {
@@ -118,12 +96,12 @@ export const Stage = ({wrongLetters = ''}) => {
               : 'opacity-0 -rotate-45'
           }`} */
           style={[
-            {origin: 'bottom'},
+            // {origin: 'bottom'`${transition}`},
             displayedWrongLetters > order.dead
               ? {opacity: '100'}
               : displayedWrongLetters > order.post
-              ? {opactiy: '100'}
-              : {opacity: '0'},
+              ? {opacity: '100'}
+              : {opacity: '0', translate: 'rotate 45'},
           ]}
         >
           <Rect
@@ -150,13 +128,15 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='top-beam'
-          style={tw`${transition} ${
+          style={[
+            {transition: `${transition}`},
+
             displayedWrongLetters > order.dead
-              ? 'opacity-100'
+              ? {opacity: '100'}
               : displayedWrongLetters > order['top-beam']
-              ? 'opacity-100'
-              : 'opacity-0 transform rotate-45'
-          }`}
+              ? {opacity: '100'}
+              : {opacity: '0', transform: 'rotate-45'},
+          ]}
         >
           <Rect
             x='89.1959'
@@ -170,13 +150,15 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='noose'
-          style={tw`${transition} ${
+          style={[
+            {transition: `${transition}`},
+
             displayedWrongLetters > order.dead
-              ? 'opacity-100'
+              ? {opacity: '100'}
               : displayedWrongLetters > order.noose
-              ? 'opacity-100'
-              : 'opacity-0'
-          }`}
+              ? {opacity: '100'}
+              : {opacity: '0'},
+          ]}
         >
           <Rect
             x='123.588'
@@ -188,13 +170,14 @@ export const Stage = ({wrongLetters = ''}) => {
           />
           <G
             id='noose-hanging'
-            style={tw`origin-top ${transition} ${
+            style={[
+              // {origin: 'top'`${transition}`},
               displayedWrongLetters > order.dead
-                ? ''
+                ? {opacity: '100'}
                 : displayedWrongLetters > order.noose
-                ? ''
-                : 'rotate-[20deg]'
-            }`}
+                ? {opacity: '100'}
+                : {opacity: '0', translate: 'rotate-[20deg]'},
+            ]}
           >
             <Rect
               x='124'
@@ -224,13 +207,14 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='head'
-          style={tw`origin-center ${transition} ${
+          style={[
+            // {origin: 'center'`${transition}`},
             displayedWrongLetters > order.dead
-              ? 'opacity-100 rotate-[4deg]'
+              ? {opacity: '100', transform: 'rotate-[4deg]'}
               : displayedWrongLetters > order.head
-              ? 'opacity-100'
-              : 'opacity-0 -translate-y-[10%]'
-          }`}
+              ? {opacity: '100'}
+              : {opacity: '0', translate: '-y-[10%]'},
+          ]}
         >
           <Path
             d='M136.969 54.5C137.505 66 131.083 71 122.5 71C113.917 71 107.495 65.5 108.031 54.5C108.567 43.5 113.917 38 122.5 38C131.083 38 136.433 43 136.969 54.5Z'
@@ -238,9 +222,12 @@ export const Stage = ({wrongLetters = ''}) => {
           />
           <G
             id='living-face'
-            style={tw`${transition} ${
-              displayedWrongLetters > order.dead ? 'opacity-0' : 'opacity-100'
-            }`}
+            style={[
+              {transform: `${transition}`},
+              displayedWrongLetters > order.dead
+                ? {opacity: '0'}
+                : {opacity: '100'},
+            ]}
           >
             <Path
               d='M116.493 60.7047L116.831 60.6222C120.903 59.6298 125.147 59.4586 129.314 60.1187V60.1187L129.612 62.2112V62.2112C125.346 61.5512 120.95 61.7596 116.79 62.7972V62.7972L116.493 60.7047Z'
@@ -252,9 +239,13 @@ export const Stage = ({wrongLetters = ''}) => {
 
           <G
             id='dead-face'
-            style={tw`${transition} ${
-              displayedWrongLetters > order.dead ? 'opacity-100' : 'opacity-0'
-            }`}
+            style={[
+              {transform: `${transition}`},
+
+              displayedWrongLetters > order.dead
+                ? {opacity: '100'}
+                : {opacity: '0'},
+            ]}
           >
             <Path
               d='M116.493 61.7047L117.781 60.6988C121.082 58.1198 125.684 57.8883 129.314 60.1187V60.1187L129.612 62.2112V62.2112C125.982 59.9808 121.38 60.2123 118.078 62.7913L116.79 63.7972L116.493 61.7047Z'
@@ -291,26 +282,33 @@ export const Stage = ({wrongLetters = ''}) => {
         <G>
           <Path
             id='torso'
-            style={tw`${transition} ${
+            style={[
+              // ${transition}
               displayedWrongLetters > order.dead
-                ? 'opacity-100 translate-y-[1%]'
+                ? {opacity: '100', translate: 'y-[1%]'}
                 : displayedWrongLetters > order.torso
-                ? 'opacity-100'
-                : 'opacity-0 -translate-y-[10%]'
-            }`}
+                ? {opacity: '100'}
+                : {opacity: '0', translate: 'y-[10%]'},
+            ]}
             d='M109.655 70.6333 C 109.849 67.4679 112.473 65 115.644 65  H130.356 C133.527 65 136.151 66.4679 136.345 70.6333L138.61 117.633C138.822 111.085 136.079 114 132.621 114H113.379C109.921 114 107.178 111.085 107.39 107.633L109.655 70.6333Z'
             fill='#3F3F45'
           />
         </G>
         <G
           id='left-arm'
-          style={tw`origin-top ${transition} ${
+          style={[
+            // `origin-top ${transition}
             displayedWrongLetters > order.dead
-              ? 'opacity-100 -translate-x-[8%] translate-y-[4%] -rotate-[10deg]'
+              ? {
+                  opacity: '100',
+                  translate: 'x-[8%]',
+                  translate: 'y-[4%]',
+                  rotate: '[10deg]',
+                }
               : displayedWrongLetters > order['left-arm']
-              ? 'opacity-100'
-              : 'opacity-0 rotate-[10deg]'
-          }`}
+              ? {opacity: '100'}
+              : {opacity: '0', rotate: '[10deg]'},
+          ]}
         >
           <Path
             d='M90.5973 108.306C89.9626 111.011 91.1348 113.6 93.2157 114.088C95.2966 114.576 96.498 112.779 97.1328 110.074C97.7676 107.369 97.5953 104.78 95.5144 104.292C93.4336 103.804 91.2321 105.601 90.5973 108.306Z'
@@ -323,13 +321,19 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='right-arm'
-          style={tw`origin-top ${transition} ${
+          style={[
+            // `origin-top ${transition}
             displayedWrongLetters > order.dead
-              ? 'opacity-100 translate-x-[9%] -translate-y-[4%] rotate-[10deg]'
-              : displayedWrongLetters > order['right-arm']
-              ? 'opacity-100'
-              : 'opacity-0 -rotate-[10deg]'
-          }`}
+              ? {
+                  opacity: '100',
+                  translate: 'x-[8%]',
+                  translate: 'y-[4%]',
+                  rotate: '[10deg]',
+                }
+              : displayedWrongLetters > order['left-arm']
+              ? {opacity: '100'}
+              : {opacity: '0', rotate: '[10deg]'},
+          ]}
         >
           <Path
             d='M154.88 108.306C155.515 111.011 154.343 113.6 152.262 114.088C150.181 114.576 149.135 112.205 148.5 109.5C147.865 106.795 147.883 104.78 149.963 104.292C152.044 103.804 154.246 105.601 154.88 108.306Z'
@@ -342,13 +346,24 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='left-leg'
-          style={tw`origin-top ${transition} ${
+          style={[
+            // `origin-top ${transition}
             displayedWrongLetters > order.dead
-              ? 'opacity-100 -translate-x-[5%] translate-y-[3%] -rotate-[5deg]'
+              ? {
+                  opacity: '100',
+                  translate: 'x-[5%]',
+                  translate: 'y-[3%]',
+                  rotate: '[5deg]',
+                }
               : displayedWrongLetters > order['left-leg']
-              ? 'opacity-100'
-              : 'opacity-0 translate-x-[7%] -translate-y-[4%] rotate-[5deg]'
-          }`}
+              ? {opacity: '100'}
+              : {
+                  opacity: '0',
+                  translate: 'x-[7%]',
+                  translate: 'y-[4%]',
+                  rotate: '[5deg]',
+                },
+          ]}
         >
           <Path
             d='M105.669 148.796C102.057 150.802 98.8462 156.019 104.465 156.421C110.083 156.822 111.688 154.815 112.491 150.401C113.294 145.986 111.316 147.088 109.645 146.696C107.975 146.304 106.178 146.624 105.669 148.796Z'
@@ -361,13 +376,24 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='right-leg'
-          style={tw`origin-top ${transition} ${
+          style={[
+            // `origin-top ${transition}
             displayedWrongLetters > order.dead
-              ? 'opacity-100 translate-x-[5%] -translate-y-[2%] rotate-[5deg]'
-              : displayedWrongLetters > order['right-leg']
-              ? 'opacity-100'
-              : 'opacity-0 -translate-x-[7%] -translate-y-[4%] -rotate-[5deg]'
-          }`}
+              ? {
+                  opacity: '100',
+                  translate: 'x-[5%]',
+                  translate: 'y-[3%]',
+                  rotate: '[5deg]',
+                }
+              : displayedWrongLetters > order['left-leg']
+              ? {opacity: '100'}
+              : {
+                  opacity: '0',
+                  translate: 'x-[7%]',
+                  translate: 'y-[4%]',
+                  rotate: '[5deg]',
+                },
+          ]}
         >
           <Path
             d='M140.582 148.796C144.193 150.802 147.404 156.019 141.786 156.421C136.167 156.822 134.562 154.815 133.759 150.401C132.956 145.986 134.935 147.088 136.605 146.696C138.275 146.304 140.072 146.624 140.582 148.796Z'
@@ -386,14 +412,3 @@ export const Stage = ({wrongLetters = ''}) => {
 export const randomFromArray = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
-
-/* const gameStyles = StyleSheet.create({
-    base: { 
-      opacity: {displayedWrongLetters > order.dead
-        ? '100'
-        : displayedWrongLetters > order.base
-        ? '100'
-        : '0 translate-y-full'}
-
-    }
-}) */
