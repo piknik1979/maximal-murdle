@@ -3,6 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { Card } from 'react-native-paper';
 import { DefaultTheme } from 'react-native-paper';
 import Game from '../components/Game';
+
+
 function GameScreen() {
   return <Game />;
 }
