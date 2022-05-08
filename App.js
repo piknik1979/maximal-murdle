@@ -2,8 +2,8 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {NavigationContainer, DarkTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {getDocs, collection, doc, getDoc} from 'firebase/firestore';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import {doc, getDoc} from 'firebase/firestore';
+import {onAuthStateChanged} from 'firebase/auth';
 import {auth, db} from './firebase';
 //import { Provider as PaperProvider } from 'react-native-paper';
 import {
@@ -12,7 +12,7 @@ import {
   RegistrationScreen,
   GameScreen,
 } from './src/screens';
-import {UserContext} from './src/context/user';
+import {UserContext} from './src/context/User';
 
 const Stack = createNativeStackNavigator();
 
