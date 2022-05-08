@@ -6,13 +6,11 @@ import {apiKey} from './API';
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: apiKey,
-  authDomain: 'making-a-murdle.firebaseapp.com',
-  databaseURL: 'https://making-a-murdle-default-rtdb.firebaseio.com',
-  projectId: 'making-a-murdle',
-  storageBucket: 'making-a-murdle.appspot.com',
-  messagingSenderId: '1000912625283',
-  appId: '1:1000912625283:web:d7b71d58fb7adb7d3d85b6',
-  measurementId: 'G-5X4JRH6F78',
+  authDomain: 'maximal-murdle-38518.firebaseapp.com',
+  projectId: 'maximal-murdle-38518',
+  storageBucket: 'maximal-murdle-38518.appspot.com',
+  messagingSenderId: '1042068547395',
+  appId: '1:1042068547395:web:e99ec8ac32dae431b831f6',
 };
 
 // Initialize Firebase
