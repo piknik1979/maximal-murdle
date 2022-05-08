@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { keys, colors } from '../constants';
+import {StyleSheet, Dimensions} from 'react-native';
+import {keys, colors} from '../../../constants';
 
 const screenWidth = Dimensions.get('window').width;
 const keyWidth = (screenWidth - 10) / keys[0].length;
@@ -30,4 +30,4 @@ const keyboardStyles = StyleSheet.create({
   },
 });
 
-export { keyboardStyles, keyWidth };
+export {keyboardStyles, keyWidth};

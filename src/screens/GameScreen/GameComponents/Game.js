@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import {useState, useEffect} from 'react';
+import {StatusBar} from 'expo-status-bar';
 import {
   Text,
   View,
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable
+  Pressable,
 } from 'react-native';
 import Keyboard from './Keyboard';
-import { ENTER, DELETE, colors } from '../constants';
-import { words } from './Words';
+import {ENTER, DELETE, colors} from '../../../constants';
+import {words} from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
@@ -76,8 +76,8 @@ const Game = () => {
           // },
           {
             text: 'View Results',
-            onPress: () => console.log('View Results Pressed')
-          }
+            onPress: () => console.log('View Results Pressed'),
+          },
         ]
       );
       setGameState('won');
@@ -190,7 +190,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
 
       {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
       <Lives lives={lives} letters={letters} />
@@ -207,8 +207,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j)
-                  }
+                    backgroundColor: getCellBGColor(i, j),
+                  },
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
