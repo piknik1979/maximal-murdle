@@ -1,26 +1,25 @@
-import {useState, useEffect, useContext} from 'react';
-import {StatusBar} from 'expo-status-bar';
+import { useState, useEffect, useContext } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   Text,
   View,
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable,
+  Pressable
 } from 'react-native';
 import Keyboard from './Keyboard';
-import {ENTER, DELETE, colors} from '../../../constants';
-import {words} from './Words';
+import { ENTER, DELETE, colors } from '../../../constants';
+import { words } from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
-import {UserContext} from '../../../context/User';
-import {doc, updateDoc, getDoc, collection} from 'firebase/firestore';
-import {db} from '../../../../firebase';
-import {async} from '@firebase/util';
+import { UserContext } from '../../../context/User';
+import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
+import { db } from '../../../../firebase';
+import { async } from '@firebase/util';
 const duration = 60;
-import {Stage} from './Stage';
-
+import { Stage } from './Stage';
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -45,7 +44,7 @@ const Game = () => {
   const [guessScore, setGuessScore] = useState();
   const [livesScore, setLivesScore] = useState();
   const [totalScore, setTotalScore] = useState();
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
@@ -96,8 +95,8 @@ const Game = () => {
         [
           {
             text: 'View Results',
-            onPress: () => console.log('View Results Pressed'),
-          },
+            onPress: () => console.log('View Results Pressed')
+          }
         ]
       );
       setGameState('won');
@@ -109,11 +108,11 @@ const Game = () => {
 
   const getAndPostTotalScore = async () => {
     const getTimerScore = () => {
-      if (getGameTime >= duration * 0.8) {
+      if (getGameTime() <= duration * 0.2) {
         return 10;
-      } else if (getGameTime >= duration * 0.5) {
+      } else if (getGameTime() <= duration * 0.5) {
         return 6;
-      } else if (getGameTime >= duration * 0.1) {
+      } else if (getGameTime() <= duration * 0.9) {
         return 3;
       } else {
         return 1;
@@ -140,14 +139,14 @@ const Game = () => {
       guessScore: getGuessScore(),
       livesScore: getLivesScore(),
       totalScore: getTotalScore(),
-      word,
+      word
     };
 
     try {
       gameData[gameNumber] = data;
       console.log('gameData:', gameData);
       const scoresRef = doc(db, 'users', user.id);
-      await updateDoc(scoresRef, {scores: gameData});
+      await updateDoc(scoresRef, { scores: gameData });
 
       const userRef = doc(db, 'users', user.id);
       const userSnap = await getDoc(userRef);
@@ -260,7 +259,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style='light' />
+      <StatusBar style="light" />
 
       {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
       <Stage wrongLetters={wrongLetters} />
@@ -278,8 +277,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j),
-                  },
+                    backgroundColor: getCellBGColor(i, j)
+                  }
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
