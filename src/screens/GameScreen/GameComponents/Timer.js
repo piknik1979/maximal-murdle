@@ -3,14 +3,17 @@ import {Text, View} from 'react-native';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import timerStyles from '../styles/timerStyles';
 
-export default function Timer({setGameState, gameState, setStartTime}) {
+export default function Timer({
+  setGameState,
+  gameState,
+  setStartTime,
+  duration,
+}) {
   React.useEffect(() => {
     if (gameState === 'playing') {
       setStartTime(Date.now());
     }
   }, [gameState]);
-
-  const duration = 60;
 
   return (
     <View style={timerStyles.container}>
