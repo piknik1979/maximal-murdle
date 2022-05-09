@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './firebase';
-//import { Provider as PaperProvider } from 'react-native-paper';
 import {
   LoginScreen,
   HomeScreen,
