@@ -13,6 +13,7 @@ import { signOut } from 'firebase/auth';
 import { Button } from 'react-native-paper';
 import { UserContext } from '../../context/User';
 import styles from './styles';
+import { Alert } from 'react-native-web';
 
 const HomeScreen = ({ navigation }) => {
   const { user, setUser } = React.useContext(UserContext);
@@ -47,6 +48,12 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => handleSignOut()}>
           <Text style={styles.buttonTitle}>Sign Out</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Rules')}
+        >
+          <Text style={styles.buttonTitle}>How To Play</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
