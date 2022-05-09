@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -29,5 +29,17 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  headerText: {
+    color: '#D7DADC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    margin: 'auto',
+    marginTop: 10,
+    fontSize: 40,
+  },
+  murderText: {
+    color: 'red',
   },
 });
