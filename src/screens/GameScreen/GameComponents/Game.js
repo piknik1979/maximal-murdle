@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {StatusBar} from 'expo-status-bar';
 import {
   Text,
@@ -14,7 +14,13 @@ import {words} from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
+import {UserContext} from '../../../context/User';
+import {doc, updateDoc, getDoc, collection} from 'firebase/firestore';
+import {db} from '../../../../firebase';
+import {async} from '@firebase/util';
+const duration = 60;
 import {Stage} from './Stage';
+
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -35,6 +41,12 @@ const Game = () => {
   const [lives, setLives] = useState(letters.length * 2);
   const [totalTime, setTotalTime] = useState();
   const [startTime, setStartTime] = useState();
+  const [timerScore, setTimerScore] = useState(1);
+  const [guessScore, setGuessScore] = useState();
+  const [livesScore, setLivesScore] = useState();
+  const [totalScore, setTotalScore] = useState();
+  const {user, setUser} = useContext(UserContext);
+
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
     setCurrentColumn(0);
@@ -74,7 +86,7 @@ const Game = () => {
       Alert.alert('Your life force is all gone! Ha-ha !');
     } else if (checkIfWon() && gameState !== 'won') {
       setTotalTime(getGameTime());
-
+      getAndPostTotalScore();
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
@@ -82,11 +94,6 @@ const Game = () => {
         Lives Remaining: ${lives}
         Time Remaining: ${getGameTime()}`,
         [
-          // {
-          //   text: "Go Back",
-          //   onPress: () => console.log("Go Back Pressed"),
-          //   style: "cancel",
-          // },
           {
             text: 'View Results',
             onPress: () => console.log('View Results Pressed'),
@@ -97,6 +104,56 @@ const Game = () => {
     } else if (checkIfLost() && gameState !== 'lost') {
       Alert.alert('Hah hah! You died!');
       setGameState('lost');
+    }
+  };
+
+  const getAndPostTotalScore = async () => {
+    const getTimerScore = () => {
+      if (getGameTime >= duration * 0.8) {
+        return 10;
+      } else if (getGameTime >= duration * 0.5) {
+        return 6;
+      } else if (getGameTime >= duration * 0.1) {
+        return 3;
+      } else {
+        return 1;
+      }
+    };
+
+    const getGuessScore = () => {
+      return (MAX_GUESSES - currentRow) * 2;
+    };
+
+    const getLivesScore = () => {
+      return lives;
+    };
+
+    const getTotalScore = () => {
+      return getTimerScore() + getGuessScore() + getLivesScore();
+    };
+
+    const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
+    const gameData = user.scores;
+    console.log('gameNumber:', gameNumber, 'gameData', gameData);
+    const data = {
+      timerScore: getTimerScore(),
+      guessScore: getGuessScore(),
+      livesScore: getLivesScore(),
+      totalScore: getTotalScore(),
+      word,
+    };
+
+    try {
+      gameData[gameNumber] = data;
+      console.log('gameData:', gameData);
+      const scoresRef = doc(db, 'users', user.id);
+      await updateDoc(scoresRef, {scores: gameData});
+
+      const userRef = doc(db, 'users', user.id);
+      const userSnap = await getDoc(userRef);
+      setUser(userSnap.data());
+    } catch (err) {
+      alert(err);
     }
   };
 
@@ -237,6 +294,7 @@ const Game = () => {
         gameState={gameState}
         setTotalTime={setTotalTime}
         setStartTime={setStartTime}
+        duration={duration}
       />
 
       <Pressable onPress={resetGame} style={gameStyles.resetButton}>
