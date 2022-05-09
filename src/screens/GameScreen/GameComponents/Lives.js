@@ -1,7 +1,7 @@
-import { Text, StyleSheet, View } from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
 //import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const Lives = ({ lives, letters }) => {
+const Lives = ({lives, letters}) => {
   const heart = '❤️';
   const brokenHeart = '💔';
   const livesLost = letters.length * 2 - lives;
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   icon: {
     color: 'red',
     marginLeft: 10,
-    fontSize: 20
+    fontSize: 20,
   },
   lives: {
     flexDirection: 'row',

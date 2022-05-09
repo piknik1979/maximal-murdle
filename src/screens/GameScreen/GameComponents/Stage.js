@@ -1,6 +1,10 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
+<<<<<<< HEAD
 import Svg, {Circle, Ellipse, G, Path, Rect, Text} from 'react-native-svg';
+=======
+import Svg, {Circle, Ellipse, G, Path, Rect} from 'react-native-svg';
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
 import {View} from 'react-native';
 const transition = 'transition-all ease-out duration-[500ms]';
 const order = {
@@ -24,8 +28,11 @@ export const Stage = ({wrongLetters = ''}) => {
     return randomFromArray(['Oh No', 'Uh oh', 'Shoot', 'Darn']);
   }, []);
 
+<<<<<<< HEAD
   console.log('speechText:', speechText);
 
+=======
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
   React.useEffect(() => {
     let animateInterval = setInterval(() => {
       if (wrongLetters.length > displayedWrongLetters) {
@@ -51,8 +58,15 @@ export const Stage = ({wrongLetters = ''}) => {
   return (
     <View
       style={{
+<<<<<<< HEAD
         height: 180,
         width: 100,
+=======
+        paddingTop: '12',
+        innerWidth: '35%',
+        maxWidth: '12rem',
+        padding: '1',
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
       }}
     >
       <Svg
@@ -60,6 +74,10 @@ export const Stage = ({wrongLetters = ''}) => {
           width: '100%',
           height: '180',
           overflow: 'visible',
+<<<<<<< HEAD
+=======
+          marginTop: '10',
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
         }}
         viewBox='0 0 160 200'
         fill='none'
@@ -68,12 +86,21 @@ export const Stage = ({wrongLetters = ''}) => {
         <G
           id='base'
           style={[
+<<<<<<< HEAD
             // {transition: ''},
             displayedWrongLetters > order.dead
               ? {opacity: 1}
               : displayedWrongLetters > order.base
               ? {opacity: 1}
               : {opacity: 0},
+=======
+            {transition: ''},
+            displayedWrongLetters > order.dead
+              ? {opacity: '100'}
+              : displayedWrongLetters > order.base
+              ? {opacity: '100'}
+              : {opacity: '0', translate: 'full'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
           ]}
         >
           <Rect
@@ -96,12 +123,29 @@ export const Stage = ({wrongLetters = ''}) => {
         </G>
         <G
           id='post'
+<<<<<<< HEAD
           style={[
             displayedWrongLetters > order.dead
               ? {opacity: 1}
               : displayedWrongLetters > order.post
               ? {opacity: 1}
               : {opacity: 0},
+=======
+          /* style={tw`origin-bottom ${transition} ${
+            displayedWrongLetters > order.dead
+              ? 'opacity-100'
+              : displayedWrongLetters > order.post
+              ? 'opacity-100'
+              : 'opacity-0 -rotate-45'
+          }`} */
+          style={[
+            // {origin: 'bottom'`${transition}`},
+            displayedWrongLetters > order.dead
+              ? {opacity: '100'}
+              : displayedWrongLetters > order.post
+              ? {opacity: '100'}
+              : {opacity: '0', translate: 'rotate 45'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
           ]}
         >
           <Rect
@@ -132,10 +176,17 @@ export const Stage = ({wrongLetters = ''}) => {
             {transition: `${transition}`},
 
             displayedWrongLetters > order.dead
+<<<<<<< HEAD
               ? {opacity: 1}
               : displayedWrongLetters > order['top-beam']
               ? {opacity: 1}
               : {opacity: 0},
+=======
+              ? {opacity: '100'}
+              : displayedWrongLetters > order['top-beam']
+              ? {opacity: '100'}
+              : {opacity: '0', transform: 'rotate-45'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
           ]}
         >
           <Rect
@@ -151,6 +202,7 @@ export const Stage = ({wrongLetters = ''}) => {
         <G
           id='noose'
           style={[
+<<<<<<< HEAD
             // {transition: `${transition}`},
 
             displayedWrongLetters > order.dead
@@ -158,6 +210,15 @@ export const Stage = ({wrongLetters = ''}) => {
               : displayedWrongLetters > order.noose
               ? {opacity: 1}
               : {opacity: 0},
+=======
+            {transition: `${transition}`},
+
+            displayedWrongLetters > order.dead
+              ? {opacity: '100'}
+              : displayedWrongLetters > order.noose
+              ? {opacity: '100'}
+              : {opacity: '0'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
           ]}
         >
           <Rect
@@ -173,10 +234,17 @@ export const Stage = ({wrongLetters = ''}) => {
             style={[
               // {origin: 'top'`${transition}`},
               displayedWrongLetters > order.dead
+<<<<<<< HEAD
                 ? {opacity: 1}
                 : displayedWrongLetters > order.noose
                 ? {opacity: 1}
                 : {opacity: 0},
+=======
+                ? {opacity: '100'}
+                : displayedWrongLetters > order.noose
+                ? {opacity: '100'}
+                : {opacity: '0', translate: 'rotate-[20deg]'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
             ]}
           >
             <Rect
@@ -210,10 +278,17 @@ export const Stage = ({wrongLetters = ''}) => {
           style={[
             // {origin: 'center'`${transition}`},
             displayedWrongLetters > order.dead
+<<<<<<< HEAD
               ? {opacity: 1}
               : displayedWrongLetters > order.head
               ? {opacity: 1}
               : {opacity: 0},
+=======
+              ? {opacity: '100', transform: 'rotate-[4deg]'}
+              : displayedWrongLetters > order.head
+              ? {opacity: '100'}
+              : {opacity: '0', translate: '-y-[10%]'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
           ]}
         >
           <Path
@@ -223,8 +298,15 @@ export const Stage = ({wrongLetters = ''}) => {
           <G
             id='living-face'
             style={[
+<<<<<<< HEAD
               //   {transform: `${transition}`},
               displayedWrongLetters > order.dead ? {opacity: 0} : {opacity: 1},
+=======
+              {transform: `${transition}`},
+              displayedWrongLetters > order.dead
+                ? {opacity: '0'}
+                : {opacity: '100'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
             ]}
           >
             <Path
@@ -238,9 +320,17 @@ export const Stage = ({wrongLetters = ''}) => {
           <G
             id='dead-face'
             style={[
+<<<<<<< HEAD
               //   {transform: `${transition}`},
 
               displayedWrongLetters > order.dead ? {opacity: 1} : {opacity: 0},
+=======
+              {transform: `${transition}`},
+
+              displayedWrongLetters > order.dead
+                ? {opacity: '100'}
+                : {opacity: '0'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
             ]}
           >
             <Path
@@ -281,10 +371,17 @@ export const Stage = ({wrongLetters = ''}) => {
             style={[
               // ${transition}
               displayedWrongLetters > order.dead
+<<<<<<< HEAD
                 ? {opacity: 1}
                 : displayedWrongLetters > order.torso
                 ? {opacity: 1}
                 : {opacity: 0},
+=======
+                ? {opacity: '100', translate: 'y-[1%]'}
+                : displayedWrongLetters > order.torso
+                ? {opacity: '100'}
+                : {opacity: '0', translate: 'y-[10%]'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
             ]}
             d='M109.655 70.6333 C 109.849 67.4679 112.473 65 115.644 65  H130.356 C133.527 65 136.151 66.4679 136.345 70.6333L138.61 117.633C138.822 111.085 136.079 114 132.621 114H113.379C109.921 114 107.178 111.085 107.39 107.633L109.655 70.6333Z'
             fill='#3F3F45'
@@ -296,11 +393,22 @@ export const Stage = ({wrongLetters = ''}) => {
             // `origin-top ${transition}
             displayedWrongLetters > order.dead
               ? {
+<<<<<<< HEAD
                   opacity: 1,
                 }
               : displayedWrongLetters > order['left-arm']
               ? {opacity: 1}
               : {opacity: 0},
+=======
+                  opacity: '100',
+                  translate: 'x-[8%]',
+                  translate: 'y-[4%]',
+                  rotate: '[10deg]',
+                }
+              : displayedWrongLetters > order['left-arm']
+              ? {opacity: '100'}
+              : {opacity: '0', rotate: '[10deg]'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
           ]}
         >
           <Path
@@ -318,11 +426,22 @@ export const Stage = ({wrongLetters = ''}) => {
             // `origin-top ${transition}
             displayedWrongLetters > order.dead
               ? {
+<<<<<<< HEAD
                   opacity: 1,
                 }
               : displayedWrongLetters > order['right-arm']
               ? {opacity: 1}
               : {opacity: 0},
+=======
+                  opacity: '100',
+                  translate: 'x-[8%]',
+                  translate: 'y-[4%]',
+                  rotate: '[10deg]',
+                }
+              : displayedWrongLetters > order['left-arm']
+              ? {opacity: '100'}
+              : {opacity: '0', rotate: '[10deg]'},
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
           ]}
         >
           <Path
@@ -340,12 +459,27 @@ export const Stage = ({wrongLetters = ''}) => {
             // `origin-top ${transition}
             displayedWrongLetters > order.dead
               ? {
+<<<<<<< HEAD
                   opacity: 1,
                 }
               : displayedWrongLetters > order['left-leg']
               ? {opacity: 1}
               : {
                   opacity: 0,
+=======
+                  opacity: '100',
+                  translate: 'x-[5%]',
+                  translate: 'y-[3%]',
+                  rotate: '[5deg]',
+                }
+              : displayedWrongLetters > order['left-leg']
+              ? {opacity: '100'}
+              : {
+                  opacity: '0',
+                  translate: 'x-[7%]',
+                  translate: 'y-[4%]',
+                  rotate: '[5deg]',
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
                 },
           ]}
         >
@@ -364,12 +498,27 @@ export const Stage = ({wrongLetters = ''}) => {
             // `origin-top ${transition}
             displayedWrongLetters > order.dead
               ? {
+<<<<<<< HEAD
                   opacity: 1,
                 }
               : displayedWrongLetters > order['right-leg']
               ? {opacity: 1}
               : {
                   opacity: 0,
+=======
+                  opacity: '100',
+                  translate: 'x-[5%]',
+                  translate: 'y-[3%]',
+                  rotate: '[5deg]',
+                }
+              : displayedWrongLetters > order['left-leg']
+              ? {opacity: '100'}
+              : {
+                  opacity: '0',
+                  translate: 'x-[7%]',
+                  translate: 'y-[4%]',
+                  rotate: '[5deg]',
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
                 },
           ]}
         >
@@ -382,6 +531,7 @@ export const Stage = ({wrongLetters = ''}) => {
             fill='#3F3F45'
           />
         </G>
+<<<<<<< HEAD
         {/* <G
           id='speech-bubble'
           style={[
@@ -414,6 +564,8 @@ export const Stage = ({wrongLetters = ''}) => {
             {speechText}
           </Text>
         </G> */}
+=======
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
       </Svg>
     </View>
   );

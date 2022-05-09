@@ -47,6 +47,7 @@ const Game = () => {
     if (gameState === 'timeout') {
       checkGameState();
     }
+
     if (currentRow > 0) {
       checkGameState();
     }

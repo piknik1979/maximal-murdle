@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "format": "prettier --write 'src/components'"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.3",
@@ -27,13 +28,20 @@
     "react-native-safe-area-context": "4.2.4",
     "react-native-screens": "~3.11.1",
     "react-native-status-bar-height": "^2.6.0",
+<<<<<<< HEAD
     "react-native-svg": "^12.3.0",
+=======
+    "react-native-svg": "12.1.1",
+>>>>>>> cebdf3749baeaed3e4f41bc06956de270686b164
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.7",
     "react-native-webview": "^11.18.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24"
   },
   "private": true
 }
