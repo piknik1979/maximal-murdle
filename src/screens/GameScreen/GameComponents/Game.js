@@ -14,6 +14,7 @@ import {words} from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
+import {Stage} from './Stage';
 
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
@@ -27,6 +28,7 @@ const Game = () => {
   const [rows, setRows] = useState(
     new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
+  const [wrongLetters, setWrongLetters] = useState('');
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
   const [gameState, setGameState] = useState('playing');
@@ -45,12 +47,23 @@ const Game = () => {
     if (gameState === 'timeout') {
       checkGameState();
     }
+
     if (currentRow > 0) {
       checkGameState();
     }
     if (gameState === 'allLivesLost') {
       checkGameState();
     }
+
+    const wrongLetters = rows.flat().filter((letter) => {
+      return !letters.includes(letter);
+    });
+
+    const removeDuplicates = (arr) => {
+      return [...new Set(arr)];
+    };
+
+    setWrongLetters(removeDuplicates(wrongLetters).join(''));
   }, [currentRow, gameState]);
 
   const checkGameState = () => {
@@ -193,6 +206,7 @@ const Game = () => {
       <StatusBar style='light' />
 
       {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
+      <Stage wrongLetters={wrongLetters} />
       <Lives lives={lives} letters={letters} />
 
       <ScrollView style={gameStyles.map}>
