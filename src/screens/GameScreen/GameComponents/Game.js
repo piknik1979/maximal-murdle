@@ -15,7 +15,7 @@ import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
 import {UserContext} from '../../../context/User';
-import {doc, updateDoc, getDocs, collection} from 'firebase/firestore';
+import {doc, updateDoc, getDoc, collection} from 'firebase/firestore';
 import {db} from '../../../../firebase';
 import {async} from '@firebase/util';
 const duration = 60;
@@ -96,31 +96,31 @@ const Game = () => {
   const getAndPostTotalScore = async () => {
     const getTimerScore = () => {
       if (getGameTime >= duration * 0.8) {
-        setTimerScore(10);
+        return 10;
       } else if (getGameTime >= duration * 0.5) {
-        setTimerScore(6);
+        return 6;
       } else if (getGameTime >= duration * 0.1) {
-        setTimerScore(3);
+        return 3;
       } else {
-        setTimerScore(1);
+        return 1;
       }
     };
 
     const getGuessScore = () => {
-      setGuessScore((MAX_GUESSES - currentRow) * 2);
+      return (MAX_GUESSES - currentRow) * 2;
     };
 
     const getLivesScore = () => {
-      setLivesScore(lives);
+      return lives;
     };
 
     const getTotalScore = () => {
-      setTotalScore(timerScore + guessScore + livesScore);
+      return getTimerScore() + getGuessScore() + getLivesScore();
     };
 
-    console.log(user.scores);
     const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
     const gameData = user.scores;
+    console.log('gameNumber:', gameNumber, 'gameData', gameData);
     const data = {
       timerScore: getTimerScore(),
       guessScore: getGuessScore(),
@@ -131,13 +131,13 @@ const Game = () => {
 
     try {
       gameData[gameNumber] = data;
+      console.log('gameData:', gameData);
       const scoresRef = doc(db, 'users', user.id);
-      await updateDoc(scoresRef, {scores: data});
+      await updateDoc(scoresRef, {scores: gameData});
 
-      const usersData = await getDocs(collection(db, 'users'));
-      usersData.forEach((doc) => {
-        console.table(`${doc.id} => ${doc.data().scores}`);
-      });
+      const userRef = doc(db, 'users', user.id);
+      const userSnap = await getDoc(userRef);
+      setUser(userSnap.data());
     } catch (err) {
       alert(err);
     }
