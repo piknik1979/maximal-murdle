@@ -12,6 +12,7 @@ import {
   RegistrationScreen,
   GameScreen,
   RulesScreen,
+  LeaderboardScreen
 } from './src/screens';
 import { UserContext } from './src/context/User';
 
@@ -89,6 +90,20 @@ export default function App() {
                   },
                 }}
               />
+              <Stack.Screen
+                name="Leaderboard"
+                component={LeaderboardScreen}
+                options={{
+                  title: 'Leaderboard',
+                  headerTintColor: '#fff',
+                  animation: 'slide_from_right', //optional
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                  },
+                }}
+              />
+
+
             </>
           ) : (
             <>

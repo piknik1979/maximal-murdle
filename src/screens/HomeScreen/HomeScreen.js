@@ -55,6 +55,12 @@ const HomeScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonTitle}>How To Play</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Leaderboard')}
+        >
+          <Text style={styles.buttonTitle}>Leaderboard</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   );
