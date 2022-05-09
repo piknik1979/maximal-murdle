@@ -6,11 +6,12 @@ import {apiKey} from './API';
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: apiKey,
-  authDomain: 'maximal-murdle-38518.firebaseapp.com',
-  projectId: 'maximal-murdle-38518',
-  storageBucket: 'maximal-murdle-38518.appspot.com',
-  messagingSenderId: '1042068547395',
-  appId: '1:1042068547395:web:e99ec8ac32dae431b831f6',
+  authDomain: 'maximal-murdle-1c4fa.firebaseapp.com',
+  projectId: 'maximal-murdle-1c4fa',
+  storageBucket: 'maximal-murdle-1c4fa.appspot.com',
+  messagingSenderId: '516676134782',
+  appId: '1:516676134782:web:7c7e99ea7ab1112eb6b52f',
+  measurementId: 'G-QSQF3NS2LD',
 };
 
 // Initialize Firebase
