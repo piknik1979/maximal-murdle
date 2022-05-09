@@ -8,10 +8,12 @@ import {
   KeyboardAvoidingView,
   Image,
 } from 'react-native';
+
 import { auth } from '../../../firebase';
 import { signOut } from 'firebase/auth';
 import { Button } from 'react-native-paper';
 import { UserContext } from '../../context/User';
+
 import styles from './styles';
 import { Alert } from 'react-native-web';
 
