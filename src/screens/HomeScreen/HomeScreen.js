@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import {
   StyleSheet,
@@ -8,13 +8,17 @@ import {
   KeyboardAvoidingView,
   Image,
 } from 'react-native';
-import {auth} from '../../../firebase';
-import {signOut} from 'firebase/auth';
-import {UserContext} from '../../context/User';
-import styles from './styles';
 
-const HomeScreen = ({navigation}) => {
-  const {user, setUser} = React.useContext(UserContext);
+import { auth } from '../../../firebase';
+import { signOut } from 'firebase/auth';
+import { Button } from 'react-native-paper';
+import { UserContext } from '../../context/User';
+
+import styles from './styles';
+import { Alert } from 'react-native-web';
+
+const HomeScreen = ({ navigation }) => {
+  const { user, setUser } = React.useContext(UserContext);
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -27,10 +31,13 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
-        {/* <View style={styles.headerView}>
-          <Text style={styles.headerText}>Maximal Murdle</Text>
-        </View> */}
+      <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
+        <View style={styles.headerView}>
+          <Text style={styles.headerText}>
+            Maximal(<Text style={{ color: '#bb0a1e' }}>Murdle</Text>) 🔪
+            <Text style={{ fontSize: 10 }}>🩸</Text>
+          </Text>
+        </View>
         <Image
           style={styles.logo}
           source={require('../../../assets/skull.png')}
@@ -43,6 +50,18 @@ const HomeScreen = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => handleSignOut()}>
           <Text style={styles.buttonTitle}>Sign Out</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Rules')}
+        >
+          <Text style={styles.buttonTitle}>How To Play</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Leaderboard')}
+        >
+          <Text style={styles.buttonTitle}>Leaderboard</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
