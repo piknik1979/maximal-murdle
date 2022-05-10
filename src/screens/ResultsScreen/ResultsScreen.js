@@ -1,6 +1,8 @@
 import { Text } from 'react-native';
 import styles from './styles';
-const ResultsScreen = () => {
+import { useNavigation } from '@react-navigation/core';
+
+const ResultsScreen = ({ navigation }) => {
   return <Text style={styles.headerText}>Results</Text>;
 };
 

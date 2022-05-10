@@ -6,7 +6,9 @@ import {
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable
+  Pressable,
+  //Button,
+  TouchableOpacity
 } from 'react-native';
 import Keyboard from './Keyboard';
 import { ENTER, DELETE, colors } from '../../../constants';
@@ -18,9 +20,10 @@ import { UserContext } from '../../../context/User';
 import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
 import { db } from '../../../../firebase';
 import { async } from '@firebase/util';
-const duration = 60;
 import { Stage } from './Stage';
+import { useNavigation } from '@react-navigation/core';
 
+const duration = 60;
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
   return [...arr.map((rows) => [...rows])];
@@ -86,17 +89,24 @@ const Game = () => {
     } else if (checkIfWon() && gameState !== 'won') {
       setTotalTime(getGameTime());
       getAndPostTotalScore();
+
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
-        Guesses Remaining: ${MAX_GUESSES - currentRow}
-        Lives Remaining: ${lives}
-        Time Remaining: ${getGameTime()}`,
+        Guesses Left: ${MAX_GUESSES - currentRow} (${getGuessScore()} points)
+        Lives Left: ${lives} (${getLivesScore()} points)
+        Time Left: ${duration - getGameTime()} (${getTimerScore()} points)
+        
+        Total score: ${getTotalScore()}`,
         [
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
+          },
           {
-            text: 'View Results',
-            onPress: () => console.log('View Results Pressed')
-          }
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('won');
@@ -107,33 +117,9 @@ const Game = () => {
   };
 
   const getAndPostTotalScore = async () => {
-    const getTimerScore = () => {
-      if (getGameTime() <= duration * 0.2) {
-        return 10;
-      } else if (getGameTime() <= duration * 0.5) {
-        return 6;
-      } else if (getGameTime() <= duration * 0.9) {
-        return 3;
-      } else {
-        return 1;
-      }
-    };
-
-    const getGuessScore = () => {
-      return (MAX_GUESSES - currentRow) * 2;
-    };
-
-    const getLivesScore = () => {
-      return lives;
-    };
-
-    const getTotalScore = () => {
-      return getTimerScore() + getGuessScore() + getLivesScore();
-    };
-
     const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
     const gameData = user.scores;
-    console.log('gameNumber:', gameNumber, 'gameData', gameData);
+
     const data = {
       timerScore: getTimerScore(),
       guessScore: getGuessScore(),
@@ -154,6 +140,28 @@ const Game = () => {
     } catch (err) {
       alert(err);
     }
+  };
+  const getTimerScore = () => {
+    if (getGameTime() <= duration * 0.2) {
+      return 10;
+    } else if (getGameTime() <= duration * 0.5) {
+      return 6;
+    } else if (getGameTime() <= duration * 0.9) {
+      return 3;
+    } else {
+      return 1;
+    }
+  };
+  const getGuessScore = () => {
+    return (MAX_GUESSES - currentRow) * 2;
+  };
+
+  const getLivesScore = () => {
+    return lives;
+  };
+
+  const getTotalScore = () => {
+    return getTimerScore() + getGuessScore() + getLivesScore();
   };
 
   const getGameTime = () => {
@@ -256,6 +264,19 @@ const Game = () => {
   const greenKeys = getAllLettersWithColor(colors.primary);
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
+  const navigation = useNavigation();
+  if (gameState === 'won') {
+    return (
+      <View>
+        <TouchableOpacity
+          style={gameStyles.homeButton}
+          onPress={() => navigation.navigate('Home')}
+        >
+          <Text style={gameStyles.homeButtonTitle}>Go Home</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={gameStyles.container}>
