@@ -7,6 +7,9 @@ import {
   ScrollView,
   Alert,
   Pressable,
+
+  TouchableOpacity
+
 } from 'react-native';
 import Keyboard from './Keyboard';
 import {ENTER, DELETE, colors} from '../../../constants';
@@ -14,13 +17,15 @@ import {words} from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
-import {UserContext} from '../../../context/User';
-import {doc, updateDoc, getDoc, collection} from 'firebase/firestore';
-import {db} from '../../../../firebase';
-import {async} from '@firebase/util';
-const duration = 60;
-import {Stage} from './Stage';
+import { UserContext } from '../../../context/User';
+import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
+import { db } from '../../../../firebase';
+import { async } from '@firebase/util';
+import { Stage } from './Stage';
+import { useNavigation } from '@react-navigation/core';
 
+
+const duration = 60;
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
   return [...arr.map((rows) => [...rows])];
@@ -75,62 +80,103 @@ const Game = () => {
 
   const checkGameState = () => {
     if (gameState === 'timeout') {
-      Alert.alert('You died! Shoulda thunk faster!');
+      setTotalTime(getGameTime());
+      Alert.alert(
+        'TIME OUT!!',
+        `You died! Shoulda thunk faster! 
+        Guesses Left: ${MAX_GUESSES - currentRow}
+        Lives Left: ${lives} 
+        Time Left: ${duration - getGameTime()} 
+        
+        Thank you for playing! 
+        You scored no points. 💀`,
+        [
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
+          },
+          {
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
+        ]
+      );
       setGameState('lost');
     } else if (gameState === 'allLivesLost') {
-      Alert.alert('Your life force is all gone! Ha-ha !');
+      setTotalTime(getGameTime());
+      Alert.alert(
+        'THE HANGMAN GOT YOU!!',
+        `Your life force is all gone! Haha! 
+        Guesses Left: ${MAX_GUESSES - currentRow - 1}
+        Lives Left: ${lives} 
+        Time Left: ${duration - getGameTime()} 
+        
+        Thank you for playing! 💀`,
+        [
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
+          },
+          {
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
+        ]
+      );
     } else if (checkIfWon() && gameState !== 'won') {
       setTotalTime(getGameTime());
       getAndPostTotalScore();
+
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
-        Guesses Remaining: ${MAX_GUESSES - currentRow}
-        Lives Remaining: ${lives}
-        Time Remaining: ${getGameTime()}`,
+        Guesses Left: ${MAX_GUESSES - currentRow} (${getGuessScore()} points)
+        Lives Left: ${lives} (${getLivesScore()} points)
+        Time Left: ${duration - getGameTime()} (${getTimerScore()} points)
+
+        Total score: ${getTotalScore()}`,
         [
-          {
-            text: 'View Results',
-            onPress: () => console.log('View Results Pressed'),
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
           },
+          {
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('won');
     } else if (checkIfLost() && gameState !== 'lost') {
-      Alert.alert('Hah hah! You died!');
+      setTotalTime(getGameTime());
+      Alert.alert(
+        'YOU DIED!!',
+        `You ran out of guesses! 
+        Guesses Left: ${MAX_GUESSES - currentRow}
+        Lives Left: ${lives} 
+        Time Left: ${duration - getGameTime()} 
+        
+        Thank you for playing! 💀`,
+        [
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
+          },
+          {
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
+        ]
+      );
       setGameState('lost');
     }
   };
 
   const getAndPostTotalScore = async () => {
-    const getTimerScore = () => {
-      if (getGameTime() <= duration * 0.2) {
-        return 10;
-      } else if (getGameTime() <= duration * 0.5) {
-        return 6;
-      } else if (getGameTime() <= duration * 0.9) {
-        return 3;
-      } else {
-        return 1;
-      }
-    };
 
-    const getGuessScore = () => {
-      return (MAX_GUESSES - currentRow) * 2;
-    };
-
-    const getLivesScore = () => {
-      return lives;
-    };
-
-    const getTotalScore = () => {
-      return getTimerScore() + getGuessScore() + getLivesScore();
-    };
-
-    const gameNumber = user.scores.games[1]
-      ? Object.keys(user.scores.games).length + 1
-      : 1;
+    const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
     const gameData = user.scores;
+
     const data = {
       timerScore: getTimerScore(),
       guessScore: getGuessScore(),
@@ -151,6 +197,28 @@ const Game = () => {
     } catch (err) {
       alert(err);
     }
+  };
+  const getTimerScore = () => {
+    if (getGameTime() <= duration * 0.2) {
+      return 10;
+    } else if (getGameTime() <= duration * 0.5) {
+      return 6;
+    } else if (getGameTime() <= duration * 0.9) {
+      return 3;
+    } else {
+      return 1;
+    }
+  };
+  const getGuessScore = () => {
+    return (MAX_GUESSES - currentRow) * 2;
+  };
+
+  const getLivesScore = () => {
+    return lives;
+  };
+
+  const getTotalScore = () => {
+    return getTimerScore() + getGuessScore() + getLivesScore();
   };
 
   const getGameTime = () => {
@@ -253,6 +321,19 @@ const Game = () => {
   const greenKeys = getAllLettersWithColor(colors.primary);
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
+  const navigation = useNavigation();
+  if (gameState !== 'playing') {
+    return (
+      <View>
+        <TouchableOpacity
+          style={gameStyles.homeButton}
+          onPress={() => navigation.navigate('Home')}
+        >
+          <Text style={gameStyles.homeButtonTitle}>Go Home</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={gameStyles.container}>
