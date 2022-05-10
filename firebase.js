@@ -17,16 +17,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// console.log('app:', app);
-
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 const db = getFirestore(app);
 enableIndexedDbPersistence(db).catch((err) => {
   console.log(err);
 });
-
-// console.log('auth:', auth);
-// console.log('db:', db);
 
 export {auth, db};

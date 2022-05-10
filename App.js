@@ -11,7 +11,8 @@ import {
   RegistrationScreen,
   GameScreen,
   RulesScreen,
-  LeaderboardScreen
+  LeaderboardScreen,
+  ResultsScreen
 } from './src/screens';
 import { UserContext } from './src/context/User';
 
@@ -60,7 +61,7 @@ export default function App() {
                 name="Maximal Murdle"
                 component={HomeScreen}
                 options={{
-                  title: 'Maximal(Murdle)',
+                  title: 'Maximal(Murdle)'
                 }}
               />
 
@@ -72,8 +73,8 @@ export default function App() {
                   headerTintColor: '#fff',
                   animation: 'slide_from_right', //optional
                   headerTitleStyle: {
-                    fontWeight: 'bold',
-                  },
+                    fontWeight: 'bold'
+                  }
                 }}
               />
 
@@ -85,8 +86,8 @@ export default function App() {
                   headerTintColor: '#fff',
                   animation: 'slide_from_right', //optional
                   headerTitleStyle: {
-                    fontWeight: 'bold',
-                  },
+                    fontWeight: 'bold'
+                  }
                 }}
               />
               <Stack.Screen
@@ -97,12 +98,22 @@ export default function App() {
                   headerTintColor: '#fff',
                   animation: 'slide_from_right', //optional
                   headerTitleStyle: {
-                    fontWeight: 'bold',
-                  },
+                    fontWeight: 'bold'
+                  }
                 }}
               />
-
-
+              <Stack.Screen
+                name="Results"
+                component={ResultsScreen}
+                options={{
+                  title: 'Results',
+                  headerTintColor: '#fff',
+                  animation: 'slide_from_right', //optional
+                  headerTitleStyle: {
+                    fontWeight: 'bold'
+                  }
+                }}
+              />
             </>
           ) : (
             <>

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   title: {},
 
@@ -12,23 +12,38 @@ export default StyleSheet.create({
     width: 150,
     height: 150,
     alignSelf: 'center',
-    margin: 30,
+    margin: 30
   },
 
   button: {
-    backgroundColor: '#788eec',
+    backgroundColor: '#D7DADC',
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
     height: 48,
     borderRadius: 5,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
+  },
+  signOutButton: {
+    backgroundColor: '#bb0a1e',
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    height: 48,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   buttonTitle: {
-    color: 'white',
+    color: '#bb0a1e',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
+  },
+  signOutButtonTitle: {
+    color: '#D7DADC',
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   headerText: {
     color: '#D7DADC',
@@ -37,9 +52,9 @@ export default StyleSheet.create({
     alignSelf: 'center',
     margin: 'auto',
     marginTop: 10,
-    fontSize: 40,
+    fontSize: 40
   },
   murderText: {
-    color: 'red',
-  },
+    color: '#bb0a1e'
+  }
 });

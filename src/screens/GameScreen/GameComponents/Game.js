@@ -21,7 +21,6 @@ import {async} from '@firebase/util';
 const duration = 60;
 import {Stage} from './Stage';
 
-
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
   return [...arr.map((rows) => [...rows])];
@@ -41,10 +40,6 @@ const Game = () => {
   const [lives, setLives] = useState(letters.length * 2);
   const [totalTime, setTotalTime] = useState();
   const [startTime, setStartTime] = useState();
-  const [timerScore, setTimerScore] = useState(1);
-  const [guessScore, setGuessScore] = useState();
-  const [livesScore, setLivesScore] = useState();
-  const [totalScore, setTotalScore] = useState();
   const {user, setUser} = useContext(UserContext);
 
   const resetGame = () => {
@@ -109,11 +104,11 @@ const Game = () => {
 
   const getAndPostTotalScore = async () => {
     const getTimerScore = () => {
-      if (getGameTime >= duration * 0.8) {
+      if (getGameTime() <= duration * 0.2) {
         return 10;
-      } else if (getGameTime >= duration * 0.5) {
+      } else if (getGameTime() <= duration * 0.5) {
         return 6;
-      } else if (getGameTime >= duration * 0.1) {
+      } else if (getGameTime() <= duration * 0.9) {
         return 3;
       } else {
         return 1;
@@ -132,9 +127,10 @@ const Game = () => {
       return getTimerScore() + getGuessScore() + getLivesScore();
     };
 
-    const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
+    const gameNumber = user.scores.games[1]
+      ? Object.keys(user.scores.games).length + 1
+      : 1;
     const gameData = user.scores;
-    console.log('gameNumber:', gameNumber, 'gameData', gameData);
     const data = {
       timerScore: getTimerScore(),
       guessScore: getGuessScore(),
@@ -144,8 +140,8 @@ const Game = () => {
     };
 
     try {
-      gameData[gameNumber] = data;
-      console.log('gameData:', gameData);
+      gameData.games[gameNumber] = data;
+      gameData.total += getTotalScore();
       const scoresRef = doc(db, 'users', user.id);
       await updateDoc(scoresRef, {scores: gameData});
 
