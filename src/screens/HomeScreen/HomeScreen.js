@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
   KeyboardAvoidingView,
-  Image
+  Image,
 } from 'react-native';
 
 import { auth } from '../../../firebase';
@@ -38,34 +38,33 @@ const HomeScreen = ({ navigation }) => {
             <Text style={{ fontSize: 10 }}>🩸</Text>
           </Text>
         </View>
+
         <Image
           style={styles.logo}
           source={require('../../../assets/skull.png')}
         />
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Main Menu')}
         >
           <Text style={styles.buttonTitle}>Start Game</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Leaderboard')}
         >
           <Text style={styles.buttonTitle}>Leaderboard</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Results')}
-        >
-          <Text style={styles.buttonTitle}>Results</Text>
-        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Rules')}
         >
           <Text style={styles.buttonTitle}>How To Play</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.signOutButton}
           onPress={() => handleSignOut()}
