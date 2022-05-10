@@ -35,7 +35,7 @@ const Game = () => {
   const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(
-    new Array(MAX_GUESSES).fill(new Array(5).fill(''))
+    new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
   const [wrongLetters, setWrongLetters] = useState('');
   const [currentRow, setCurrentRow] = useState(0);
@@ -266,7 +266,8 @@ const Game = () => {
 
     if (key === ENTER) {
    
-      if(!words.words.includes(rows[currentRow].join(""))){
+      if(!words.valid.includes(rows[currentRow].join("").toLowerCase())){
+       
         Alert.alert('Are you making things up? 💀' )
       }else if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
