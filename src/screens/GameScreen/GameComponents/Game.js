@@ -89,7 +89,7 @@ const Game = () => {
       Alert.alert(
         'TIME OUT!!',
         `You died! Shoulda thunk faster! 
-        
+
         The word was ${word.toUpperCase()}
 
         Guesses Left: ${MAX_GUESSES - currentRow}
@@ -265,7 +265,10 @@ const Game = () => {
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
-      if (currentColumn === rows[0].length) {
+   
+      if(!words.words.includes(rows[currentRow].join(""))){
+        Alert.alert('Are you making things up? 💀' )
+      }else if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
       }
