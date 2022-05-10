@@ -82,10 +82,49 @@ const Game = () => {
 
   const checkGameState = () => {
     if (gameState === 'timeout') {
-      Alert.alert('You died! Shoulda thunk faster!');
+      setTotalTime(getGameTime());
+      Alert.alert(
+        'TIME OUT!!',
+        `You died! Shoulda thunk faster! 
+        Guesses Left: ${MAX_GUESSES - currentRow}
+        Lives Left: ${lives} 
+        Time Left: ${duration - getGameTime()} 
+        
+        Thank you for playing! 
+        You scored no points. 💀`,
+        [
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
+          },
+          {
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
+        ]
+      );
       setGameState('lost');
     } else if (gameState === 'allLivesLost') {
-      Alert.alert('Your life force is all gone! Ha-ha !');
+      setTotalTime(getGameTime());
+      Alert.alert(
+        'THE HANGMAN GOT YOU!!',
+        `Your life force is all gone! Haha! 
+        Guesses Left: ${MAX_GUESSES - currentRow - 1}
+        Lives Left: ${lives} 
+        Time Left: ${duration - getGameTime()} 
+        
+        Thank you for playing! 💀`,
+        [
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
+          },
+          {
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
+        ]
+      );
     } else if (checkIfWon() && gameState !== 'won') {
       setTotalTime(getGameTime());
       getAndPostTotalScore();
@@ -96,7 +135,7 @@ const Game = () => {
         Guesses Left: ${MAX_GUESSES - currentRow} (${getGuessScore()} points)
         Lives Left: ${lives} (${getLivesScore()} points)
         Time Left: ${duration - getGameTime()} (${getTimerScore()} points)
-        
+
         Total score: ${getTotalScore()}`,
         [
           ({
@@ -111,7 +150,26 @@ const Game = () => {
       );
       setGameState('won');
     } else if (checkIfLost() && gameState !== 'lost') {
-      Alert.alert('Hah hah! You died!');
+      setTotalTime(getGameTime());
+      Alert.alert(
+        'YOU DIED!!',
+        `You ran out of guesses! 
+        Guesses Left: ${MAX_GUESSES - currentRow}
+        Lives Left: ${lives} 
+        Time Left: ${duration - getGameTime()} 
+        
+        Thank you for playing! 💀`,
+        [
+          ({
+            text: 'Go Home',
+            onPress: () => navigation.navigate('Home')
+          },
+          {
+            text: 'View Leaderboard',
+            onPress: () => navigation.navigate('Leaderboard')
+          })
+        ]
+      );
       setGameState('lost');
     }
   };
@@ -265,7 +323,7 @@ const Game = () => {
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
   const navigation = useNavigation();
-  if (gameState === 'won') {
+  if (gameState !== 'playing') {
     return (
       <View>
         <TouchableOpacity
