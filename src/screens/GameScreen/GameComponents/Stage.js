@@ -24,8 +24,6 @@ export const Stage = ({wrongLetters = ''}) => {
     return randomFromArray(['Oh No', 'Uh oh', 'Shoot', 'Darn']);
   }, []);
 
-  console.log('speechText:', speechText);
-
   React.useEffect(() => {
     let animateInterval = setInterval(() => {
       if (wrongLetters.length > displayedWrongLetters) {

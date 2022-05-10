@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {
   KeyboardAvoidingView,
@@ -9,13 +9,14 @@ import {
   View,
 } from 'react-native';
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  browserLocalPersistence,
+  setPersistence,
 } from 'firebase/auth';
-import { getDocs, collection, doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../../firebase';
+import {getDocs, collection, doc, getDoc} from 'firebase/firestore';
+import {auth, db} from '../../../firebase';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -35,6 +36,9 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
+      // Set persistance
+      await setPersistence(auth, browserLocalPersistence);
+
       // login user
       const userCredentials = await signInWithEmailAndPassword(
         auth,
@@ -61,11 +65,11 @@ const LoginScreen = ({ navigation }) => {
 
       const usersData = await getDocs(collection(db, 'users'));
       usersData.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
+        console.log(`${doc.id} => ${doc.data().scores}`);
       });
 
       // Link to HomeScreen if user exists on db
-      navigation.navigate('Home', { user });
+      navigation.navigate('Home', {user});
     } catch (err) {
       alert(err.message);
     }
@@ -73,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
+      <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
         {/* <View style={styles.headerView}>
           <Text style={styles.headerText}>Maximal Murdle</Text>
         </View> */}
@@ -83,22 +87,22 @@ const LoginScreen = ({ navigation }) => {
         />
         <TextInput
           style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#aaaaaa"
+          placeholder='E-mail'
+          placeholderTextColor='#aaaaaa'
           onChangeText={(text) => setEmail(text)}
           value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
+          underlineColorAndroid='transparent'
+          autoCapitalize='none'
         />
         <TextInput
           style={styles.input}
-          placeholderTextColor="#aaaaaa"
+          placeholderTextColor='#aaaaaa'
           secureTextEntry
-          placeholder="Password"
+          placeholder='Password'
           onChangeText={(text) => setPassword(text)}
           value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
+          underlineColorAndroid='transparent'
+          autoCapitalize='none'
         />
         <TouchableOpacity style={styles.button} onPress={() => handleLogin()}>
           <Text style={styles.buttonTitle}>Log in</Text>

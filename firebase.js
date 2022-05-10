@@ -1,6 +1,6 @@
 import {initializeApp} from 'firebase/app';
 import {getAuth} from 'firebase/auth';
-import {getFirestore} from 'firebase/firestore';
+import {getFirestore, enableIndexedDbPersistence} from 'firebase/firestore';
 import {apiKey} from './API';
 
 // Your web app's Firebase configuration
@@ -22,6 +22,9 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 const db = getFirestore(app);
+enableIndexedDbPersistence(db).catch((err) => {
+  console.log(err);
+});
 
 // console.log('auth:', auth);
 // console.log('db:', db);
