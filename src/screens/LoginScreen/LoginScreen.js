@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles';
 import {
   KeyboardAvoidingView,
@@ -6,17 +6,17 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import {
   signInWithEmailAndPassword,
   browserLocalPersistence,
-  setPersistence,
+  setPersistence
 } from 'firebase/auth';
-import {getDocs, collection, doc, getDoc} from 'firebase/firestore';
-import {auth, db} from '../../../firebase';
+import { getDocs, collection, doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../../../firebase';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -37,7 +37,7 @@ const LoginScreen = ({navigation}) => {
   const handleLogin = async () => {
     try {
       // Set persistance
-      await setPersistence(auth, browserLocalPersistence);
+      // await setPersistence(auth, browserLocalPersistence);
 
       // login user
       const userCredentials = await signInWithEmailAndPassword(
@@ -69,7 +69,7 @@ const LoginScreen = ({navigation}) => {
       });
 
       // Link to HomeScreen if user exists on db
-      navigation.navigate('Home', {user});
+      navigation.navigate('Home', { user });
     } catch (err) {
       alert(err.message);
     }
@@ -77,7 +77,7 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
+      <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
         {/* <View style={styles.headerView}>
           <Text style={styles.headerText}>Maximal Murdle</Text>
         </View> */}
