@@ -48,7 +48,10 @@ const RegistrationScreen = () => {
         fullName,
         email,
         created_at: Date.now(),
-        scores: {}
+        scores: {
+          total: 0,
+          games: {},
+        },
       };
 
       const userRef = collection(db, 'users');
