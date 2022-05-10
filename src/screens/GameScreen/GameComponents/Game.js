@@ -1,5 +1,5 @@
-import {useState, useEffect, useContext} from 'react';
-import {StatusBar} from 'expo-status-bar';
+import { useState, useEffect, useContext } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   Text,
   View,
@@ -7,13 +7,11 @@ import {
   ScrollView,
   Alert,
   Pressable,
-
-  TouchableOpacity
-
+  TouchableOpacity,
 } from 'react-native';
 import Keyboard from './Keyboard';
-import {ENTER, DELETE, colors} from '../../../constants';
-import {words} from './Words';
+import { ENTER, DELETE, colors } from '../../../constants';
+import { words } from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
@@ -23,7 +21,6 @@ import { db } from '../../../../firebase';
 import { async } from '@firebase/util';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
-
 
 const duration = 60;
 const MAX_GUESSES = 6;
@@ -45,7 +42,7 @@ const Game = () => {
   const [lives, setLives] = useState(letters.length * 2);
   const [totalTime, setTotalTime] = useState();
   const [startTime, setStartTime] = useState();
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
@@ -88,17 +85,18 @@ const Game = () => {
         Lives Left: ${lives} 
         Time Left: ${duration - getGameTime()} 
         
-        Thank you for playing! 
-        You scored no points. 💀`,
+        Thank you for playing! 💀
+        
+        (0 points)`,
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
       setGameState('lost');
@@ -111,16 +109,18 @@ const Game = () => {
         Lives Left: ${lives} 
         Time Left: ${duration - getGameTime()} 
         
-        Thank you for playing! 💀`,
+        Thank you for playing! 💀
+        
+        (0 points)`,
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
     } else if (checkIfWon() && gameState !== 'won') {
@@ -138,12 +138,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
       setGameState('won');
@@ -156,16 +156,18 @@ const Game = () => {
         Lives Left: ${lives} 
         Time Left: ${duration - getGameTime()} 
         
-        Thank you for playing! 💀`,
+        Thank you for playing! 💀
+        
+        (0 points)`,
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
       setGameState('lost');
@@ -173,7 +175,6 @@ const Game = () => {
   };
 
   const getAndPostTotalScore = async () => {
-
     const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
     const gameData = user.scores;
 
@@ -189,7 +190,7 @@ const Game = () => {
       gameData.games[gameNumber] = data;
       gameData.total += getTotalScore();
       const scoresRef = doc(db, 'users', user.id);
-      await updateDoc(scoresRef, {scores: gameData});
+      await updateDoc(scoresRef, { scores: gameData });
 
       const userRef = doc(db, 'users', user.id);
       const userSnap = await getDoc(userRef);
