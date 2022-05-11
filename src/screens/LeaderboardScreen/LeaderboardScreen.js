@@ -12,9 +12,9 @@ import {
 import { db } from '../../../firebase';
 import React from 'react';
 import Leaderboard from './Leaderboard';
-/* import death from '../../../assets/death.png';
+import death from '../../../assets/death.png';
 import gravestone from '../../../assets/gravestone.png';
-import skullBones from '../../../assets/skullBones.png'; */
+import skullBones from '../../../assets/skullBones.png';
 
 const LeaderboardScreen = () => {
   const [isLoading, setIsLoading] = React.useState(true);

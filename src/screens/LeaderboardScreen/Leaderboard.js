@@ -20,16 +20,12 @@ export default function Leaderboard({ leaderboardArr }) {
     setSelectedId(item.id);
     Alert.alert(
       `${item.fullName}'s Murdle`,
-      `Games played: ${item.scores.total} \nPoints/Game: ${
-        item.scores.total / Object.keys(item.scores.games).length
+      `Games played: ${Object.keys(item.scores.games).length} \nPoints/Game: ${
+        item.scores.total
+          ? item.scores.total / Object.keys(item.scores.games).length
+          : 0
       }`,
-      [
-        {
-          text: 'Cancel',
-          onPress: () => {},
-          style: 'cancel'
-        }
-      ],
+      [{}],
       {
         cancelable: true,
         onDismiss: () => setSelectedId(null)
