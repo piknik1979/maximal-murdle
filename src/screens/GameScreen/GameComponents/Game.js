@@ -7,7 +7,7 @@ import {
   ScrollView,
   Alert,
   Pressable,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 import Keyboard from './Keyboard';
 import { ENTER, DELETE, colors } from '../../../constants';
@@ -21,22 +21,20 @@ import { db } from '../../../../firebase';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
 
-const duration = 120;
+const duration = 60;
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
   return [...arr.map((rows) => [...rows])];
 };
 
 const Game = () => {
-  const [word, setWord] = useState('world');
-
+  const [word, setWord]=useState('world')
+  
   const letters = word.split('');
   const remainingLetters = {};
-
   const [rows, setRows] = useState(
     new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
-
   const [wrongLetters, setWrongLetters] = useState('');
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
@@ -54,15 +52,13 @@ const Game = () => {
     setLives(letters.length * 2);
   };
 
-  useEffect(() => {
-    if (word === 'world') {
-      setWord(words.words[Math.floor(Math.random() * 2314)]);
+    useEffect(() => {
+    if(word==='world'){
+      setWord(words.words[Math.floor(Math.random() * 2314)])
     }
-
     if (gameState === 'timeout') {
       checkGameState();
     }
-
     if (currentRow > 0) {
       checkGameState();
     }
@@ -84,13 +80,12 @@ const Game = () => {
   const checkGameState = () => {
     if (gameState === 'timeout') {
       setTotalTime(getGameTime());
-
       Alert.alert(
         'TIME OUT!!',
         `You died! Shoulda thunk faster! 
-
+        
         The word was ${word.toUpperCase()}
-
+        
         Guesses Left: ${MAX_GUESSES - currentRow}
         Lives Left: ${lives} 
         Time Left: ${duration - getGameTime()} 
@@ -101,22 +96,21 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('lost');
     } else if (gameState === 'allLivesLost') {
       setTotalTime(getGameTime());
-
       Alert.alert(
         'THE HANGMAN GOT YOU!!',
         `Your life force is all gone! Haha! 
-
+        
         The word was ${word.toUpperCase()}
         
         Guesses Left: ${MAX_GUESSES - currentRow - 1}
@@ -129,12 +123,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
     } else if (checkIfWon() && gameState !== 'won') {
@@ -146,33 +140,32 @@ const Game = () => {
         `You live!!! For now...
         
         The word was ${word.toUpperCase()}
-
+        
         Guesses Left: ${MAX_GUESSES - currentRow} (${getGuessScore()} points)
         Lives Left: ${lives} (${getLivesScore()} points)
         Time Left: ${duration - getGameTime()} (${getTimerScore()} points)
-
+        
         Total score: ${getTotalScore()}`,
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('won');
     } else if (checkIfLost() && gameState !== 'lost') {
       setTotalTime(getGameTime());
-
       Alert.alert(
         'YOU DIED!!',
         `You ran out of guesses! 
-
+        
         The word was ${word.toUpperCase()}
-
+        
         Guesses Left: ${MAX_GUESSES - currentRow}
         Lives Left: ${lives} 
         Time Left: ${duration - getGameTime()} 
@@ -183,12 +176,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('lost');
@@ -196,7 +189,9 @@ const Game = () => {
   };
 
   const getAndPostTotalScore = async () => {
-    const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
+    const gameNumber = user.scores.games[1]
+      ? Object.keys(user.scores.games).length + 1
+      : 1;
     const gameData = user.scores;
 
     const data = {
@@ -204,7 +199,7 @@ const Game = () => {
       guessScore: getGuessScore(),
       livesScore: getLivesScore(),
       totalScore: getTotalScore(),
-      word,
+      word
     };
 
     try {
@@ -220,7 +215,6 @@ const Game = () => {
       alert(err);
     }
   };
-
   const getTimerScore = () => {
     if (getGameTime() <= duration * 0.2) {
       return 10;
@@ -232,7 +226,6 @@ const Game = () => {
       return 1;
     }
   };
-
   const getGuessScore = () => {
     return (MAX_GUESSES - currentRow) * 2;
   };
@@ -268,16 +261,17 @@ const Game = () => {
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
-      console.log(words.valid);
-      if (!words.valid.includes(rows[currentRow].join(''))) {
-        Alert.alert('Are you making things up? 💀');
-      } else if (currentColumn === rows[0].length) {
+      if(!words.valid.includes(rows[currentRow].join("").toLowerCase())){
+
+        Alert.alert('Are you making things up? 💀' )
+      }
+      else if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
       }
       return;
     }
-
+    
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
@@ -287,7 +281,7 @@ const Game = () => {
       }
       return;
     }
-
+    
     if (currentColumn < rows[0].length) {
       updatedRows[currentRow][currentColumn] = key;
       setRows(updatedRows);
@@ -351,7 +345,7 @@ const Game = () => {
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
   const navigation = useNavigation();
-
+  
   if (gameState !== 'playing') {
     return (
       <View>
@@ -370,15 +364,7 @@ const Game = () => {
       <StatusBar style='light' />
 
       <Stage wrongLetters={wrongLetters} />
-      <Lives
-        lives={lives}
-        letters={letters}
-        setLives={setLives}
-        setCurrentRow={setCurrentRow}
-        currentRow={currentRow}
-        setGameState={setGameState}
-        wrongLetters={wrongLetters}
-      />
+      <Lives lives={lives} letters={letters} />
 
       <ScrollView style={gameStyles.map}>
         {rows.map((row, i) => (
@@ -392,8 +378,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j),
-                  },
+                    backgroundColor: getCellBGColor(i, j)
+                  }
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
@@ -420,6 +406,11 @@ const Game = () => {
         greenKeys={greenKeys}
         yellowKeys={yellowKeys}
         greyKeys={greyKeys}
+        setLives={setLives}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+        letters={letters}
+        setGameState={setGameState}
       />
     </SafeAreaView>
   );
