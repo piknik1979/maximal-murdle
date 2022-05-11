@@ -6,12 +6,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import {
   signInWithEmailAndPassword,
   browserLocalPersistence,
-  setPersistence,
+  setPersistence
 } from 'firebase/auth';
 import { getDocs, collection, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../../firebase';
@@ -78,12 +78,9 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
-        <View style={styles.headerView}>
-          <Text style={styles.headerText}>
-            Maximal(<Text style={{ color: '#bb0a1e' }}>Murdle</Text>) 🔪
-            <Text style={{ fontSize: 10 }}>🩸</Text>
-          </Text>
-        </View>
+        {/* <View style={styles.headerView}>
+          <Text style={styles.headerText}>Maximal Murdle</Text>
+        </View> */}
         <Image
           style={styles.logo}
           source={require('../../../assets/skull.png')}

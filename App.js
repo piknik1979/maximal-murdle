@@ -12,7 +12,7 @@ import {
   GameScreen,
   RulesScreen,
   LeaderboardScreen,
-  ResultsScreen,
+  ResultsScreen
 } from './src/screens';
 import { UserContext } from './src/context/User';
 
@@ -55,63 +55,75 @@ export default function App() {
         <Stack.Navigator>
           {user ? (
             <>
-              <Stack.Screen name='Home' component={HomeScreen} />
+              <Stack.Screen name="Home" component={HomeScreen} />
 
               <Stack.Screen
-                name='Maximal Murdle'
+                name="Maximal Murdle"
                 component={HomeScreen}
                 options={{
-                  title: 'Maximal(Murdle)',
+                  title: 'Maximal(Murdle)'
                 }}
               />
 
               <Stack.Screen
-                name='Main Menu'
+                name="Main Menu"
                 component={GameScreen}
                 options={{
                   title: 'Maximal(Murdle)',
                   headerTintColor: '#fff',
                   animation: 'slide_from_right', //optional
                   headerTitleStyle: {
-                    fontWeight: 'bold',
-                  },
+                    fontWeight: 'bold'
+                  }
                 }}
               />
 
               <Stack.Screen
-                name='Rules'
+                name="Rules"
                 component={RulesScreen}
                 options={{
                   title: 'How to Play',
                   headerTintColor: '#fff',
                   animation: 'slide_from_right', //optional
                   headerTitleStyle: {
-                    fontWeight: 'bold',
-                  },
+                    fontWeight: 'bold'
+                  }
                 }}
               />
               <Stack.Screen
-                name='Leaderboard'
+                name="Leaderboard"
                 component={LeaderboardScreen}
                 options={{
                   title: 'Leaderboard',
                   headerTintColor: '#fff',
                   animation: 'slide_from_right', //optional
                   headerTitleStyle: {
-                    fontWeight: 'bold',
-                  },
+                    fontWeight: 'bold'
+                  }
+                }}
+              />
+              <Stack.Screen
+                name="Results"
+                component={ResultsScreen}
+                options={{
+                  title: 'Results',
+                  headerTintColor: '#fff',
+                  animation: 'slide_from_right', //optional
+                  headerTitleStyle: {
+                    fontWeight: 'bold'
+                  }
                 }}
               />
             </>
           ) : (
             <>
               <Stack.Screen
-                name='Login'
+                name="Login"
                 component={LoginScreen}
                 screenOptions={{ headerTitleAlign: 'center' }}
               />
               <Stack.Screen
-                name='Registration'
+                name="Registration"
                 component={RegistrationScreen}
                 screenOptions={{ headerTitleAlign: 'center' }}
               />
