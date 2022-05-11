@@ -1,5 +1,5 @@
-import {useState, useEffect, useContext} from 'react';
-import {StatusBar} from 'expo-status-bar';
+import { useState, useEffect, useContext } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   Text,
   View,
@@ -7,13 +7,11 @@ import {
   ScrollView,
   Alert,
   Pressable,
-
   TouchableOpacity
-
 } from 'react-native';
 import Keyboard from './Keyboard';
-import {ENTER, DELETE, colors} from '../../../constants';
-import {words} from './Words';
+import { ENTER, DELETE, colors } from '../../../constants';
+import { words } from './Words';
 import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
@@ -23,7 +21,6 @@ import { db } from '../../../../firebase';
 import { async } from '@firebase/util';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
-
 
 const duration = 60;
 const MAX_GUESSES = 6;
@@ -45,7 +42,7 @@ const Game = () => {
   const [lives, setLives] = useState(letters.length * 2);
   const [totalTime, setTotalTime] = useState();
   const [startTime, setStartTime] = useState();
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
@@ -173,8 +170,9 @@ const Game = () => {
   };
 
   const getAndPostTotalScore = async () => {
-
-    const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
+    const gameNumber = user.scores.games[1]
+      ? Object.keys(user.scores.games).length + 1
+      : 1;
     const gameData = user.scores;
 
     const data = {
@@ -182,14 +180,14 @@ const Game = () => {
       guessScore: getGuessScore(),
       livesScore: getLivesScore(),
       totalScore: getTotalScore(),
-      word,
+      word
     };
 
     try {
       gameData.games[gameNumber] = data;
       gameData.total += getTotalScore();
       const scoresRef = doc(db, 'users', user.id);
-      await updateDoc(scoresRef, {scores: gameData});
+      await updateDoc(scoresRef, { scores: gameData });
 
       const userRef = doc(db, 'users', user.id);
       const userSnap = await getDoc(userRef);
@@ -355,8 +353,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j),
-                  },
+                    backgroundColor: getCellBGColor(i, j)
+                  }
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
