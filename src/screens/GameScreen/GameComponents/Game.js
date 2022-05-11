@@ -18,9 +18,9 @@ import Timer from './Timer';
 import { UserContext } from '../../../context/User';
 import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
 import { db } from '../../../../firebase';
-// import { async } from '@firebase/util';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
+import { useRoute } from '@react-navigation/native';
 
 const duration = 120;
 const MAX_GUESSES = 6;
@@ -29,6 +29,8 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
+  const route = useRoute();
+  const { duration } = route.params;
   const [word, setWord] = useState('world');
 
   const letters = word.split('');
@@ -141,17 +143,16 @@ const Game = () => {
     } else if (checkIfWon() && gameState !== 'won') {
       setTotalTime(getGameTime());
       getAndPostTotalScore();
-
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
         
         The word was ${word.toUpperCase()}
-
+        
         Guesses Left: ${MAX_GUESSES - currentRow} (${getGuessScore()} points)
         Lives Left: ${lives} (${getLivesScore()} points)
         Time Left: ${duration - getGameTime()} (${getTimerScore()} points)
-
+        
         Total score: ${getTotalScore()}`,
         [
           ({
@@ -197,7 +198,9 @@ const Game = () => {
   };
 
   const getAndPostTotalScore = async () => {
-    const gameNumber = user.scores[1] ? Object.keys(user.scores).length + 1 : 1;
+    const gameNumber = user.scores.games[1]
+      ? Object.keys(user.scores.games).length + 1
+      : 1;
     const gameData = user.scores;
 
     const data = {
@@ -221,17 +224,39 @@ const Game = () => {
       alert(err);
     }
   };
-
+  console.log(word);
   const getTimerScore = () => {
-    if (getGameTime() <= duration * 0.2) {
-      return 10;
-    } else if (getGameTime() <= duration * 0.5) {
-      return 6;
-    } else if (getGameTime() <= duration * 0.9) {
-      return 3;
-    } else {
-      return 1;
-    }
+    if (duration === 120) {
+      if (getGameTime() <= duration * 0.2) {
+        return 10;
+      } else if (getGameTime() <= duration * 0.5) {
+        return 6;
+      } else if (getGameTime() <= duration * 0.9) {
+        return 3;
+      } else {
+        return 1;
+      }
+    } else if (duration === 60) {
+      if (getGameTime() <= duration * 0.2) {
+        return 20;
+      } else if (getGameTime() <= duration * 0.5) {
+        return 12;
+      } else if (getGameTime() <= duration * 0.9) {
+        return 6;
+      } else {
+        return 2;
+      }
+    } else if (duration === 300) {
+      if (getGameTime() <= duration * 0.2) {
+        return 5;
+      } else if (getGameTime() <= duration * 0.5) {
+        return 3;
+      } else if (getGameTime() <= duration * 0.9) {
+        return 1;
+      } else {
+        return 0;
+      };
+    };
   };
 
   const getGuessScore = () => {
@@ -269,7 +294,6 @@ const Game = () => {
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
-      console.log(words.valid);
       if (!words.valid.includes(rows[currentRow].join(''))) {
         Alert.alert('Are you making things up? 💀');
       } else if (currentColumn === rows[0].length) {

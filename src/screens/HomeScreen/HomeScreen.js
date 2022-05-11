@@ -1,7 +1,5 @@
-import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -11,14 +9,13 @@ import {
 
 import { auth } from '../../../firebase';
 import { signOut } from 'firebase/auth';
-import { Button } from 'react-native-paper';
 import { UserContext } from '../../context/User';
 
 import styles from './styles';
-import { Alert } from 'react-native-web';
 
 const HomeScreen = ({ navigation }) => {
   const { user, setUser } = React.useContext(UserContext);
+
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -43,14 +40,30 @@ const HomeScreen = ({ navigation }) => {
           style={styles.logo}
           source={require('../../../assets/skull.png')}
         />
-
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Main Menu')}
+          onPress={() => {
+            navigation.navigate('Main Menu', { duration: 300 });
+          }}
         >
-          <Text style={styles.buttonTitle}>Start Game</Text>
+          <Text style={styles.buttonTitle}>Long Game</Text>
         </TouchableOpacity>
-
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate('Main Menu', { duration: 120 });
+          }}
+        >
+          <Text style={styles.buttonTitle}>Standard Game</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate('Main Menu', { duration: 60 });
+          }}
+        >
+          <Text style={styles.buttonTitle}>Fast Game</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Leaderboard')}
