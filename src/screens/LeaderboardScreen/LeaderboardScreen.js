@@ -1,4 +1,4 @@
-import {Text, View, KeyboardAvoidingView} from 'react-native';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
 import styles from './styles';
 import {
   query,
@@ -7,23 +7,25 @@ import {
   collection,
   queryEqual,
   where,
-  getDocs,
+  getDocs
 } from 'firebase/firestore';
-import {db} from '../../../firebase';
+import { db } from '../../../firebase';
 import React from 'react';
 import Leaderboard from './Leaderboard';
+import death from '../../../assets/death.png';
+import gravestone from '../../../assets/gravestone.png';
+import skullBones from '../../../assets/skullBones.png';
 
 const LeaderboardScreen = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [leaderboardArr, setLeaderboardArr] = React.useState();
-  console.log('leaderboardArr:', leaderboardArr);
 
   React.useEffect(() => {
     const getLeaderboardArr = async () => {
       const leaderboardArr = [];
 
       const usersRef = collection(db, 'users');
-      const q = query(usersRef, orderBy('scores.total', 'desc'), limit(10));
+      const q = query(usersRef, orderBy('scores.total', 'desc'), limit(20));
 
       const querySnapshot = await getDocs(q);
 
@@ -36,7 +38,15 @@ const LeaderboardScreen = () => {
     };
     if (!leaderboardArr) getLeaderboardArr();
 
-    if (leaderboardArr) setIsLoading(false);
+    if (leaderboardArr) {
+      leaderboardArr.forEach((user) => {
+        const options = [death, gravestone, skullBones];
+        const path = options[Math.floor(Math.random() * options.length)];
+
+        user.icon = path;
+      });
+      setIsLoading(false);
+    }
   }, [leaderboardArr]);
 
   if (isLoading) {
@@ -49,7 +59,7 @@ const LeaderboardScreen = () => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
+      <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
         <Text style={styles.headerText}>
           <Text style={styles.murderText}>Leaderboard</Text>
         </Text>
