@@ -29,16 +29,16 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
-        <View style={styles.headerView}>
+        {/* <View style={styles.headerView}>
           <Text style={styles.headerText}>
             Maximal(<Text style={{ color: '#bb0a1e' }}>Murdle</Text>) 🔪
             <Text style={{ fontSize: 10 }}>🩸</Text>
           </Text>
-        </View>
+        </View> */}
 
         <Image
           style={styles.logo}
-          source={require('../../../assets/skull.png')}
+          source={require('../../../assets/murdle-logo.png')}
         />
         <TouchableOpacity
           style={styles.button}

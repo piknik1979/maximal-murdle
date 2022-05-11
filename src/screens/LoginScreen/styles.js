@@ -23,8 +23,8 @@ export default StyleSheet.create({
   },
   logo: {
     resizeMode: 'stretch',
-    width: 150,
-    height: 150,
+    width: 224,
+    height: 92,
     alignSelf: 'center',
     margin: 30,
   },
@@ -40,7 +40,7 @@ export default StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: '#788eec',
+    backgroundColor: '#bb0a1e',
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
@@ -50,8 +50,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   buttonTitle: {
-    color: 'white',
-    fontSize: 16,
+    color: '#D7DADC',
+    fontSize: 20,
+    textTransform: 'uppercase',
     fontWeight: 'bold',
   },
   footerView: {
@@ -64,7 +65,7 @@ export default StyleSheet.create({
     color: 'white',
   },
   footerLink: {
-    color: '#788eec',
+    color: '#bb0a1e',
     fontWeight: 'bold',
     fontSize: 16,
   },
