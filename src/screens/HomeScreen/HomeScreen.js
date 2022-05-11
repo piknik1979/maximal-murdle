@@ -1,7 +1,5 @@
-import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -11,7 +9,6 @@ import {
 
 import { auth } from '../../../firebase';
 import { signOut } from 'firebase/auth';
-import { Button } from 'react-native-paper';
 import { UserContext } from '../../context/User';
 
 import styles from './styles';

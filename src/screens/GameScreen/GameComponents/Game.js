@@ -18,7 +18,6 @@ import Timer from './Timer';
 import { UserContext } from '../../../context/User';
 import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
 import { db } from '../../../../firebase';
-import { async } from '@firebase/util';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
 
@@ -29,7 +28,8 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-  const word = words[0];
+  const [word, setWord]=useState('world')
+  
   const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(
@@ -52,11 +52,13 @@ const Game = () => {
     setLives(letters.length * 2);
   };
 
-  useEffect(() => {
+    useEffect(() => {
+    if(word==='world'){
+      setWord(words.words[Math.floor(Math.random() * 2314)])
+    }
     if (gameState === 'timeout') {
       checkGameState();
     }
-
     if (currentRow > 0) {
       checkGameState();
     }
@@ -73,7 +75,7 @@ const Game = () => {
     };
 
     setWrongLetters(removeDuplicates(wrongLetters).join(''));
-  }, [currentRow, gameState]);
+  }, [currentRow, gameState, word]);
 
   const checkGameState = () => {
     if (gameState === 'timeout') {
@@ -81,12 +83,16 @@ const Game = () => {
       Alert.alert(
         'TIME OUT!!',
         `You died! Shoulda thunk faster! 
+        
+        The word was ${word.toUpperCase()}
+        
         Guesses Left: ${MAX_GUESSES - currentRow}
         Lives Left: ${lives} 
         Time Left: ${duration - getGameTime()} 
         
-        Thank you for playing! 
-        You scored no points. 💀`,
+        Thank you for playing! 💀
+        
+        (0 points)`,
         [
           ({
             text: 'Go Home',
@@ -104,11 +110,16 @@ const Game = () => {
       Alert.alert(
         'THE HANGMAN GOT YOU!!',
         `Your life force is all gone! Haha! 
+        
+        The word was ${word.toUpperCase()}
+        
         Guesses Left: ${MAX_GUESSES - currentRow - 1}
         Lives Left: ${lives} 
-        Time Left: ${duration - getGameTime()} 
+        Time Left: ${duration - getGameTime()}
         
-        Thank you for playing! 💀`,
+        Thank you for playing! 💀
+        
+        (0 points)`,
         [
           ({
             text: 'Go Home',
@@ -127,10 +138,13 @@ const Game = () => {
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
+        
+        The word was ${word.toUpperCase()}
+        
         Guesses Left: ${MAX_GUESSES - currentRow} (${getGuessScore()} points)
         Lives Left: ${lives} (${getLivesScore()} points)
         Time Left: ${duration - getGameTime()} (${getTimerScore()} points)
-
+        
         Total score: ${getTotalScore()}`,
         [
           ({
@@ -149,11 +163,16 @@ const Game = () => {
       Alert.alert(
         'YOU DIED!!',
         `You ran out of guesses! 
+        
+        The word was ${word.toUpperCase()}
+        
         Guesses Left: ${MAX_GUESSES - currentRow}
         Lives Left: ${lives} 
         Time Left: ${duration - getGameTime()} 
         
-        Thank you for playing! 💀`,
+        Thank you for playing! 💀
+        
+        (0 points)`,
         [
           ({
             text: 'Go Home',
@@ -242,12 +261,17 @@ const Game = () => {
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
-      if (currentColumn === rows[0].length) {
+      if(!words.valid.includes(rows[currentRow].join("").toLowerCase())){
+
+        Alert.alert('Are you making things up? 💀' )
+      }
+      else if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
       }
       return;
     }
+    
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
@@ -257,6 +281,7 @@ const Game = () => {
       }
       return;
     }
+    
     if (currentColumn < rows[0].length) {
       updatedRows[currentRow][currentColumn] = key;
       setRows(updatedRows);
@@ -320,6 +345,7 @@ const Game = () => {
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
   const navigation = useNavigation();
+  
   if (gameState !== 'playing') {
     return (
       <View>
@@ -337,7 +363,6 @@ const Game = () => {
     <SafeAreaView style={gameStyles.container}>
       <StatusBar style='light' />
 
-      {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
       <Stage wrongLetters={wrongLetters} />
       <Lives lives={lives} letters={letters} />
 
