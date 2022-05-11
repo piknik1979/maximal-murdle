@@ -12,9 +12,13 @@ import {
 import { db } from '../../../firebase';
 import React from 'react';
 import Leaderboard from './Leaderboard';
-import death from '../../../assets/death.png';
-import gravestone from '../../../assets/gravestone.png';
-import skullBones from '../../../assets/skullBones.png';
+import {
+  pinkSkull,
+  redSkull,
+  greenSkull,
+  yellowSkull,
+  blueSkull
+} from '../../../assets/ImageData/skulls';
 
 const LeaderboardScreen = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -40,7 +44,13 @@ const LeaderboardScreen = () => {
 
     if (leaderboardArr) {
       leaderboardArr.forEach((user) => {
-        const options = [death, gravestone, skullBones];
+        const options = [
+          pinkSkull,
+          redSkull,
+          greenSkull,
+          yellowSkull,
+          blueSkull
+        ];
         const path = options[Math.floor(Math.random() * options.length)];
 
         user.icon = path;
