@@ -20,6 +20,7 @@ import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
 import { db } from '../../../../firebase';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
+import { useRoute } from '@react-navigation/native';
 
 const duration = 60;
 const MAX_GUESSES = 6;
@@ -28,8 +29,12 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-  const [word, setWord]=useState('world')
-  
+
+  const route = useRoute();
+  const { duration } = route.params;
+  const [word, setWord] = useState('world');
+
+
   const letters = word.split('');
   const remainingLetters = {};
   const [rows, setRows] = useState(
@@ -134,7 +139,6 @@ const Game = () => {
     } else if (checkIfWon() && gameState !== 'won') {
       setTotalTime(getGameTime());
       getAndPostTotalScore();
-
       Alert.alert(
         'WINNAR!!',
         `You live!!! For now...
@@ -215,16 +219,39 @@ const Game = () => {
       alert(err);
     }
   };
+
   const getTimerScore = () => {
-    if (getGameTime() <= duration * 0.2) {
-      return 10;
-    } else if (getGameTime() <= duration * 0.5) {
-      return 6;
-    } else if (getGameTime() <= duration * 0.9) {
-      return 3;
-    } else {
-      return 1;
-    }
+    if (duration === 120) {
+      if (getGameTime() <= duration * 0.2) {
+        return 10;
+      } else if (getGameTime() <= duration * 0.5) {
+        return 6;
+      } else if (getGameTime() <= duration * 0.9) {
+        return 3;
+      } else {
+        return 1;
+      }
+    } else if (duration === 60) {
+      if (getGameTime() <= duration * 0.2) {
+        return 20;
+      } else if (getGameTime() <= duration * 0.5) {
+        return 12;
+      } else if (getGameTime() <= duration * 0.9) {
+        return 6;
+      } else {
+        return 2;
+      }
+    } else if (duration === 300) {
+      if (getGameTime() <= duration * 0.2) {
+        return 5;
+      } else if (getGameTime() <= duration * 0.5) {
+        return 3;
+      } else if (getGameTime() <= duration * 0.9) {
+        return 1;
+      } else {
+        return 0;
+      };
+    };
   };
   const getGuessScore = () => {
     return (MAX_GUESSES - currentRow) * 2;
@@ -261,11 +288,13 @@ const Game = () => {
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
+
       if(!words.valid.includes(rows[currentRow].join("").toLowerCase())){
 
         Alert.alert('Are you making things up? 💀' )
       }
       else if (currentColumn === rows[0].length) {
+
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
       }
