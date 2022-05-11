@@ -29,11 +29,9 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-
   const route = useRoute();
   const { duration } = route.params;
   const [word, setWord] = useState('world');
-
 
   const letters = word.split('');
   const remainingLetters = {};
@@ -57,9 +55,9 @@ const Game = () => {
     setLives(letters.length * 2);
   };
 
-    useEffect(() => {
-    if(word==='world'){
-      setWord(words.words[Math.floor(Math.random() * 2314)])
+  useEffect(() => {
+    if (word === 'world') {
+      setWord(words.words[Math.floor(Math.random() * 2314)]);
     }
     if (gameState === 'timeout') {
       checkGameState();
@@ -250,8 +248,8 @@ const Game = () => {
         return 1;
       } else {
         return 0;
-      };
-    };
+      }
+    }
   };
   const getGuessScore = () => {
     return (MAX_GUESSES - currentRow) * 2;
@@ -288,19 +286,15 @@ const Game = () => {
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
-
-      if(!words.valid.includes(rows[currentRow].join("").toLowerCase())){
-
-        Alert.alert('Are you making things up? 💀' )
-      }
-      else if (currentColumn === rows[0].length) {
-
+      if (!words.valid.includes(rows[currentRow].join('').toLowerCase())) {
+        Alert.alert('Are you making things up? 💀');
+      } else if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
       }
       return;
     }
-    
+
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
@@ -310,7 +304,7 @@ const Game = () => {
       }
       return;
     }
-    
+
     if (currentColumn < rows[0].length) {
       updatedRows[currentRow][currentColumn] = key;
       setRows(updatedRows);
@@ -374,7 +368,7 @@ const Game = () => {
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
   const navigation = useNavigation();
-  
+
   if (gameState !== 'playing') {
     return (
       <View>
@@ -390,10 +384,18 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style='light' />
+      <StatusBar style="light" />
 
       <Stage wrongLetters={wrongLetters} />
-      <Lives lives={lives} letters={letters} />
+      <Lives
+        lives={lives}
+        letters={letters}
+        setLives={setLives}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+        setGameState={setGameState}
+        wrongLetters={wrongLetters}
+      />
 
       <ScrollView style={gameStyles.map}>
         {rows.map((row, i) => (
@@ -435,11 +437,6 @@ const Game = () => {
         greenKeys={greenKeys}
         yellowKeys={yellowKeys}
         greyKeys={greyKeys}
-        setLives={setLives}
-        setCurrentRow={setCurrentRow}
-        currentRow={currentRow}
-        letters={letters}
-        setGameState={setGameState}
       />
     </SafeAreaView>
   );
