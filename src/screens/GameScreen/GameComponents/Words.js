@@ -2317,6 +2317,7 @@ export const words = {
     'shave',
   ],
   valid: [
+    'rebar',
     'cigar',
     'rebut',
     'sissy',

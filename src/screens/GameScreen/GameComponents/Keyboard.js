@@ -1,4 +1,4 @@
-import { View, Text, Pressable /* Dimensions */ } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { keys, ENTER, DELETE, colors } from '../../../constants';
 import { keyboardStyles, keyWidth } from '../styles/keyboardStyles';
 
