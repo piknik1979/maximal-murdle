@@ -1,19 +1,12 @@
-import { View, Text, Pressable, Dimensions } from 'react-native';
+import { View, Text, Pressable /* Dimensions */ } from 'react-native';
 import { keys, ENTER, DELETE, colors } from '../../../constants';
 import { keyboardStyles, keyWidth } from '../styles/keyboardStyles';
-import { useEffect } from 'react';
 
 const Keyboard = ({
   handleKeyPress,
-  setLives,
-  setCurrentRow,
-  currentRow,
-  setGameState,
-  letters,
   greenKeys = [],
   yellowKeys = [],
   greyKeys = [],
-  wrongLetters,
 }) => {
   const isLongButton = (key) => {
     return key === ENTER || key === DELETE;
@@ -31,18 +24,6 @@ const Keyboard = ({
     }
     return colors.grey;
   };
-
-  const lostLives = wrongLetters.length;
-
-  useEffect(() => {
-    if (letters.length * 2 - lostLives > 0) {
-      setLives(letters.length * 2 - lostLives);
-    } else {
-      setLives(0);
-      setGameState('allLivesLost');
-      setCurrentRow(currentRow - 1);
-    }
-  }, [lostLives]);
 
   return (
     <View style={keyboardStyles.keyboard}>

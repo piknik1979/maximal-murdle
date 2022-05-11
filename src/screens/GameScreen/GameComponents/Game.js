@@ -18,11 +18,11 @@ import Timer from './Timer';
 import { UserContext } from '../../../context/User';
 import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
 import { db } from '../../../../firebase';
-import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
 
-const duration = 60;
+const duration = 120;
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
   return [...arr.map((rows) => [...rows])];
@@ -33,9 +33,11 @@ const Game = () => {
 
   const letters = word.split('');
   const remainingLetters = {};
+
   const [rows, setRows] = useState(
     new Array(MAX_GUESSES).fill(new Array(letters.length).fill(''))
   );
+
   const [wrongLetters, setWrongLetters] = useState('');
   const [currentRow, setCurrentRow] = useState(0);
   const [currentColumn, setCurrentColumn] = useState(0);
@@ -83,6 +85,7 @@ const Game = () => {
   const checkGameState = () => {
     if (gameState === 'timeout') {
       setTotalTime(getGameTime());
+
       Alert.alert(
         'TIME OUT!!',
         `You died! Shoulda thunk faster! 
@@ -110,6 +113,7 @@ const Game = () => {
       setGameState('lost');
     } else if (gameState === 'allLivesLost') {
       setTotalTime(getGameTime());
+
       Alert.alert(
         'THE HANGMAN GOT YOU!!',
         `Your life force is all gone! Haha! 
@@ -163,6 +167,7 @@ const Game = () => {
       setGameState('won');
     } else if (checkIfLost() && gameState !== 'lost') {
       setTotalTime(getGameTime());
+
       Alert.alert(
         'YOU DIED!!',
         `You ran out of guesses! 
@@ -216,6 +221,7 @@ const Game = () => {
       alert(err);
     }
   };
+
   const getTimerScore = () => {
     if (getGameTime() <= duration * 0.2) {
       return 10;
@@ -227,6 +233,7 @@ const Game = () => {
       return 1;
     }
   };
+
   const getGuessScore = () => {
     return (MAX_GUESSES - currentRow) * 2;
   };
@@ -271,6 +278,7 @@ const Game = () => {
       }
       return;
     }
+
     if (key === DELETE) {
       const prevColumn = currentColumn - 1;
       if (prevColumn >= 0) {
@@ -280,6 +288,7 @@ const Game = () => {
       }
       return;
     }
+
     if (currentColumn < rows[0].length) {
       updatedRows[currentRow][currentColumn] = key;
       setRows(updatedRows);
@@ -343,6 +352,7 @@ const Game = () => {
   const yellowKeys = getAllLettersWithColor(colors.secondary);
   const greyKeys = getAllLettersWithColor(colors.darkgrey);
   const navigation = useNavigation();
+
   if (gameState !== 'playing') {
     return (
       <View>
@@ -360,9 +370,16 @@ const Game = () => {
     <SafeAreaView style={gameStyles.container}>
       <StatusBar style='light' />
 
-      {/* <Text style={gameStyles.title}>Maximal(Murdle)</Text> */}
       <Stage wrongLetters={wrongLetters} />
-      <Lives lives={lives} letters={letters} />
+      <Lives
+        lives={lives}
+        letters={letters}
+        setLives={setLives}
+        setCurrentRow={setCurrentRow}
+        currentRow={currentRow}
+        setGameState={setGameState}
+        wrongLetters={wrongLetters}
+      />
 
       <ScrollView style={gameStyles.map}>
         {rows.map((row, i) => (
@@ -404,12 +421,6 @@ const Game = () => {
         greenKeys={greenKeys}
         yellowKeys={yellowKeys}
         greyKeys={greyKeys}
-        setLives={setLives}
-        setCurrentRow={setCurrentRow}
-        currentRow={currentRow}
-        letters={letters}
-        setGameState={setGameState}
-        wrongLetters={wrongLetters}
       />
     </SafeAreaView>
   );
