@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/core';
-import React, {useEffect, useState} from 'react';
+import { useNavigation } from '@react-navigation/core';
+import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Image,
@@ -12,8 +12,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {auth, db} from '../../../firebase';
-import {collection, doc, setDoc} from 'firebase/firestore';
+import { auth, db } from '../../../firebase';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import styles from './styles';
 
 const RegistrationScreen = () => {
@@ -64,7 +64,13 @@ const RegistrationScreen = () => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
+      <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
+        <View style={styles.headerView}>
+          <Text style={styles.headerText}>
+            Maximal(<Text style={{ color: '#bb0a1e' }}>Murdle</Text>) 🔪
+            <Text style={{ fontSize: 10 }}>🩸</Text>
+          </Text>
+        </View>
         <Image
           style={styles.logo}
           source={require('../../../assets/skull.png')}
