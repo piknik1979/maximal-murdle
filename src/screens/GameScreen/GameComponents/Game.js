@@ -29,8 +29,7 @@ const copyArray = (arr) => {
 };
 
 const Game = () => {
-  const [word, setWord]=useState('world')
- 
+  const [word, setWord] = useState('world');
 
   const letters = word.split('');
   const remainingLetters = {};
@@ -46,7 +45,6 @@ const Game = () => {
   const [startTime, setStartTime] = useState();
   const { user, setUser } = useContext(UserContext);
 
-
   const resetGame = () => {
     setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
     setCurrentColumn(0);
@@ -56,9 +54,8 @@ const Game = () => {
   };
 
   useEffect(() => {
-    if(word==='world'){
-
-      setWord(words.words[Math.floor(Math.random() * 2314)])
+    if (word === 'world') {
+      setWord(words.words[Math.floor(Math.random() * 2314)]);
     }
 
     if (gameState === 'timeout') {
@@ -81,7 +78,7 @@ const Game = () => {
     };
 
     setWrongLetters(removeDuplicates(wrongLetters).join(''));
-  }, [currentRow, gameState,word]);
+  }, [currentRow, gameState, word]);
 
   const checkGameState = () => {
     if (gameState === 'timeout') {
@@ -265,11 +262,10 @@ const Game = () => {
     const updatedRows = copyArray(rows);
 
     if (key === ENTER) {
-   
-      if(!words.valid.includes(rows[currentRow].join("").toLowerCase())){
-       
-        Alert.alert('Are you making things up? 💀' )
-      }else if (currentColumn === rows[0].length) {
+      console.log(words.valid);
+      if (!words.valid.includes(rows[currentRow].join(''))) {
+        Alert.alert('Are you making things up? 💀');
+      } else if (currentColumn === rows[0].length) {
         setCurrentRow(currentRow + 1);
         setCurrentColumn(0);
       }
@@ -413,6 +409,7 @@ const Game = () => {
         currentRow={currentRow}
         letters={letters}
         setGameState={setGameState}
+        wrongLetters={wrongLetters}
       />
     </SafeAreaView>
   );

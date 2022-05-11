@@ -1,7 +1,7 @@
-import {View, Text, Pressable, Dimensions} from 'react-native';
-import {keys, ENTER, DELETE, colors} from '../../../constants';
-import {keyboardStyles, keyWidth} from '../styles/keyboardStyles';
-import {useEffect} from 'react';
+import { View, Text, Pressable, Dimensions } from 'react-native';
+import { keys, ENTER, DELETE, colors } from '../../../constants';
+import { keyboardStyles, keyWidth } from '../styles/keyboardStyles';
+import { useEffect } from 'react';
 
 const Keyboard = ({
   handleKeyPress,
@@ -13,6 +13,7 @@ const Keyboard = ({
   greenKeys = [],
   yellowKeys = [],
   greyKeys = [],
+  wrongLetters,
 }) => {
   const isLongButton = (key) => {
     return key === ENTER || key === DELETE;
@@ -31,7 +32,7 @@ const Keyboard = ({
     return colors.grey;
   };
 
-  const lostLives = greyKeys.length;
+  const lostLives = wrongLetters.length;
 
   useEffect(() => {
     if (letters.length * 2 - lostLives > 0) {
@@ -53,8 +54,8 @@ const Keyboard = ({
               key={key}
               style={[
                 keyboardStyles.key,
-                isLongButton(key) ? {width: keyWidth * 1.4} : {},
-                {backgroundColor: getKeyBGColor(key)},
+                isLongButton(key) ? { width: keyWidth * 1.4 } : {},
+                { backgroundColor: getKeyBGColor(key) },
               ]}
             >
               <Text style={keyboardStyles.keyText}>{key.toUpperCase()}</Text>
