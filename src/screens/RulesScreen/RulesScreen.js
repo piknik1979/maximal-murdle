@@ -1,10 +1,10 @@
-import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import styles from './styles';
 
 const RulesScreen = () => {
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
+      <ScrollView style={{ flex: 1, width: '100%' }}>
         <Text style={styles.headerText}>
           Maximal(<Text style={styles.murderText}>Murdle</Text>) Rules
           {'\n\n'}
@@ -31,7 +31,7 @@ const RulesScreen = () => {
             <Text style={styles.murderText}>Murdle</Text> can't cure...
           </Text>
         </Text>
-      </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 };

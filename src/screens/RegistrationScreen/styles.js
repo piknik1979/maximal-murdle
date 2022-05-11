@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -13,8 +13,13 @@ export default StyleSheet.create({
     height: 50,
   },
   headerText: {
-    fontSize: 32,
-    color: 'white',
+    color: '#D7DADC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    margin: 'auto',
+    marginTop: 10,
+    fontSize: 40,
   },
   logo: {
     resizeMode: 'stretch',
