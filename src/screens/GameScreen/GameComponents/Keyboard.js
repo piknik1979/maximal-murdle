@@ -20,7 +20,7 @@ const Keyboard = ({
       return colors.secondary;
     }
     if (greyKeys.includes(key)) {
-      return colors.darkgrey;
+      return '#bb0a1e';
     }
     return colors.grey;
   };
