@@ -1,75 +1,117 @@
-import {StyleSheet, View, Image, Text} from 'react-native';
+import React from 'react';
+import {
+  SafeAreaView,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  StatusBar,
+  TouchableOpacity,
+  Image,
+  Alert
+} from 'react-native';
 
-export default function Leaderboard({leaderboardArr}) {
-  return <View>{list(leaderboardArr)}</View>;
-}
+export default function Leaderboard({ leaderboardArr }) {
+  const [selectedId, setSelectedId] = React.useState(null);
+  console.log('leaderboardArr:', leaderboardArr);
 
-function list(data) {
-  return (
-    <>
-      <View style={styles.itemContainer}>
-        <View style={styles.item}>
-          <Image style={styles.img} />
-          <View style={styles.info}>
-            <Text style={styles.nameText}>Name</Text>
-          </View>
-        </View>
-        <View style={styles.total}>
-          <Text style={styles.totalText}>Total Score</Text>
-        </View>
+  function handleNamePress(item) {
+    console.log('item:', item.scores, Object.keys(item.scores.games));
+    setSelectedId(item.id);
+    Alert.alert(
+      `${item.fullName}'s Murdle`,
+      `Games played: ${item.scores.total} \nPoints/Game: ${
+        item.scores.total / Object.keys(item.scores.games).length
+      }`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel'
+        }
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => setSelectedId(null)
+      }
+    );
+  }
+
+  const Item = ({ item, onPress, textColor, imageSource }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item]}>
+      <View
+        style={[
+          styles.nameContainer,
+          {
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center'
+          }
+        ]}
+      >
+        <Image
+          // source={{ uri: item.icon }}
+          style={[styles.tinyIcon]}
+        ></Image>
+        <Text style={[styles.name, textColor]}>{item.fullName}</Text>
       </View>
-      <View style={styles.line}></View>
-      {data.map((value, index) => {
-        console.log('value:', value.fullName);
-        return (
-          <View key={index} style={styles.itemContainer}>
-            <View style={styles.item}>
-              <Image style={styles.img} />
-              <View style={styles.info}>
-                <Text style={styles.nameText}>{value.fullName}</Text>
-              </View>
-            </View>
-            <View style={styles.total}>
-              <Text style={styles.totalText}>{value.scores.total}</Text>
-            </View>
-          </View>
-        );
-      })}
-    </>
+      <View style={{ alignContent: 'center' }}>
+        <Text style={[styles.total, textColor]}>{item.scores.total}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderItem = ({ item }) => {
+    const color = item.id === selectedId ? '#bb0a1e' : '#D7DADC';
+
+    return (
+      <Item
+        item={item}
+        onPress={() => handleNamePress(item)}
+        textColor={{ color }}
+      />
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={leaderboardArr}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  itemContainer: {
-    height: 40,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0
   },
   item: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: 20,
+    textAlign: 'centre',
+    flexDirection: 'row',
+    flex: 1,
+    padding: 20,
+    marginVertical: 4,
+    marginHorizontal: 16,
+    borderRadius: 2
   },
-  img: {
-    width: 1,
-  },
-  info: {
-    padding: 1,
+  name: {
+    fontSize: 14,
+    marginLeft: 10
   },
   total: {
-    paddingRight: 20,
+    fontSize: 14,
+    marginRight: 10
   },
-  nameText: {
-    fontSize: 20,
-    color: 'white',
+  nameContainer: {
+    flex: 1
   },
-  totalText: {
-    fontSize: 20,
-    color: 'white',
-  },
-  line: {
-    borderBottomColor: 'white',
-    borderBottomWidth: 1,
-  },
+  tinyIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 50
+  }
 });
