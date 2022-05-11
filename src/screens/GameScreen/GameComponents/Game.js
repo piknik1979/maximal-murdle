@@ -18,7 +18,6 @@ import Timer from './Timer';
 import { UserContext } from '../../../context/User';
 import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
 import { db } from '../../../../firebase';
-// import { async } from '@firebase/util';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
 
