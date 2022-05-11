@@ -16,16 +16,26 @@ export default function Leaderboard({ leaderboardArr }) {
   console.log('leaderboardArr:', leaderboardArr);
 
   function handleNamePress(item) {
-    console.log('item:', item.scores, Object.keys(item.scores.games));
+    console.log('item:', Object.keys(item.scores.games).length);
     setSelectedId(item.id);
     Alert.alert(
       `${item.fullName}'s Murdle`,
       `Games played: ${Object.keys(item.scores.games).length} \nPoints/Game: ${
         item.scores.total
-          ? item.scores.total / Object.keys(item.scores.games).length
+          ? Math.round(
+              item.scores.total / Object.keys(item.scores.games).length
+            )
           : 0
+      } \nFavourite Word: ${
+        Object.keys(item.scores.games).length
+          ? item.scores.games[
+              Math.floor(
+                Math.random() * Object.keys(item.scores.games).length + 1
+              )
+            ].word
+          : "Didn't they teach you no brains at school!"
       }`,
-      [{}],
+      [],
       {
         cancelable: true,
         onDismiss: () => setSelectedId(null)
@@ -45,13 +55,21 @@ export default function Leaderboard({ leaderboardArr }) {
           }
         ]}
       >
-        <Image
-          // source={{ uri: item.icon }}
-          style={[styles.tinyIcon]}
-        ></Image>
-        <Text style={[styles.name, textColor]}>{item.fullName}</Text>
+        <Image source={{ uri: item.icon }} style={[styles.tinyIcon]}></Image>
+        <Text style={[styles.name, textColor, { marginLeft: 15 }]}>
+          {item.fullName}
+        </Text>
       </View>
-      <View style={{ alignContent: 'center' }}>
+      <View
+        style={[
+          styles.scoreContainer,
+          {
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            alignItems: 'center'
+          }
+        ]}
+      >
         <Text style={[styles.total, textColor]}>{item.scores.total}</Text>
       </View>
     </TouchableOpacity>
@@ -103,6 +121,9 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   nameContainer: {
+    flex: 1
+  },
+  scoreContainer: {
     flex: 1
   },
   tinyIcon: {
