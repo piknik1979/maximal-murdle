@@ -6,8 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Alert,
-  Pressable,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 import Keyboard from './Keyboard';
 import { ENTER, DELETE, colors } from '../../../constants';
@@ -16,13 +15,12 @@ import gameStyles from '../styles/gameStyles';
 import Lives from './Lives';
 import Timer from './Timer';
 import { UserContext } from '../../../context/User';
-import { doc, updateDoc, getDoc, collection } from 'firebase/firestore';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase';
 import { Stage } from './Stage';
 import { useNavigation } from '@react-navigation/core';
 import { useRoute } from '@react-navigation/native';
 
-const duration = 60;
 const MAX_GUESSES = 6;
 const copyArray = (arr) => {
   return [...arr.map((rows) => [...rows])];
@@ -47,14 +45,6 @@ const Game = () => {
   const [startTime, setStartTime] = useState();
   const { user, setUser } = useContext(UserContext);
 
-  // const resetGame = () => {
-  //   setRows(new Array(MAX_GUESSES).fill(new Array(letters.length).fill('')));
-  //   setCurrentColumn(0);
-  //   setCurrentRow(0);
-  //   setGameState('playing');
-  //   setLives(letters.length * 2);
-  // };
-
   useEffect(() => {
     if (word === 'world') {
       setWord(words.words[Math.floor(Math.random() * 2314)]);
@@ -78,7 +68,7 @@ const Game = () => {
     };
 
     setWrongLetters(removeDuplicates(wrongLetters).join(''));
-  }, [currentRow, gameState, word]);
+  }, [currentRow, gameState]);
 
   const checkGameState = () => {
     if (gameState === 'timeout') {
@@ -99,12 +89,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('lost');
@@ -126,12 +116,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
     } else if (checkIfWon() && gameState !== 'won') {
@@ -151,12 +141,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('won');
@@ -178,12 +168,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('Home')
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard'),
-          }),
+            onPress: () => navigation.navigate('Leaderboard')
+          })
         ]
       );
       setGameState('lost');
@@ -201,7 +191,7 @@ const Game = () => {
       guessScore: getGuessScore(),
       livesScore: getLivesScore(),
       totalScore: getTotalScore(),
-      word,
+      word
     };
 
     try {
@@ -384,7 +374,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style='light' />
+      <StatusBar style="light" />
 
       <Stage wrongLetters={wrongLetters} />
       <Lives
@@ -409,8 +399,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j),
-                  },
+                    backgroundColor: getCellBGColor(i, j)
+                  }
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
@@ -419,14 +409,14 @@ const Game = () => {
           </View>
         ))}
       </ScrollView>
-     
-        <Timer
-          setGameState={setGameState}
-          gameState={gameState}
-          setTotalTime={setTotalTime}
-          setStartTime={setStartTime}
-          duration={duration}
-        />
+
+      <Timer
+        setGameState={setGameState}
+        gameState={gameState}
+        setTotalTime={setTotalTime}
+        setStartTime={setStartTime}
+        duration={duration}
+      />
 
       {/* <Pressable onPress={resetGame} style={gameStyles.resetButton}>
         <Text style={gameStyles.resetText}>RESTART</Text>
