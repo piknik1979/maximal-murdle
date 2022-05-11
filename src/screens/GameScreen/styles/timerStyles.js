@@ -5,6 +5,7 @@ const timerStyles = StyleSheet.create({
     // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 20,
     // paddingTop: Constants.statusBarHeight,
     // backgroundColor: '#ecf0f1',
     padding: 8,

@@ -3,16 +3,16 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   title: {},
 
   logo: {
     resizeMode: 'stretch',
-    width: 150,
-    height: 150,
+    width: 224,
+    height: 92,
     alignSelf: 'center',
-    margin: 30
+    margin: 30,
   },
 
   button: {
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     height: 48,
     borderRadius: 5,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   signOutButton: {
     backgroundColor: '#bb0a1e',
@@ -33,17 +33,19 @@ export default StyleSheet.create({
     height: 48,
     borderRadius: 5,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   buttonTitle: {
     color: '#bb0a1e',
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: 20,
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
   },
   signOutButtonTitle: {
     color: '#D7DADC',
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: 20,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   headerText: {
     color: '#D7DADC',
@@ -52,9 +54,9 @@ export default StyleSheet.create({
     alignSelf: 'center',
     margin: 'auto',
     marginTop: 10,
-    fontSize: 40
+    fontSize: 40,
   },
   murderText: {
-    color: '#bb0a1e'
-  }
+    color: '#bb0a1e',
+  },
 });

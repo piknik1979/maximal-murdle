@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {Text, View} from 'react-native';
-import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
+import { Text, View } from 'react-native';
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import timerStyles from '../styles/timerStyles';
 
 export default function Timer({
@@ -22,16 +22,16 @@ export default function Timer({
         duration={duration}
         colors={['#004777', '#F7B801', '#A30000', '#A30000']}
         colorsTime={[60, 30, 10, 0]}
-        size={50}
+        size={60}
         strokeWidth={6}
         trailColor={'#121214'}
         onComplete={() => {
-          ({shouldRepeat: false, delay: 2});
+          ({ shouldRepeat: false, delay: 2 });
           setGameState('timeout');
         }}
       >
-        {({remainingTime, color}) => (
-          <Text style={{color, fontSize: 12}}>{remainingTime}</Text>
+        {({ remainingTime, color }) => (
+          <Text style={{ color, fontSize: 20 }}>{remainingTime}</Text>
         )}
       </CountdownCircleTimer>
     </View>

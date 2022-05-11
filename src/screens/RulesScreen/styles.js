@@ -5,6 +5,13 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  logo: {
+    resizeMode: 'stretch',
+    width: 224,
+    height: 92,
+    alignSelf: 'center',
+    margin: 30,
+  },
   title: {},
   headerView: {
     flex: 1,

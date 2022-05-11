@@ -1,5 +1,5 @@
-export const ENTER = 'ENTER';
-export const DELETE = 'DELETE';
+export const ENTER = '↵';
+export const DELETE = '⌫';
 
 export const keys = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],

@@ -1,10 +1,14 @@
-import { Text, ScrollView, View } from 'react-native';
+import { Text, ScrollView, View, Image } from 'react-native';
 import styles from './styles';
 
 const RulesScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView style={{ flex: 1, width: '100%' }}>
+        <Image
+          style={styles.logo}
+          source={require('../../../assets/murdle-logo.png')}
+        />
         <Text style={styles.headerText}>
           Maximal(<Text style={styles.murderText}>Murdle</Text>) Rules
           {'\n\n'}
