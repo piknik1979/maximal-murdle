@@ -75,3 +75,8 @@ $ nvm use 16.15
 ```
 
 If you do not have this version installed, NVM will prompt you to install it and then rerun the above command.
+
+#
+### Maximal()
+
+Maximal is a team comprised of [Diana Vozanu](https://github.com/dianavoz), [Gareth Williams](https://github.com/garethrwilliams), [Tomas Pikniczka](https://github.com/piknik1979), [Yuri Sorokins](https://github.com/yuridevweb) and [Zan Clifton](https://github.com/ZanClifton).
