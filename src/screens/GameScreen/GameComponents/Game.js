@@ -45,6 +45,8 @@ const Game = () => {
   const [startTime, setStartTime] = useState();
   const { user, setUser } = useContext(UserContext);
 
+  console.log('word:', word);
+
   useEffect(() => {
     if (word === 'world') {
       setWord(words.words[Math.floor(Math.random() * 2314)]);
@@ -152,6 +154,7 @@ const Game = () => {
       setGameState('won');
     } else if (checkIfLost() && gameState !== 'lost') {
       setTotalTime(getGameTime());
+      getAndPostTotalScore();
       Alert.alert(
         'YOU DIED!!',
         `You ran out of guesses! 
@@ -374,7 +377,7 @@ const Game = () => {
 
   return (
     <SafeAreaView style={gameStyles.container}>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
 
       <Stage wrongLetters={wrongLetters} />
       <Lives

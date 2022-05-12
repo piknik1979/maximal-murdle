@@ -29,6 +29,29 @@ const RegistrationScreen = () => {
   };
 
   const handleCreateAccount = async () => {
+    const nameArr = fullName.split(' ');
+    const correctNameArr = nameArr.map((namePart) => {
+      if (namePart === '') return 'space';
+      return /^[a-z ,.'-]+$/i.test(namePart);
+    });
+
+    if (correctNameArr.includes('space')) {
+      alert('Too many spaces between names');
+      return;
+    }
+
+    if (correctNameArr.includes(false)) {
+      alert(
+        "Usernames can contain one space the characters - and ' and letters only"
+      );
+      return;
+    }
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
@@ -77,7 +100,7 @@ const RegistrationScreen = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder='Full Name'
+          placeholder='Username'
           placeholderTextColor='#aaaaaa'
           onChangeText={(text) => setFullName(text)}
           value={fullName}

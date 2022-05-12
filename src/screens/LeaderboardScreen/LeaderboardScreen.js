@@ -70,10 +70,12 @@ const LeaderboardScreen = () => {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
+
         <Image
           style={styles.logo}
           source={require('../../../assets/murdle-logo.png')}
         />
+
         {/* <Text style={styles.paragraphText}>Text</Text> */}
         <Leaderboard leaderboardArr={leaderboardArr} />
       </KeyboardAvoidingView>
