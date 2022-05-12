@@ -6,11 +6,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth, db } from '../../../firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
@@ -41,7 +41,9 @@ const RegistrationScreen = () => {
     }
 
     if (correctNameArr.includes(false)) {
-      alert('Please use a valid name');
+      alert(
+        "Usernames can contain one space the characters - and ' and letters only"
+      );
       return;
     }
 
@@ -71,8 +73,8 @@ const RegistrationScreen = () => {
         created_at: Date.now(),
         scores: {
           total: 0,
-          games: {}
-        }
+          games: {},
+        },
       };
 
       const userRef = collection(db, 'users');
@@ -98,7 +100,7 @@ const RegistrationScreen = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder='Full Name'
+          placeholder='Username'
           placeholderTextColor='#aaaaaa'
           onChangeText={(text) => setFullName(text)}
           value={fullName}
