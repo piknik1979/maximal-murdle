@@ -8,8 +8,9 @@ import {
   StatusBar,
   TouchableOpacity,
   Image,
-  Alert
+  Alert,
 } from 'react-native';
+import { colors } from './../../constants';
 
 export default function Leaderboard({ leaderboardArr }) {
   const [selectedId, setSelectedId] = React.useState(null);
@@ -18,7 +19,9 @@ export default function Leaderboard({ leaderboardArr }) {
     setSelectedId(item.id);
     Alert.alert(
       `${item.fullName}'s Murdle`,
-      `Games played: ${Object.keys(item.scores.games).length} \nPoints/Game: ${
+      `Games played: ${
+        Object.keys(item.scores.games).length
+      } \nAvg Points/Game: ${
         item.scores.total
           ? Math.round(
               item.scores.total / Object.keys(item.scores.games).length
@@ -36,12 +39,12 @@ export default function Leaderboard({ leaderboardArr }) {
       [],
       {
         cancelable: true,
-        onDismiss: () => setSelectedId(null)
+        onDismiss: () => setSelectedId(null),
       }
     );
   }
 
-  const Item = ({ item, onPress, textColor, imageSource }) => (
+  const Item = ({ item, onPress, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item]}>
       <View
         style={[
@@ -49,8 +52,8 @@ export default function Leaderboard({ leaderboardArr }) {
           {
             flexDirection: 'row',
             justifyContent: 'flex-start',
-            alignItems: 'center'
-          }
+            alignItems: 'center',
+          },
         ]}
       >
         <Image source={{ uri: item.icon }} style={[styles.tinyIcon]}></Image>
@@ -64,8 +67,8 @@ export default function Leaderboard({ leaderboardArr }) {
           {
             flexDirection: 'row',
             justifyContent: 'flex-end',
-            alignItems: 'center'
-          }
+            alignItems: 'center',
+          },
         ]}
       >
         <Text style={[styles.total, textColor]}>{item.scores.total}</Text>
@@ -99,7 +102,7 @@ export default function Leaderboard({ leaderboardArr }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0
+    marginTop: StatusBar.currentHeight || 0,
   },
   item: {
     textAlign: 'centre',
@@ -108,25 +111,26 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 4,
     marginHorizontal: 16,
-    borderRadius: 2
+    borderRadius: 2,
+    backgroundColor: colors.darkgrey,
   },
   name: {
-    fontSize: 14,
-    marginLeft: 10
+    fontSize: 16,
+    marginLeft: 10,
   },
   total: {
-    fontSize: 14,
-    marginRight: 10
+    fontSize: 16,
+    marginRight: 10,
   },
   nameContainer: {
-    flex: 1
+    flex: 1,
   },
   scoreContainer: {
-    flex: 1
+    flex: 1,
   },
   tinyIcon: {
     width: 40,
     height: 40,
-    borderRadius: 50
-  }
+    borderRadius: 50,
+  },
 });
