@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import Keyboard from './Keyboard';
 import { ENTER, DELETE, colors } from '../../../constants';
@@ -29,7 +29,7 @@ const copyArray = (arr) => {
 const Game = () => {
   const route = useRoute();
   const { duration } = route.params;
-  const [word, setWord] = useState('world');
+  const [word, setWord] = useState('false');
 
   const letters = word.split('');
   const remainingLetters = {};
@@ -91,12 +91,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
       setGameState('lost');
@@ -118,12 +118,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
     } else if (checkIfWon() && gameState !== 'won') {
@@ -143,12 +143,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
       setGameState('won');
@@ -171,12 +171,12 @@ const Game = () => {
         [
           ({
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home')
+            onPress: () => navigation.navigate('Home'),
           },
           {
             text: 'View Leaderboard',
-            onPress: () => navigation.navigate('Leaderboard')
-          })
+            onPress: () => navigation.navigate('Leaderboard'),
+          }),
         ]
       );
       setGameState('lost');
@@ -194,7 +194,7 @@ const Game = () => {
       guessScore: getGuessScore(),
       livesScore: getLivesScore(),
       totalScore: getTotalScore(),
-      word
+      word,
     };
 
     try {
@@ -314,13 +314,14 @@ const Game = () => {
       return new Set(arr).size !== arr.length;
     }
 
+    let sameLetterAgain = false;
+
     for (let i = col; i < 4; i++) {
       if (rows[row][i + (duplicate(letters) ? 2 : 1)] === letter) {
-        return true;
-      } else {
-        return false;
+        sameLetterAgain = true;
       }
     }
+    return sameLetterAgain;
   };
 
   const getCellBGColor = (row, col) => {
@@ -340,6 +341,7 @@ const Game = () => {
       return colors.primary;
     }
 
+    console.log('reamainingLetters:', remainingLetters[row]);
     if (
       letters.includes(letter) &&
       remainingLetters[row].includes(letter) &&
@@ -402,8 +404,8 @@ const Game = () => {
                     borderColor: isCellActive(i, j)
                       ? colors.grey
                       : colors.darkgrey,
-                    backgroundColor: getCellBGColor(i, j)
-                  }
+                    backgroundColor: getCellBGColor(i, j),
+                  },
                 ]}
               >
                 <Text style={gameStyles.cellText}>{letter.toUpperCase()}</Text>
