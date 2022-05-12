@@ -13,10 +13,8 @@ import {
 
 export default function Leaderboard({ leaderboardArr }) {
   const [selectedId, setSelectedId] = React.useState(null);
-  console.log('leaderboardArr:', leaderboardArr);
 
   function handleNamePress(item) {
-    console.log('item:', Object.keys(item.scores.games).length);
     setSelectedId(item.id);
     Alert.alert(
       `${item.fullName}'s Murdle`,

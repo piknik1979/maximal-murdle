@@ -6,11 +6,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from 'firebase/auth';
 import { auth, db } from '../../../firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
@@ -29,6 +29,27 @@ const RegistrationScreen = () => {
   };
 
   const handleCreateAccount = async () => {
+    const nameArr = fullName.split(' ');
+    const correctNameArr = nameArr.map((namePart) => {
+      if (namePart === '') return 'space';
+      return /^[a-z ,.'-]+$/i.test(namePart);
+    });
+
+    if (correctNameArr.includes('space')) {
+      alert('Too many spaces between names');
+      return;
+    }
+
+    if (correctNameArr.includes(false)) {
+      alert('Please use a valid name');
+      return;
+    }
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
@@ -50,8 +71,8 @@ const RegistrationScreen = () => {
         created_at: Date.now(),
         scores: {
           total: 0,
-          games: {},
-        },
+          games: {}
+        }
       };
 
       const userRef = collection(db, 'users');
