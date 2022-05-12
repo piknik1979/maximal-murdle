@@ -26,6 +26,20 @@ export default StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
   },
+  header2Text: {
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 26,
+    color: 'white',
+    alignSelf: 'center',
+  },
+  header3Text: {
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 22,
+    color: 'white',
+    alignSelf: 'center',
+  },
   paragraphText: {
     marginLeft: 20,
     marginRight: 20,
