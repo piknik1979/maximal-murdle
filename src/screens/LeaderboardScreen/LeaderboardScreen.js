@@ -1,4 +1,4 @@
-import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Text, View, KeyboardAvoidingView, Image } from 'react-native';
 import styles from './styles';
 import {
   query,
@@ -7,7 +7,7 @@ import {
   collection,
   queryEqual,
   where,
-  getDocs
+  getDocs,
 } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import React from 'react';
@@ -17,7 +17,7 @@ import {
   redSkull,
   greenSkull,
   yellowSkull,
-  blueSkull
+  blueSkull,
 } from '../../../assets/ImageData/skulls';
 
 const LeaderboardScreen = () => {
@@ -49,7 +49,7 @@ const LeaderboardScreen = () => {
           redSkull,
           greenSkull,
           yellowSkull,
-          blueSkull
+          blueSkull,
         ];
         const path = options[Math.floor(Math.random() * options.length)];
 
@@ -70,9 +70,10 @@ const LeaderboardScreen = () => {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={{ flex: 1, width: '100%' }}>
-        <Text style={styles.headerText}>
-          <Text style={styles.murderText}>Leaderboard</Text>
-        </Text>
+        <Image
+          style={styles.logo}
+          source={require('../../../assets/murdle-logo.png')}
+        />
         {/* <Text style={styles.paragraphText}>Text</Text> */}
         <Leaderboard leaderboardArr={leaderboardArr} />
       </KeyboardAvoidingView>

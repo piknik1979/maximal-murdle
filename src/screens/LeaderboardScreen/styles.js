@@ -12,6 +12,13 @@ export default StyleSheet.create({
     marginTop: 20,
     height: 50,
   },
+  logo: {
+    resizeMode: 'stretch',
+    width: 224,
+    height: 92,
+    alignSelf: 'center',
+    margin: 30,
+  },
   headerText: {
     marginLeft: 20,
     marginRight: 20,
@@ -31,5 +38,4 @@ export default StyleSheet.create({
   },
   primaryText: { color: '#538D4E' },
   secondaryText: { color: '#B59F3B' },
-  
 });
