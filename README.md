@@ -42,7 +42,7 @@ $ npm install
 
 ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
 
-<!-- We need to insert important information about setting up Firebase to run their own DB -->
+Follow the steps outlined in the official documentation to [set up your own connection](https://firebase.google.com/docs/auth/web/start) to Firebase.
 
 ### ✔️ 4. USAGE
 
