@@ -59,6 +59,7 @@ In the CLI a prompt will appear to go to [http://localhost:19002](http://localho
 ## Node.js and Expo
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
+
 This project was created using:
 
 ```
